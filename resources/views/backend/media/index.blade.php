@@ -57,7 +57,9 @@
                 @foreach ($media as $item)
                     <div class="col-6 col-md-3 col-xl-2">
                         <div class="border rounded p-2 h-100 d-flex flex-column">
-                            <img src="{{ $item->url }}" class="rounded mb-2" style="width:100%; height:100px; object-fit:cover;">
+                            <a href="{{ route('admin.media.show', $item->id) }}">
+                                <img src="{{ $item->url }}" class="rounded mb-2" style="width:100%; height:100px; object-fit:cover;">
+                            </a>
                             <div class="small text-truncate" title="{{ $item->original_name }}">{{ $item->original_name }}</div>
                             <div class="text-muted" style="font-size:11px;">{{ $item->human_size }}</div>
                             <div class="d-flex gap-1 mt-2">

@@ -48,7 +48,7 @@ class ActivityLogController extends Controller
             $query->whereDate('created_at', '<=', $request->to);
         }
 
-        $logs = $query->paginate(30)->withQueryString();
+        $logs = $query->paginate(15)->withQueryString();
 
         // Populated from distinct existing rows so the filter dropdown
         // only ever shows modules that actually have log entries.

@@ -22,7 +22,7 @@ class Media extends Model
 
     public function getUrlAttribute(): string
     {
-        return asset('storage/'.$this->file_path);
+        return asset('public/storage/'.$this->file_path);
     }
 
     public function getIsImageAttribute(): bool

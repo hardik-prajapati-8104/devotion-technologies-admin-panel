@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\BlogCategoryController;
 use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\BlogTagController;
 use App\Http\Controllers\Backend\CareerController;
+use App\Http\Controllers\Backend\CountryController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\EnquiryController;
 use App\Http\Controllers\Backend\FaqCategoryController;
@@ -145,8 +146,17 @@ Route::prefix('admin')
             // ----------------------------------------------------------
             Route::get('media', [MediaController::class, 'index'])->name('media.index');
             Route::post('media', [MediaController::class, 'store'])->name('media.store');
+            Route::get('media/{id}', [MediaController::class, 'show'])->name('media.show');
             Route::put('media/{id}', [MediaController::class, 'update'])->name('media.update');
             Route::delete('media/{id}', [MediaController::class, 'destroy'])->name('media.destroy');
+
+            Route::get('countries', [CountryController::class, 'index'])->name('countries.index');
+            Route::get('countries/create', [CountryController::class, 'create'])->name('countries.create');
+            Route::post('countries', [CountryController::class, 'store'])->name('countries.store');
+            Route::get('countries/{id}/edit', [CountryController::class, 'edit'])->name('countries.edit');
+            Route::put('countries/{id}', [CountryController::class, 'update'])->name('countries.update');
+            Route::delete('countries/{id}', [CountryController::class, 'destroy'])->name('countries.destroy');
+            Route::put('countries/{id}/toggle-status', [CountryController::class, 'toggleStatus'])->name('countries.toggle-status');
 
             Route::get('seo', [SeoController::class, 'index'])->name('seo.index');
             Route::get('seo/{id}/edit', [SeoController::class, 'edit'])->name('seo.edit');

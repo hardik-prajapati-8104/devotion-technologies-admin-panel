@@ -97,7 +97,13 @@
             </table>
             </div>
 
-            <div class="mt-3">{{ $logs->links() }}</div>
+            @if($logs->hasPages())
+                <div class="card-footer bg-white">
+
+                    {{ $logs->withQueryString()->links('pagination::bootstrap-5') }}
+
+                </div>
+            @endif
         @endif
     </div>
 </div>

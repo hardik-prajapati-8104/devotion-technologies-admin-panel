@@ -80,6 +80,17 @@ class MediaController extends Controller
         return back();
     }
 
+    public function show(int $id)
+    {
+        if (is_null($this->user) || ! $this->user->can('media.view')) {
+            abort(403, 'Sorry !! You are unauthorized to view the media library !');
+        }
+
+        $item = Media::with('uploadedBy')->findOrFail($id);
+
+        return view('backend.media.show', compact('item'));
+    }
+
     public function update(Request $request, int $id)
     {
         if (is_null($this->user) || ! $this->user->can('media.upload')) {
