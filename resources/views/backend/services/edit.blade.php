@@ -19,7 +19,7 @@
         <form action="{{ route('admin.services.update', $service->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            @include('backend.services._form')
+            @include('backend.services.form')
         </form>
     </div>
 </div>

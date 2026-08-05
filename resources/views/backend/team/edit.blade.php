@@ -19,7 +19,7 @@
         <form action="{{ route('admin.team.update', $member->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            @include('backend.team._form')
+            @include('backend.team.form')
         </form>
     </div>
 </div>

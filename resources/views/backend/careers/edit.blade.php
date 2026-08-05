@@ -19,7 +19,7 @@
         <form action="{{ route('admin.careers.update', $career->id) }}" method="POST">
             @csrf
             @method('PUT')
-            @include('backend.careers._form')
+            @include('backend.careers.form')
         </form>
     </div>
 </div>

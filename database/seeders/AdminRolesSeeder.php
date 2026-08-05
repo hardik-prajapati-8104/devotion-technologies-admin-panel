@@ -31,9 +31,14 @@ class AdminRolesSeeder extends Seeder
             'roles.view', 'roles.create', 'roles.edit', 'roles.delete',
             'admin.view', 'admin.create', 'admin.edit', 'admin.delete',
             'activity-logs.view',
-            // Menu management (dynamic sidebar) — was missing, which is why
-            // "Menu Management" never appeared in the sidebar for anyone.
             'menus.view', 'menus.create', 'menus.edit', 'menus.delete',
+            'countries.view', 'countries.create', 'countries.edit', 'countries.delete',
+            // Communication module
+            'chat.view',
+            'messages.view',
+            'announcements.view', 'announcements.create', 'announcements.edit', 'announcements.delete',
+            'notices.view', 'notices.create', 'notices.edit', 'notices.delete',
+            'support-tickets.view', 'support-tickets.create', 'support-tickets.edit', 'support-tickets.delete',
         ];
 
         foreach ($permissions as $permission) {
@@ -54,6 +59,12 @@ class AdminRolesSeeder extends Seeder
             'projects.view', 'projects.create', 'projects.edit',
             'testimonials.view', 'testimonials.create', 'testimonials.edit',
             'faqs.view', 'faqs.create', 'faqs.edit',
+            'countries.view',
+            // Every admin should be reachable for chat/messages and be able
+            // to see announcements/notices/tickets aimed at them.
+            'chat.view', 'messages.view',
+            'announcements.view', 'notices.view',
+            'support-tickets.view', 'support-tickets.create',
         ]);
 
         $contentManager = Role::firstOrCreate(['name' => 'content-manager', 'guard_name' => 'admin']);
@@ -62,6 +73,9 @@ class AdminRolesSeeder extends Seeder
             'blogs.view', 'blogs.create', 'blogs.edit', 'blogs.delete', 'blogs.publish',
             'media.view', 'media.upload', 'media.delete',
             'seo.view', 'seo.edit',
+            'chat.view', 'messages.view',
+            'announcements.view', 'notices.view',
+            'support-tickets.view', 'support-tickets.create',
         ]);
 
         // Default Super Admin login (change the password immediately after seeding).

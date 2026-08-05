@@ -21,7 +21,7 @@
 <div class="card">
     <div class="card-body">
         <form action="{{ route('admin.countries.store') }}" method="POST" enctype="multipart/form-data">
-            @include('backend.countries._form')
+            @include('backend.countries.form')
 
             <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
                 <a href="{{ route('admin.countries.index') }}" class="btn btn-outline-secondary">Cancel</a>

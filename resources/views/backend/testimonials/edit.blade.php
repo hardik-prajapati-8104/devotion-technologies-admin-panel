@@ -19,7 +19,7 @@
         <form action="{{ route('admin.testimonials.update', $testimonial->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            @include('backend.testimonials._form')
+            @include('backend.testimonials.form')
         </form>
     </div>
 </div>

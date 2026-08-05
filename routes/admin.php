@@ -28,6 +28,15 @@ use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\UserController;
 use Illuminate\Support\Facades\Route;
 
+ 
+use App\Http\Controllers\Backend\AnnouncementController;
+use App\Http\Controllers\Backend\ChatController;
+use App\Http\Controllers\Backend\ChatMessageController;
+use App\Http\Controllers\Backend\MessageController;
+use App\Http\Controllers\Backend\NoticeController;
+use App\Http\Controllers\Backend\SupportTicketController;
+use Illuminate\Support\Facades\Broadcast;
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes  (Devotion Technology admin panel)
@@ -141,6 +150,51 @@ Route::prefix('admin')
             Route::patch('subscribers/{id}/toggle-status', [SubscriberController::class, 'toggleStatus'])->name('subscribers.toggle-status');
             Route::delete('subscribers/{id}', [SubscriberController::class, 'destroy'])->name('subscribers.destroy');
 
+
+            // Internal Chat (group channels)
+            Route::get('chat', [ChatController::class, 'index'])->name('chat.index');
+            Route::post('chat', [ChatController::class, 'store'])->name('chat.store');
+            Route::post('chat/{conversation}/send', [ChatController::class, 'send'])->name('chat.send');
+
+            Route::get('chat-messages/{message}/info', [ChatMessageController::class, 'info'])->name('chat-messages.info');
+            Route::post('chat-messages/{message}/react', [ChatMessageController::class, 'react'])->name('chat-messages.react');
+            Route::post('chat-messages/{message}/pin', [ChatMessageController::class, 'togglePin'])->name('chat-messages.pin');
+            Route::post('chat-messages/{message}/star', [ChatMessageController::class, 'toggleStar'])->name('chat-messages.star');
+            Route::post('chat-messages/{message}/forward', [ChatMessageController::class, 'forward'])->name('chat-messages.forward');
+            Route::delete('chat-messages/{message}', [ChatMessageController::class, 'destroy'])->name('chat-messages.destroy');
+            
+
+            // Messages (1:1 direct)
+            Route::get('messages', [MessageController::class, 'index'])->name('messages.index');
+            Route::post('messages/{conversation}/send', [MessageController::class, 'send'])->name('messages.send');
+
+            // Announcements (org-wide)
+            Route::get('announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
+            Route::get('announcements/create', [AnnouncementController::class, 'create'])->name('announcements.create');
+            Route::post('announcements', [AnnouncementController::class, 'store'])->name('announcements.store');
+            Route::get('announcements/{id}/edit', [AnnouncementController::class, 'edit'])->name('announcements.edit');
+            Route::put('announcements/{id}', [AnnouncementController::class, 'update'])->name('announcements.update');
+            Route::delete('announcements/{id}', [AnnouncementController::class, 'destroy'])->name('announcements.destroy');
+
+            // Notices (targeted/dept)
+            Route::get('notices', [NoticeController::class, 'index'])->name('notices.index');
+            Route::get('notices/create', [NoticeController::class, 'create'])->name('notices.create');
+            Route::post('notices', [NoticeController::class, 'store'])->name('notices.store');
+            Route::get('notices/{id}/edit', [NoticeController::class, 'edit'])->name('notices.edit');
+            Route::put('notices/{id}', [NoticeController::class, 'update'])->name('notices.update');
+            Route::delete('notices/{id}', [NoticeController::class, 'destroy'])->name('notices.destroy');
+
+            // Support Tickets
+            Route::get('support-tickets', [SupportTicketController::class, 'index'])->name('support-tickets.index');
+            Route::get('support-tickets/create', [SupportTicketController::class, 'create'])->name('support-tickets.create');
+            Route::post('support-tickets', [SupportTicketController::class, 'store'])->name('support-tickets.store');
+            Route::get('support-tickets/{id}', [SupportTicketController::class, 'show'])->name('support-tickets.show');
+            Route::post('support-tickets/{id}/reply', [SupportTicketController::class, 'reply'])->name('support-tickets.reply');
+            Route::put('support-tickets/{id}/status', [SupportTicketController::class, 'updateStatus'])->name('support-tickets.status');
+            Route::put('support-tickets/{id}/assign', [SupportTicketController::class, 'assign'])->name('support-tickets.assign');
+            Route::delete('support-tickets/{id}', [SupportTicketController::class, 'destroy'])->name('support-tickets.destroy');
+
+
             // ----------------------------------------------------------
             // Phase 7 — Media Manager, SEO Manager, Settings
             // ----------------------------------------------------------
@@ -171,6 +225,11 @@ Route::prefix('admin')
             // ----------------------------------------------------------
             // Phase 8 — Activity Logs, Security Hardening, Performance
             // ----------------------------------------------------------
-            Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');
+            Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index'); 
+            
+           
         });
     });
+
+    Broadcast::routes(['middleware' => ['auth:admin']]);
+

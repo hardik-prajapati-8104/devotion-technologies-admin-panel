@@ -20,7 +20,7 @@
         <form action="{{ route('admin.users.update', $admin->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            @include('backend.users._form')
+            @include('backend.users.form')
         </form>
     </div>
 </div>

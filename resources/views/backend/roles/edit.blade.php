@@ -20,7 +20,7 @@
         <form action="{{ route('admin.roles.update', $role->id) }}" method="POST">
             @csrf
             @method('PUT')
-            @include('backend.roles._form')
+            @include('backend.roles.form')
         </form>
     </div>
 </div>

@@ -19,7 +19,7 @@
     <div class="card-body">
         <form action="{{ route('admin.menus.update', $menu) }}" method="POST">
             @method('PUT')
-            @include('backend.menus._form')
+            @include('backend.menus.form')
         </form>
     </div>
 </div>

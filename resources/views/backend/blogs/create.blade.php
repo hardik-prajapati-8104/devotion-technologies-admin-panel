@@ -18,7 +18,7 @@
     <div class="card-body">
         <form action="{{ route('admin.blogs.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @include('backend.blogs._form')
+            @include('backend.blogs.form')
         </form>
     </div>
 </div>

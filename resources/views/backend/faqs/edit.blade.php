@@ -19,7 +19,7 @@
         <form action="{{ route('admin.faqs.update', $faq->id) }}" method="POST">
             @csrf
             @method('PUT')
-            @include('backend.faqs._form')
+            @include('backend.faqs.form')
         </form>
     </div>
 </div>

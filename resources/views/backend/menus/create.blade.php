@@ -18,7 +18,7 @@
 <div class="card">
     <div class="card-body">
         <form action="{{ route('admin.menus.store') }}" method="POST">
-            @include('backend.menus._form', ['menu' => null])
+            @include('backend.menus.form', ['menu' => null])
         </form>
     </div>
 </div>

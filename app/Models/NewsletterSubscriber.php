@@ -11,6 +11,7 @@ class NewsletterSubscriber extends Model
     protected $casts = [
         'status'        => 'boolean',
         'subscribed_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     public function scopeActive($query)

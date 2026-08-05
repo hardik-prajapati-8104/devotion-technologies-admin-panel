@@ -19,7 +19,7 @@
         <form action="{{ route('admin.blog-categories.update', $category->id) }}" method="POST">
             @csrf
             @method('PUT')
-            @include('backend.blog-categories._form')
+            @include('backend.blog-categories.form')
         </form>
     </div>
 </div>

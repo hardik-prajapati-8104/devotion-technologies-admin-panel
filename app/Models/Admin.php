@@ -48,6 +48,7 @@ class Admin extends Authenticatable
     {
         return trim("{$this->first_name} {$this->last_name}");
     }
+    
 
     /**
      * Activity logs raised by this admin.
@@ -64,4 +65,17 @@ class Admin extends Authenticatable
     {
         return $query->where('status', 1)->where('login', 1);
     }
+ 
+    public function chatConversations()
+    {
+        return $this->belongsToMany(
+            \App\Models\ChatConversation::class,
+            'chat_conversation_participants',
+            'admin_id',        // this model's (Admin) key on the pivot table
+            'conversation_id'  // related model's (ChatConversation) key on the pivot table
+        )
+            ->withPivot('last_read_message_id', 'joined_at')
+            ->withTimestamps();
+    }
+ 
 }
