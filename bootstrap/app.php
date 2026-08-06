@@ -19,12 +19,19 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
 
+        $middleware->alias([
+            'ip.allowed'       => \App\Http\Middleware\EnsureIpAllowed::class,
+            'session.timeout'  => \App\Http\Middleware\EnsureSessionNotTimedOut::class,
+            'password.current' => \App\Http\Middleware\EnsurePasswordIsCurrent::class,
+            '2fa.verified'     => \App\Http\Middleware\EnsureTwoFactorVerified::class,
+        ]);
+
         RedirectIfAuthenticated::redirectUsing(function (Request $request) {
             if ($request->is('admin/*') || $request->routeIs('admin.*')) {
                 return route('admin.dashboard');
             }
 
-            return route('home');
+            return route('coming-soon');
         });
 
         $middleware->redirectGuestsTo(

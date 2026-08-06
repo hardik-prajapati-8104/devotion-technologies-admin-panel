@@ -47,13 +47,25 @@
                     </div>
                     <a href="#" class="small">Forgot password?</a>
                 </div>
+                @if(isset($settings) && $settings->recaptcha_enabled)
+                   <div class="mb-3">
+                       <div class="g-recaptcha" data-sitekey="{{ $settings->recaptcha_site_key }}"></div>
+
+                       @error('recaptcha')
+                           <div class="text-danger small mt-1">{{ $message }}</div>
+                       @enderror
+                   </div>
+               @endif
 
                 <button type="submit" class="btn btn-primary w-100">
                     <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
                 </button>
+ 
             </form>
         </div>
     </div>
-
+    @if(isset($settings) && $settings->recaptcha_enabled)
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    @endif
 </body>
 </html>

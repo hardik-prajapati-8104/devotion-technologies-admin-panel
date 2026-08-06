@@ -27,14 +27,26 @@ class Admin extends Authenticatable
         'profile_image',
         'status',
         'login',
+        'two_factor_secret', 
+        'two_factor_recovery_codes', 
+        'two_factor_confirmed_at',
+        'must_change_password', 
+        'password_changed_at',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_secret', 
+        'two_factor_recovery_codes',
     ];
 
     protected $casts = [
+        'two_factor_secret'          => 'encrypted',
+        'two_factor_recovery_codes'  => 'encrypted:array',
+        'two_factor_confirmed_at'    => 'datetime',
+        'must_change_password'       => 'boolean',
+        'password_changed_at'        => 'datetime',
         'email_verified_at' => 'datetime',
         'status' => 'boolean',
         'login' => 'boolean',
@@ -77,5 +89,41 @@ class Admin extends Authenticatable
             ->withPivot('last_read_message_id', 'joined_at')
             ->withTimestamps();
     }
+
+    public function hasTwoFactorEnabled(): bool
+    {
+        return ! is_null($this->two_factor_confirmed_at);
+    }
+    
+    /**
+     * Consumes one recovery code if valid (single-use — removes it from the
+     * stored list so it can't be replayed). Returns true if it matched.
+     */
+    public function useRecoveryCode(string $code): bool
+    {
+        $code = strtoupper(trim($code));
+        $codes = $this->two_factor_recovery_codes ?? [];
+    
+        if (! in_array($code, $codes, true)) {
+            return false;
+        }
+    
+        $this->two_factor_recovery_codes = array_values(array_diff($codes, [$code]));
+        $this->save();
+    
+        return true;
+    }
+    
+    public function isPasswordExpired(): bool
+    {
+        $days = \App\Models\AdminSecuritySetting::current()->password_expiry_days;
+    
+        if ($days <= 0 || ! $this->password_changed_at) {
+            return false;
+        }
+    
+        return $this->password_changed_at->addDays($days)->isPast();
+    }
+    
  
 }

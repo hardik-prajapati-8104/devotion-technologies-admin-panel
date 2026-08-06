@@ -30,11 +30,16 @@ use Illuminate\Support\Facades\Route;
 
  
 use App\Http\Controllers\Backend\AnnouncementController;
+use App\Http\Controllers\Backend\Auth\PasswordChangeController;
+use App\Http\Controllers\Backend\Auth\TwoFactorController;
 use App\Http\Controllers\Backend\ChatController;
 use App\Http\Controllers\Backend\ChatGroupController;
 use App\Http\Controllers\Backend\ChatMessageController;
 use App\Http\Controllers\Backend\MessageController;
 use App\Http\Controllers\Backend\NoticeController;
+use App\Http\Controllers\Backend\Security\IpRuleController;
+use App\Http\Controllers\Backend\Security\LoginAttemptController;
+use App\Http\Controllers\Backend\Security\SecuritySettingsController;
 use App\Http\Controllers\Backend\SupportTicketController;
 use App\Http\Controllers\Backend\SystemController;
 use Illuminate\Support\Facades\Broadcast;
@@ -64,7 +69,7 @@ Route::prefix('admin')
         });
 
         // Authenticated admin routes
-        Route::middleware(['web', 'auth:admin'])->group(function () {
+        Route::middleware(['web', 'auth:admin', 'ip.allowed', 'session.timeout', '2fa.verified', 'password.current'])->group(function () {
             Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
             Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -237,10 +242,31 @@ Route::prefix('admin')
             // ----------------------------------------------------------
             Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index'); 
             Route::post('system/clear-cache', [SystemController::class, 'clearCache'])->name('system.clear-cache');
+
+            // New routes
+            Route::get('2fa/challenge', [TwoFactorController::class, 'challenge'])->name('2fa.challenge');
+            Route::post('2fa/verify', [TwoFactorController::class, 'verify'])->name('2fa.verify');
+            Route::get('password/change', [PasswordChangeController::class, 'show'])->name('password.change');
+            Route::post('password/change', [PasswordChangeController::class, 'update'])->name('password.update');
+
+            Route::get('2fa/setup', [TwoFactorController::class, 'setup'])->name('2fa.setup');
+            Route::post('2fa/confirm', [TwoFactorController::class, 'confirm'])->name('2fa.confirm');
+            Route::post('2fa/disable', [TwoFactorController::class, 'disable'])->name('2fa.disable');
+            Route::post('2fa/recovery-codes', [TwoFactorController::class, 'regenerateRecoveryCodes'])->name('2fa.recovery-codes');
+
+            Route::get('security', [SecuritySettingsController::class, 'index'])->name('security.index');
+            Route::put('security', [SecuritySettingsController::class, 'update'])->name('security.update');
+            Route::post('security/rotate-key', [SecuritySettingsController::class, 'rotateKey'])->name('security.rotate-key');
+
+            Route::get('security/ip-rules', [IpRuleController::class, 'index'])->name('security.ip-rules');
+            Route::post('security/ip-rules', [IpRuleController::class, 'store'])->name('security.ip-rules.store');
+            Route::delete('security/ip-rules/{ipRule}', [IpRuleController::class, 'destroy'])->name('security.ip-rules.destroy');
+
+            Route::get('security/login-attempts', [LoginAttemptController::class, 'index'])->name('security.login-attempts');
  
            
         });
     });
-
+ 
     Broadcast::routes(['middleware' => ['auth:admin']]);
 
