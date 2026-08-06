@@ -32,8 +32,12 @@
                 @forelse ($conversations as $c)
                     <a href="{{ route('admin.chat.index', ['conversation' => $c->id]) }}"
                        class="d-flex align-items-center gap-2 p-3 text-decoration-none border-bottom channel-item {{ $active && $active->id === $c->id ? 'bg-light' : '' }}">
-                        <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px;">
-                            <i class="bi bi-hash"></i>
+                        <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center flex-shrink-0 overflow-hidden" style="width:38px;height:38px;">
+                            @if ($c->avatar_url)
+                                <img src="{{ $c->avatar_url }}" style="width:100%;height:100%;object-fit:cover;">
+                            @else
+                                <i class="bi bi-hash"></i>
+                            @endif
                         </div>
                         <div class="flex-grow-1 overflow-hidden">
                             <div class="fw-medium text-dark text-truncate">{{ $c->name }}</div>
@@ -52,11 +56,21 @@
 
         <div class="col-md-8 col-lg-9 h-100 d-flex flex-column">
             @if ($active)
-                <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
-                    <div>
-                        <div class="fw-medium">{{ $active->name }}</div>
-                        <div class="small text-muted">{{ $active->participants->count() }} members</div>
+                <div class="p-3 border-bottom d-flex align-items-center justify-content-between" style="cursor:pointer;" data-bs-toggle="offcanvas" data-bs-target="#groupInfoOffcanvas">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center flex-shrink-0 overflow-hidden" style="width:38px;height:38px;">
+                            @if ($active->avatar_url)
+                                <img src="{{ $active->avatar_url }}" style="width:100%;height:100%;object-fit:cover;">
+                            @else
+                                <i class="bi bi-hash"></i>
+                            @endif
+                        </div>
+                        <div>
+                            <div class="fw-medium">{{ $active->name }}</div>
+                            <div class="small text-muted">{{ $active->participants->count() }} members &middot; tap for group info</div>
+                        </div>
                     </div>
+                    <i class="bi bi-chevron-right text-muted"></i>
                 </div>
 
                 <div id="messageList" class="flex-grow-1 overflow-auto p-3" data-conversation-id="{{ $active->id }}">
@@ -92,6 +106,7 @@
     </div>
 </div>
 
+<!-- New group modal -->
 <div class="modal fade" id="newGroupModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -122,6 +137,152 @@
     </div>
 </div>
 
+@if ($active)
+    @php $isGroupAdmin = $active->isAdmin(auth('admin')->user()); @endphp
+    @php $memberIds = $active->participants->pluck('id')->all(); @endphp
+    @php $nonMembers = $admins->reject(fn ($a) => in_array($a->id, $memberIds)); @endphp
+
+    <!-- Group Info offcanvas (the "click group name" panel) -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="groupInfoOffcanvas" style="width:380px;">
+        <div class="offcanvas-header border-bottom">
+            <h6 class="offcanvas-title">Group Info</h6>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+
+            <!-- Avatar + name -->
+            <div class="p-4 text-center border-bottom">
+                <form action="{{ route('admin.chat.groups.update', $active->id) }}" method="POST" enctype="multipart/form-data" id="groupAvatarForm">
+                    @csrf
+                    @method('PUT')
+                    <label for="groupAvatarInput" style="cursor:pointer;">
+                        <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center mx-auto overflow-hidden position-relative" style="width:96px;height:96px;">
+                            @if ($active->avatar_url)
+                                <img src="{{ $active->avatar_url }}" style="width:100%;height:100%;object-fit:cover;">
+                            @else
+                                <i class="bi bi-people fs-1"></i>
+                            @endif
+                            <div class="position-absolute bottom-0 end-0 bg-dark text-white rounded-circle d-flex align-items-center justify-content-center" style="width:28px;height:28px;">
+                                <i class="bi bi-camera small"></i>
+                            </div>
+                        </div>
+                    </label>
+                    <input type="file" name="avatar" id="groupAvatarInput" accept="image/png,image/jpeg,image/webp" class="d-none" onchange="document.getElementById('groupAvatarForm').submit()">
+
+                    <div class="mt-3">
+                        @if ($isGroupAdmin)
+                            <input type="text" name="name" form="groupAvatarForm" value="{{ $active->name }}" class="form-control form-control-sm text-center fw-medium border-0 bg-transparent">
+                        @else
+                            <div class="fw-medium">{{ $active->name }}</div>
+                        @endif
+                        <div class="small text-muted">Group &middot; {{ $active->participants->count() }} members</div>
+                    </div>
+                    @if ($isGroupAdmin)
+                        <button type="submit" class="btn btn-sm btn-outline-primary mt-2"><i class="bi bi-check2 me-1"></i>Save Name</button>
+                    @endif
+                </form>
+            </div>
+
+            <!-- Members -->
+            <div class="p-3 border-bottom">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h6 class="mb-0 small text-uppercase text-muted">{{ $active->participants->count() }} Members</h6>
+                    @if ($isGroupAdmin && $nonMembers->isNotEmpty())
+                        <button type="button" class="btn btn-sm btn-link p-0" data-bs-toggle="modal" data-bs-target="#addMembersModal">
+                            <i class="bi bi-person-plus"></i> Add
+                        </button>
+                    @endif
+                </div>
+
+                @foreach ($active->participants as $member)
+                    <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="rounded-circle bg-secondary bg-opacity-10 text-secondary d-flex align-items-center justify-content-center flex-shrink-0" style="width:34px;height:34px;">
+                                {{ strtoupper(substr($member->name, 0, 1)) }}
+                            </div>
+                            <div>
+                                <div class="small fw-medium">{{ $member->name }} @if ($member->id === auth('admin')->id()) <span class="text-muted">(You)</span> @endif</div>
+                                @if ($member->pivot->is_admin)
+                                    <span class="badge bg-light text-dark border small">Group Admin</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        @if ($isGroupAdmin && $member->id !== auth('admin')->id())
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown"><i class="bi bi-three-dots-vertical"></i></button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <form action="{{ route('admin.chat.groups.toggle-admin', [$active->id, $member->id]) }}" method="POST">
+                                            @csrf @method('PUT')
+                                            <button type="submit" class="dropdown-item small">
+                                                {{ $member->pivot->is_admin ? 'Dismiss as admin' : 'Make group admin' }}
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form action="{{ route('admin.chat.groups.remove-member', [$active->id, $member->id]) }}" method="POST"
+                                              onsubmit="return confirm('Remove {{ $member->name }} from this group?')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="dropdown-item small text-danger">Remove from group</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+
+            <!-- Actions -->
+            <div class="p-3">
+                <form action="{{ route('admin.chat.groups.clear', $active->id) }}" method="POST" onsubmit="return confirm('Clear all messages in this group? This cannot be undone.')">
+                    @csrf @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-outline-secondary w-100 mb-2 text-start"><i class="bi bi-trash3 me-2"></i>Clear Chat</button>
+                </form>
+
+                <form action="{{ route('admin.chat.groups.exit', $active->id) }}" method="POST" onsubmit="return confirm('Leave this group?')">
+                    @csrf @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-outline-secondary w-100 mb-2 text-start"><i class="bi bi-box-arrow-right me-2"></i>Exit Group</button>
+                </form>
+
+                @if ($isGroupAdmin)
+                    <form action="{{ route('admin.chat.groups.destroy', $active->id) }}" method="POST" onsubmit="return confirm('Delete this group for everyone? This cannot be undone.')">
+                        @csrf @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-outline-danger w-100 text-start"><i class="bi bi-exclamation-triangle me-2"></i>Delete Group</button>
+                    </form>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <!-- Add members modal -->
+    <div class="modal fade" id="addMembersModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ route('admin.chat.groups.add-members', $active->id) }}" method="POST">
+                    @csrf
+                    <div class="modal-header">
+                        <h6 class="modal-title">Add Members</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <select name="participants[]" class="form-select" multiple size="6" required>
+                            @foreach ($nonMembers as $a)
+                                <option value="{{ $a->id }}">{{ $a->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endif
+
 @include('backend.chat.actions_scripts')
 
 @endsection
@@ -129,9 +290,12 @@
 @section('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pusher/8.4.0-rc2/pusher.min.js"></script>
 <script>
-    // Conversations this admin can forward messages into (used by the
-    // Forward modal in _actions_scripts.blade.php).
-    window.__chatForwardTargets = @json($conversations->map(fn ($c) => ['id' => $c->id, 'name' => $c->name]));
+    @php
+        $chatForwardTargets = $conversations->map(function ($c) {
+            return ['id' => $c->id, 'name' => $c->name];
+        })->values();
+    @endphp
+    window.__chatForwardTargets = @json($chatForwardTargets);
 
     document.getElementById('channelSearch')?.addEventListener('input', function () {
         const term = this.value.toLowerCase();

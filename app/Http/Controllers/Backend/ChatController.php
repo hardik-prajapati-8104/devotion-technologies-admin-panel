@@ -9,11 +9,6 @@ use App\Models\ChatConversation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * "Internal Chat" — group channels shared by multiple admins
- * (team chat, project rooms, etc). For 1:1 direct messages, see
- * MessageController — same underlying tables, different `type`.
- */
 class ChatController extends Controller
 {
     use InteractsWithChat;
@@ -34,9 +29,6 @@ class ChatController extends Controller
             abort(403, 'Sorry !! You are unauthorized to view Internal Chat !');
         }
 
-        // Mark the active conversation read BEFORE fetching the sidebar
-        // list, so its unread count reflects the read (see MessageController
-        // for the same fix and full explanation).
         $active = null;
 
         if ($request->filled('conversation')) {
@@ -52,7 +44,10 @@ class ChatController extends Controller
             ->get();
 
         if ($active) {
-            $active->load(['participants', 'messages.sender']);
+            $active->load('participants');
+            // Filtered per-viewer (respects this admin's own "Clear Chat"),
+            // not a blanket eager-load of every message ever sent.
+            $active->setRelation('messages', $active->visibleMessagesFor($this->user)->get());
         }
 
         $admins = Admin::where('id', '!=', $this->user->id)->orderBy('first_name')->get();
@@ -78,7 +73,19 @@ class ChatController extends Controller
             'created_by' => $this->user->id,
         ]);
 
-        $conversation->participants()->attach(array_unique([...$validated['participants'], $this->user->id]));
+        $memberIds = array_unique([...$validated['participants'], $this->user->id]);
+
+        $now = now();
+        $rows = array_map(fn ($adminId) => [
+            'conversation_id' => $conversation->id,
+            'admin_id'        => $adminId,
+            'is_admin'        => $adminId === $this->user->id,
+            'joined_at'       => $now,
+            'created_at'      => $now,
+            'updated_at'      => $now,
+        ], $memberIds);
+
+        \DB::table('chat_conversation_participants')->insert($rows);
 
         return redirect()->route('admin.chat.index', ['conversation' => $conversation->id]);
     }

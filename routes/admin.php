@@ -31,10 +31,12 @@ use Illuminate\Support\Facades\Route;
  
 use App\Http\Controllers\Backend\AnnouncementController;
 use App\Http\Controllers\Backend\ChatController;
+use App\Http\Controllers\Backend\ChatGroupController;
 use App\Http\Controllers\Backend\ChatMessageController;
 use App\Http\Controllers\Backend\MessageController;
 use App\Http\Controllers\Backend\NoticeController;
 use App\Http\Controllers\Backend\SupportTicketController;
+use App\Http\Controllers\Backend\SystemController;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -163,6 +165,14 @@ Route::prefix('admin')
             Route::post('chat-messages/{message}/forward', [ChatMessageController::class, 'forward'])->name('chat-messages.forward');
             Route::delete('chat-messages/{message}', [ChatMessageController::class, 'destroy'])->name('chat-messages.destroy');
             
+            Route::put('chat/groups/{id}', [ChatGroupController::class, 'update'])->name('chat.groups.update');
+            Route::post('chat/groups/{id}/members', [ChatGroupController::class, 'addMembers'])->name('chat.groups.add-members');
+            Route::delete('chat/groups/{id}/members/{adminId}', [ChatGroupController::class, 'removeMember'])->name('chat.groups.remove-member');
+            Route::put('chat/groups/{id}/members/{adminId}/admin', [ChatGroupController::class, 'toggleAdmin'])->name('chat.groups.toggle-admin');
+            Route::delete('chat/groups/{id}/clear', [ChatGroupController::class, 'clearChat'])->name('chat.groups.clear');
+            Route::delete('chat/groups/{id}/exit', [ChatGroupController::class, 'exit'])->name('chat.groups.exit');
+            Route::delete('chat/groups/{id}', [ChatGroupController::class, 'destroy'])->name('chat.groups.destroy');
+            
 
             // Messages (1:1 direct)
             Route::get('messages', [MessageController::class, 'index'])->name('messages.index');
@@ -226,7 +236,8 @@ Route::prefix('admin')
             // Phase 8 — Activity Logs, Security Hardening, Performance
             // ----------------------------------------------------------
             Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index'); 
-            
+            Route::post('system/clear-cache', [SystemController::class, 'clearCache'])->name('system.clear-cache');
+ 
            
         });
     });

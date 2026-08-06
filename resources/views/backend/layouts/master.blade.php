@@ -19,7 +19,16 @@
 
     <!-- Admin design system -->
     <link rel="stylesheet" href="{{ url('public/backend/css/style.css') }}">
-
+    <script>
+        (function () {
+            const pref = localStorage.getItem('admin-theme') || 'system';
+            const resolved = pref === 'system'
+                ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+                : pref;
+            document.documentElement.setAttribute('data-bs-theme', resolved);
+        })();
+    </script>
+    
     @yield('styles')
 </head>
 <body>
