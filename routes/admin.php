@@ -32,16 +32,25 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AnnouncementController;
 use App\Http\Controllers\Backend\Auth\PasswordChangeController;
 use App\Http\Controllers\Backend\Auth\TwoFactorController;
+use App\Http\Controllers\Backend\BackupController;
 use App\Http\Controllers\Backend\ChatController;
 use App\Http\Controllers\Backend\ChatGroupController;
 use App\Http\Controllers\Backend\ChatMessageController;
 use App\Http\Controllers\Backend\MessageController;
 use App\Http\Controllers\Backend\NoticeController;
+use App\Http\Controllers\Backend\RecycleBinController;
 use App\Http\Controllers\Backend\Security\IpRuleController;
 use App\Http\Controllers\Backend\Security\LoginAttemptController;
 use App\Http\Controllers\Backend\Security\SecuritySettingsController;
 use App\Http\Controllers\Backend\SupportTicketController;
 use App\Http\Controllers\Backend\SystemController;
+use App\Http\Controllers\Backend\TaskAttachmentController;
+use App\Http\Controllers\Backend\TaskBoardController;
+use App\Http\Controllers\Backend\TaskChecklistController;
+use App\Http\Controllers\Backend\TaskColumnController;
+use App\Http\Controllers\Backend\TaskCommentController;
+use App\Http\Controllers\Backend\TaskController;
+use App\Http\Controllers\Backend\TaskLabelController;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -263,10 +272,82 @@ Route::prefix('admin')
             Route::delete('security/ip-rules/{ipRule}', [IpRuleController::class, 'destroy'])->name('security.ip-rules.destroy');
 
             Route::get('security/login-attempts', [LoginAttemptController::class, 'index'])->name('security.login-attempts');
+
+
+            // Task Management Routes
+            // Boards
+            Route::get('tasks', [TaskBoardController::class, 'index'])->name('tasks.boards.index');
+            Route::post('tasks/boards', [TaskBoardController::class, 'store'])->name('tasks.boards.store');
+            Route::get('tasks/boards/{id}', [TaskBoardController::class, 'show'])->name('tasks.boards.show');
+            Route::delete('tasks/boards/{id}', [TaskBoardController::class, 'destroy'])->name('tasks.boards.destroy');
+            Route::post('tasks/boards/{id}/members', [TaskBoardController::class, 'addMember'])->name('tasks.boards.add-member');
+            Route::delete('tasks/boards/{id}/members/{adminId}', [TaskBoardController::class, 'removeMember'])->name('tasks.boards.remove-member');
+            
+            // Columns
+            Route::post('tasks/boards/{boardId}/columns', [TaskColumnController::class, 'store'])->name('tasks.columns.store');
+            Route::put('tasks/columns/{id}', [TaskColumnController::class, 'update'])->name('tasks.columns.update');
+            Route::put('tasks/boards/{boardId}/columns/reorder', [TaskColumnController::class, 'reorder'])->name('tasks.columns.reorder');
+            Route::delete('tasks/columns/{id}', [TaskColumnController::class, 'destroy'])->name('tasks.columns.destroy');
+            
+            // Tasks (cards)
+            Route::post('tasks/columns/{columnId}/tasks', [TaskController::class, 'store'])->name('tasks.store');
+            Route::get('tasks/{id}/card', [TaskController::class, 'card'])->name('tasks.card');
+            Route::put('tasks/{id}', [TaskController::class, 'update'])->name('tasks.update');
+            Route::post('tasks/{id}/toggle-complete', [TaskController::class, 'toggleComplete'])->name('tasks.toggle-complete');
+            Route::post('tasks/{id}/move', [TaskController::class, 'move'])->name('tasks.move');
+            Route::post('tasks/{id}/toggle-assignee', [TaskController::class, 'toggleAssignee'])->name('tasks.toggle-assignee');
+            Route::post('tasks/{id}/toggle-label', [TaskController::class, 'toggleLabel'])->name('tasks.toggle-label');
+            Route::delete('tasks/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+            
+            // Labels
+            Route::post('tasks/boards/{boardId}/labels', [TaskLabelController::class, 'store'])->name('tasks.labels.store');
+            Route::delete('tasks/labels/{id}', [TaskLabelController::class, 'destroy'])->name('tasks.labels.destroy');
+            
+            // Checklists (To-Do Lists)
+            Route::post('tasks/{taskId}/checklists', [TaskChecklistController::class, 'store'])->name('tasks.checklists.store');
+            Route::delete('tasks/checklists/{id}', [TaskChecklistController::class, 'destroy'])->name('tasks.checklists.destroy');
+            Route::post('tasks/checklists/{checklistId}/items', [TaskChecklistController::class, 'storeItem'])->name('tasks.checklist-items.store');
+            Route::put('tasks/checklist-items/{itemId}/toggle', [TaskChecklistController::class, 'toggleItem'])->name('tasks.checklist-items.toggle');
+            Route::delete('tasks/checklist-items/{itemId}', [TaskChecklistController::class, 'destroyItem'])->name('tasks.checklist-items.destroy');
+            
+            // Attachments
+            Route::post('tasks/{taskId}/attachments', [TaskAttachmentController::class, 'store'])->name('tasks.attachments.store');
+            Route::delete('tasks/attachments/{id}', [TaskAttachmentController::class, 'destroy'])->name('tasks.attachments.destroy');
+            
+            // Comments
+            Route::post('tasks/{taskId}/comments', [TaskCommentController::class, 'store'])->name('tasks.comments.store');
+            Route::delete('tasks/comments/{id}', [TaskCommentController::class, 'destroy'])->name('tasks.comments.destroy');
  
+            // Task Management End Routes
+
+
+            // Backup Routes
+            Route::get('backups', [BackupController::class, 'index'])->name('backups.index');
+            Route::post('backups/database', [BackupController::class, 'database'])->name('backups.database');
+            Route::post('backups/files', [BackupController::class, 'files'])->name('backups.files');
+            Route::post('backups/full', [BackupController::class, 'full'])->name('backups.full');
+            Route::get('backups/{backup}/download', [BackupController::class, 'download'])->name('backups.download');
+            Route::post('backups/{backup}/restore', [BackupController::class, 'restore'])->name('backups.restore');
+            Route::delete('backups/{backup}', [BackupController::class, 'destroy'])->name('backups.destroy');
+            Route::put('backups/settings', [BackupController::class, 'updateSettings'])->name('backups.settings');
+            Route::post('backups/prune', [BackupController::class, 'prune'])->name('backups.prune');
+            //End Backup Routes
+
+            // Recycle Bin Routes
+            Route::get('recycle-bin', [RecycleBinController::class, 'index'])->name('recycle-bin.index');
+            Route::post('recycle-bin/restore', [RecycleBinController::class, 'restore'])->name('recycle-bin.restore');
+            Route::post('recycle-bin/archive', [RecycleBinController::class, 'archive'])->name('recycle-bin.archive');
+            Route::post('recycle-bin/unarchive', [RecycleBinController::class, 'unarchive'])->name('recycle-bin.unarchive');
+            Route::post('recycle-bin/force-delete', [RecycleBinController::class, 'forceDelete'])->name('recycle-bin.force-delete');
+            Route::post('recycle-bin/bulk', [RecycleBinController::class, 'bulk'])->name('recycle-bin.bulk');
+            Route::put('recycle-bin/settings', [RecycleBinController::class, 'updateSettings'])->name('recycle-bin.settings');
+            // End Recycle Routes
            
         });
     });
  
     Broadcast::routes(['middleware' => ['auth:admin']]);
 
+
+    
+ 
