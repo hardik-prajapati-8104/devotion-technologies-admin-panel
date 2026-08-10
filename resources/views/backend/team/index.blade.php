@@ -43,7 +43,7 @@
         <div class="col-md-6 col-xl-4">
             <div class="card h-100">
                 <div class="card-body text-center">
-                    <img src="{{ $member->profile_image ? asset('storage/'.$member->profile_image) : 'https://ui-avatars.com/api/?background=aa8038&color=fff&size=96&name='.urlencode($member->name) }}"
+                    <img src="{{ $member->profile_image ? url('storage/app/public/'.$member->profile_image) : 'https://ui-avatars.com/api/?background=aa8038&color=fff&size=96&name='.urlencode($member->name) }}"
                          width="72" height="72" class="rounded-circle mb-2" style="object-fit:cover;">
                     <h6 class="fw-semibold mb-0">{{ $member->name }}</h6>
                     <p class="text-muted small mb-2">{{ $member->designation }}{{ $member->department ? ' · '.$member->department : '' }}</p>

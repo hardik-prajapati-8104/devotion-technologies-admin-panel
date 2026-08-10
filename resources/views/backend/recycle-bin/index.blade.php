@@ -131,13 +131,7 @@
                                         <td class="small">{{ $row->meta->archivedBy->name ?? '—' }}</td>
                                     @endif
                                     <td class="text-end">
-                                        <div class="d-flex gap-1 justify-content-end">
-                                            <form action="{{ route('admin.recycle-bin.restore') }}" method="POST">
-                                                @csrf
-                                                <input type="hidden" name="type" value="{{ $row->type }}">
-                                                <input type="hidden" name="id" value="{{ $row->model->id }}">
-                                                <button type="submit" class="btn btn-sm btn-outline-secondary" title="Restore"><i class="bi bi-arrow-counterclockwise"></i></button>
-                                            </form>
+                                        <div class="d-flex gap-1 justify-content-end"> 
 
                                             @if ($status === 'trashed')
                                                 <form action="{{ route('admin.recycle-bin.archive') }}" method="POST">
