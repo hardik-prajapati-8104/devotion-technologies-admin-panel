@@ -1,15 +1,16 @@
 
-<?php
-	include_once ('elements/header.php');
-    include_once ('elements/home-slider.php');
+@extends('frontend.layouts.app')
+  
+@section('content')
 
-?>
 
 <style>
-.swiper-pagination-bullet-active { 
-    background: var(--orange);
+    .swiper-pagination-bullet-active { 
+        background: var(--orange);
 }
 </style>
+
+@include('frontend.elements.home.slider')
 
 <section class="about-home py-5">
     <div class="container">
@@ -889,6 +890,4 @@
   </div>
 </section>
 
-<?php
-	include_once ('elements/footer.php');
-?>
+ @endsection

@@ -1,7 +1,6 @@
-<?php
-	include_once ('elements/header.php'); 
-?> 
-
+@extends('frontend.layouts.app')
+ 
+@section('content')
     <style>
             
             .clients-page{
@@ -275,6 +274,5 @@
         </div>
     </section>
 
-  <?php
-	  include_once ('elements/footer.php');
-  ?>
+
+ @endsection

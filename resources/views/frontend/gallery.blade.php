@@ -1,7 +1,6 @@
-<?php
-	include_once ('elements/header.php'); 
-?>
-
+@extends('frontend.layouts.app')
+ 
+@section('content')
     <style>  
         .gallery-section{ background:#fffaf5; }
 
@@ -502,6 +501,5 @@
         })();
     </script>
 
-<?php
-    include_once ('elements/footer.php');
-?>
+
+ @endsection

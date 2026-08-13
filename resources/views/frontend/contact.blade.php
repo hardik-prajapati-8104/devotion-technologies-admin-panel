@@ -1,7 +1,6 @@
-<?php
-	include_once ('elements/header.php'); 
-?>
-
+@extends('frontend.layouts.app')
+ 
+@section('content')
 
 <!-- header section -->
 <section class="page-header">
@@ -126,6 +125,4 @@
   </div>
 </section>
 
-<?php
-  include_once ('elements/footer.php');
-?>
+ @endsection
