@@ -176,7 +176,7 @@
         <!-- Settings Menu -->
         <div class="menu-card" data-aos="fade-up">
 
-            <a href="login.html" class="menu-item">
+            <a href="login.html" class="menu-item d-none">
                 <div class="d-flex align-items-center">
                     <div class="icon-box">
                         <i class="bi bi-box-arrow-in-right me-1"></i>
@@ -187,7 +187,7 @@
             </a>
 
 
-            <a href="about.html" class="menu-item">
+            <a href="{{ route('about') }}" class="menu-item">
                 <div class="d-flex align-items-center">
                     <div class="icon-box">
                         <i class="bi bi-info-circle"></i>
@@ -197,7 +197,7 @@
                 <i class="bi bi-chevron-right"></i>
             </a>
 
-            <a href="brochure.html" class="menu-item">
+            <a href="{{ route('brochure') }}" class="menu-item">
                 <div class="d-flex align-items-center">
                     <div class="icon-box">
                         <i class="bi bi-file-earmark-arrow-down-fill"></i>
@@ -207,7 +207,7 @@
                 <i class="bi bi-chevron-right"></i>
             </a>
 
-            <a href="reviews.html" class="menu-item">
+            <a href="{{ route('reviews') }}" class="menu-item">
                 <div class="d-flex align-items-center">
                     <div class="icon-box">
                         <i class="bi bi-star-fill"></i>
@@ -217,7 +217,7 @@
                 <i class="bi bi-chevron-right"></i>
             </a>
 
-            <a href="gallery.html" class="menu-item">
+            <a href="{{ route('gallery') }}" class="menu-item">
                 <div class="d-flex align-items-center">
                     <div class="icon-box">
                         <i class="bi bi-image-fill"></i>
@@ -227,7 +227,7 @@
                 <i class="bi bi-chevron-right"></i>
             </a>
 
-            <a href="services.html" class="menu-item">
+            <a href="{{ route('services') }}" class="menu-item">
                 <div class="d-flex align-items-center">
                     <div class="icon-box">
                         <i class="bi bi-briefcase-fill"></i>
@@ -237,7 +237,7 @@
                 <i class="bi bi-chevron-right"></i>
             </a>
 
-            <a href="booking.html" class="menu-item">
+            <a href="{{ route('booking') }}" class="menu-item">
                 <div class="d-flex align-items-center">
                     <div class="icon-box">
                         <i class="bi bi-calendar-check"></i>
@@ -247,7 +247,7 @@
                 <i class="bi bi-chevron-right"></i>
             </a>
 
-            <a href="contact.html" class="menu-item">
+            <a href="{{ route('contact') }}" class="menu-item">
                 <div class="d-flex align-items-center">
                     <div class="icon-box">
                         <i class="bi bi-envelope"></i>
@@ -257,7 +257,7 @@
                 <i class="bi bi-chevron-right"></i>
             </a>
 
-            <a href="privacy-policy.html" class="menu-item">
+            <a href="{{ route('privacy-policy') }}" class="menu-item">
                 <div class="d-flex align-items-center">
                     <div class="icon-box">
                         <i class="bi bi-shield-lock"></i>
@@ -267,7 +267,7 @@
                 <i class="bi bi-chevron-right"></i>
             </a>
 
-            <a href="our-clients.html" class="menu-item">
+            <a href="{{ route('clients') }}" class="menu-item">
                 <div class="d-flex align-items-center">
                     <div class="icon-box">
                     <i class="bi bi-people-fill"></i>
@@ -277,7 +277,7 @@
                 <i class="bi bi-chevron-right"></i>
             </a>
 
-            <a href="faq.html" class="menu-item">
+            <a href="{{ route('faqs') }}" class="menu-item">
                 <div class="d-flex align-items-center">
                     <div class="icon-box">
                         <i class="bi bi-file-earmark-text"></i>
@@ -287,7 +287,7 @@
                 <i class="bi bi-chevron-right"></i>
             </a>
 
-            <a href="terms-condition.html" class="menu-item">
+            <a href="{{ route('terms-condition') }}" class="menu-item">
                 <div class="d-flex align-items-center">
                     <div class="icon-box">
                         <i class="bi bi-file-earmark-text"></i>
@@ -297,7 +297,7 @@
                 <i class="bi bi-chevron-right"></i>
             </a>
 
-            <a href="cookie-policy.html" class="menu-item">
+            <a href="{{ route('cookie-policy') }}" class="menu-item">
                 <div class="d-flex align-items-center">
                     <div class="icon-box">
                         <i class="bi bi-cookie"></i>
@@ -321,7 +321,7 @@
                 Call Now
             </a>
 
-            <a href="mail:hardikprajapati8104@gmail.com" class="btn call-btn mt-2">
+            <a href="mailto:hardikprajapati8104@gmail.com" class="btn call-btn mt-2">
                 <i class="bi bi-envelope-fill me-2"></i>
                 hardikprajapati8104@gmail.com
             </a>

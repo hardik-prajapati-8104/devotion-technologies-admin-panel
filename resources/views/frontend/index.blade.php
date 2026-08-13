@@ -10,7 +10,7 @@
 }
 </style>
 
-@include('frontend.elements.home.slider')
+@include('frontend.elements.home-slider')
 
 <section class="about-home py-5">
     <div class="container">
@@ -22,10 +22,7 @@
 
                 <div class="about-img-wrapper">
 
-                    <img src="images/about-img1.jpg"
-                         alt="About Us"
-                         class="img-fluid about-img"
-                         loading="lazy">
+                    <img src="{{ url('public/frontend/images/about-img1.jpg') }}" alt="About Us" class="img-fluid about-img" loading="lazy">
 
                     <div class="experience-box">
                         <h3>10+</h3>
@@ -515,12 +512,93 @@
     </div>
     <div class="swiper services-swiper" data-aos="fade-up">
       <div class="swiper-wrapper pb-5">
-        <div class="swiper-slide"><div class="service-card"><div class="img" style="background-image:url(public/frontend/images/s1.jpg)"></div><div class="body"><h5>Deep Cleaning</h5><p class="text-muted small">Top-to-bottom intensive clean for every room.</p><div class="d-flex justify-content-between align-items-center"><span class="price">From $89</span><a href="booking.html" class="btn btn-sm btn-outline-orange">Book</a></div></div></div></div>
-        <div class="swiper-slide"><div class="service-card"><div class="img" style="background-image:url(public/frontend/images/s2.jpg)"></div><div class="body"><h5>Apartment Cleaning</h5><p class="text-muted small">Regular weekly or bi-weekly tidy and clean.</p><div class="d-flex justify-content-between align-items-center"><span class="price">From $59</span><a href="booking.html" class="btn btn-sm btn-outline-orange">Book</a></div></div></div></div>
-        <div class="swiper-slide"><div class="service-card"><div class="img" style="background-image:url(public/frontend/images/s3.jpg)"></div><div class="body"><h5>Commercial Cleaning</h5><p class="text-muted small">Offices, shops and facilities, on your schedule.</p><div class="d-flex justify-content-between align-items-center"><span class="price">From $149</span><a href="booking.html" class="btn btn-sm btn-outline-orange">Book</a></div></div></div></div>
-        <div class="swiper-slide"><div class="service-card"><div class="img" style="background-image:url(public/frontend/images/s4.jpg)"></div><div class="body"><h5>Carpet & Sofa</h5><p class="text-muted small">Steam-cleaning that lifts deep stains & odors.</p><div class="d-flex justify-content-between align-items-center"><span class="price">From $79</span><a href="booking.html" class="btn btn-sm btn-outline-orange">Book</a></div></div></div></div>
-        <div class="swiper-slide"><div class="service-card"><div class="img" style="background-image:url(public/frontend/images/s5.jpg)"></div><div class="body"><h5>Window Cleaning</h5><p class="text-muted small">Crystal-clear interior and exterior windows.</p><div class="d-flex justify-content-between align-items-center"><span class="price">From $69</span><a href="booking.html" class="btn btn-sm btn-outline-orange">Book</a></div></div></div></div>
-        <div class="swiper-slide"><div class="service-card"><div class="img" style="background-image:url(public/frontend/images/s6.jpg)"></div><div class="body"><h5>Move In / Move Out</h5><p class="text-muted small">Get your security deposit back, guaranteed.</p><div class="d-flex justify-content-between align-items-center"><span class="price">From $129</span><a href="booking.html" class("btn btn-sm btn-outline-orange">Book</a></div></ div></ div ></ div >
+
+
+        <div class="swiper-slide">
+            <div class="service-card">
+                <div class="img" style="background-image:url(public/frontend/images/s1.jpg)"></div>
+                <div class="body">
+                    <h5>Deep Cleaning</h5>
+                    <p class="text-muted small">Top-to-bottom intensive clean for every room.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="price">From $89</span>
+                        <a href="booking.html" class="btn btn-sm btn-outline-orange">Book</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div class="service-card">
+                <div class="img" style="background-image:url(public/frontend/images/s2.jpg)"></div>
+                <div class="body">
+                    <h5>Apartment Cleaning</h5>
+                    <p class="text-muted small">Regular weekly or bi-weekly tidy and clean.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="price">From $59</span>
+                        <a href="booking.html" class="btn btn-sm btn-outline-orange">Book</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div class="service-card">
+                <div class="img" style="background-image:url(public/frontend/images/s3.jpg)"></div>
+                <div class="body">
+                    <h5>Commercial Cleaning</h5>
+                    <p class="text-muted small">Offices, shops and facilities, on your schedule.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="price">From $149</span>
+                        <a href="booking.html" class="btn btn-sm btn-outline-orange">Book</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div class="service-card">
+                <div class="img" style="background-image:url(public/frontend/images/s4.jpg)"></div>
+                <div class="body">
+                    <h5>Carpet & Sofa</h5>
+                    <p class="text-muted small">Steam-cleaning that lifts deep stains & odors.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="price">From $79</span>
+                        <a href="booking.html" class="btn btn-sm btn-outline-orange">Book</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div class="service-card">
+                <div class="img" style="background-image:url(public/frontend/images/s5.jpg)">
+                </div>
+                <div class="body">
+                    <h5>Window Cleaning</h5>
+                    <p class="text-muted small">Crystal-clear interior and exterior windows.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="price">From $69</span>
+                        <a href="booking.html" class="btn btn-sm btn-outline-orange">Book</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div class="service-card">
+                <div class="img" style="background-image:url(public/frontend/images/s6.jpg)"></div>
+                <div class="body">
+                    <h5>Move In / Move Out</h5>
+                    <p class="text-muted small">Get your security deposit back, guaranteed.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="price">From $129</span>
+                        <a href="booking.html" class="btn btn-sm btn-outline-orange">Book</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
       </div>
       <div class="swiper-pagination"></div>
     </div>
@@ -535,12 +613,51 @@
       <h2 class="section-title" data-aos="fade-up">Built on Trust & Quality</h2>
       <p class="section-sub" data-aos="fade-up">Background-checked pros, transparent pricing, and a happiness guarantee.</p>
     </div>
+
     <div class="row g-4" data-aos="fade-up">
-      <div class="col-md-6 col-lg-3"><div class="why-card"><div class="icon"><i class="bi bi-shield-check"></i></div><h5>Vetted Pros</h5><p class="text-muted mb-0">Every cleaner is interviewed, trained and background-checked.</p></div></div>
-      <div class="col-md-6 col-lg-3"><div class="why-card"><div class="icon"><i class="bi bi-tree-fill"></i></div><h5>Eco Products</h5><p class="text-muted mb-0">Non-toxic, family-safe supplies brought to every visit.</p></div></div>
-      <div class="col-md-6 col-lg-3"><div class="why-card"><div class="icon"><i class="bi bi-currency-dollar"></i></div><h5>Flat Pricing</h5><p class="text-muted mb-0">No surprises. See the price before you book.</p></div></div>
-      <div class="col-md-6 col-lg-3"><div class="why-card"><div class="icon"><i class="bi bi-emoji-smile"></i></div><h5>100% Guarantee</h5><p class="text-muted mb-0">Not happy? We will re-clean for free.</p></div></div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="why-card">
+                <div class="icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <h5>Vetted Pros</h5>
+                <p class="text-muted mb-0">Every cleaner is interviewed, trained and background-checked.</p>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="why-card">
+                <div class="icon">
+                    <i class="bi bi-tree-fill"></i>
+                </div>
+                <h5>Eco Products</h5>
+                <p class="text-muted mb-0">Non-toxic, family-safe supplies brought to every visit.</p>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+        <div class="why-card">
+            <div class="icon">
+                <i class="bi bi-currency-dollar"></i>
+            </div>
+            <h5>Flat Pricing</h5>
+            <p class="text-muted mb-0">No surprises. See the price before you book.</p>
+        </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+        <div class="why-card">
+            <div class="icon">
+                <i class="bi bi-emoji-smile"></i>
+            </div>
+            <h5>100% Guarantee</h5>
+            <p class="text-muted mb-0">Not happy? We will re-clean for free.</p>
+        </div>
+        </div>
+
     </div>
+
   </div>
 </section>
 
@@ -810,15 +927,70 @@
       <h2 class="section-title" data-aos="fade-up">What Customers Say</h2>
       <p class="section-sub" data-aos="fade-up">Real reviews from real homes and businesses.</p>
     </div>
+
     <div class="swiper testi-swiper" data-aos="fade-up">
       <div class="swiper-wrapper pb-5">
-        <div class="swiper-slide"><div class="testimonial"><div class="stars">★★★★★</div><p>"Booked a deep clean — they were on time, friendly and my apartment smells amazing. Booking again!"</p><div class="who"><div class="avatar">EM</div><div><strong>Emma M.</strong><div class="small text-muted">Brooklyn, NY</div></div></div></div></div>
-        <div class="swiper-slide"><div class="testimonial"><div class="stars">★★★★★</div><p>"We use SparkleCare for our office every week. Professional, reliable, and great communication."</p><div class="who"><div class="avatar">JR</div><div><strong>James R.</strong><div class="small text-muted">Office Manager</div></div></div></div></div>
-        <div class="swiper-slide"><div class="testimonial"><div class="stars">★★★★★</div><p>"Got my full security deposit back thanks to the move-out clean. Worth every penny."</p><div class="who"><div class="avatar">LP</div><div><strong>Lara P.</strong><div class="small text-muted">Queens, NY</div></div></div></div></div>
-        <div class="swiper-slide"><div class="testimonial"><div class="stars">★★★★★</div><p>"Easy app-like booking and the cleaner was fantastic. Highly recommend SparkleCare."</p><div class="who"><div class="avatar">SO</div><div><strong>Sam O.</strong><div class="small text-muted">Manhattan</div></div></div></div></div>
+
+        <div class="swiper-slide">
+            <div class="testimonial">
+                <div class="stars">★★★★★</div>
+                <p>"Booked a deep clean — they were on time, friendly and my apartment smells amazing. Booking again!"</p>
+                <div class="who">
+                    <div class="avatar">EM</div>
+                    <div>
+                        <strong>Emma M.</strong>
+                        <div class="small text-muted">Brooklyn, NY</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div class="testimonial">
+                <div class="stars">★★★★★</div>
+                <p>"We use SparkleCare for our office every week. Professional, reliable, and great communication."</p>
+                <div class="who">
+                    <div class="avatar">JR</div>
+                    <div>
+                        <strong>James R.</strong>
+                        <div class="small text-muted">Office Manager</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div class="testimonial">
+                <div class="stars">★★★★★</div>
+                <p>"Got my full security deposit back thanks to the move-out clean. Worth every penny."</p>
+                <div class="who">
+                    <div class="avatar">LP</div>
+                    <div>
+                        <strong>Lara P.</strong>
+                        <div class="small text-muted">Queens, NY</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div class="testimonial">
+                <div class="stars">★★★★★</div>
+                <p>"Easy app-like booking and the cleaner was fantastic. Highly recommend SparkleCare."</p>
+                <div class="who">
+                    <div class="avatar">SO</div>
+                    <div>
+                        <strong>Sam O.</strong>
+                        <div class="small text-muted">Manhattan</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
       </div>
       <div class="swiper-pagination"></div>
     </div>
+    
   </div>
 </section>
 

@@ -1,17 +1,17 @@
 
 <nav class="mobile-nav d-lg-none">
-  <a href="index.html" data-page="index.html"><i class="bi bi-house-door"></i><span>Home</span></a>
-  <a href="services.html" data-page="services.html"><i class="bi bi-grid"></i><span>Categories</span></a>
-  <a href="booking.html" class="book" data-page="booking.html"><i class="bi bi-calendar2-plus"></i><span>Book</span></a>
-  <a href="about.html" data-page="about.html"><i class="bi bi-info-circle"></i><span>About</span></a>
-  <a href="setting.html" data-page="setting.html"><i class="bi bi-gear"></i><span>Settings</span></a>
+  <a href="{{ route('home') }}" data-page="{{ route('home') }}"><i class="bi bi-house-door"></i><span>Home</span></a>
+  <a href="{{ route('services') }}" data-page="{{ route('services') }}"><i class="bi bi-grid"></i><span>Categories</span></a>
+  <a href="{{ route('booking') }}" class="book" data-page="{{ route('booking') }}"><i class="bi bi-calendar2-plus"></i><span>Book</span></a>
+  <a href="{{ route('about') }}" data-page="{{ route('about') }}"><i class="bi bi-info-circle"></i><span>About</span></a>
+  <a href="{{ route('settings') }}" data-page="{{ route('settings') }}"><i class="bi bi-gear"></i><span>Settings</span></a>
 </nav>
   
 <footer class="footer">
   <div class="container">
     <div class="row g-4">
       <div class="col-lg-4"> 
-          <a class="navbar-brand d-flex align-items-center" href="index.php">  
+          <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">  
               <img src="images/Work_home_sefty_solution-footer.png" alt="Company Logo" class="me-2" width="70px;" height="70px;">
               <span class="fs-5 text-white" style="font-style: poppins, sans-serif;">
                 <b>WORK HOME</b>
@@ -30,19 +30,19 @@
       <div class="col-6 col-lg-2">
         <h6>Company</h6>
         <ul class="list-unstyled">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="{{ route('home') }}">Home</a></li>
+          <li><a href="{{ route('about') }}">About Us</a></li>
+          <li><a href="{{ route('services') }}">Services</a></li>
+          <li><a href="{{ route('contact') }}">Contact</a></li>
         </ul>
       </div>
       <div class="col-6 col-lg-3">
         <h6>Services</h6>
         <ul class="list-unstyled">
-          <li><a href="services.html">Deep Cleaning</a></li>
-          <li><a href="services.html">Apartment Cleaning</a></li>
-          <li><a href="services.html">Commercial Cleaning</a></li>
-          <li><a href="services.html">Carpet & Sofa</a></li>
+          <li><a href="{{ route('services') }}">Deep Cleaning</a></li>
+          <li><a href="{{ route('services') }}">Apartment Cleaning</a></li>
+          <li><a href="{{ route('services') }}">Commercial Cleaning</a></li>
+          <li><a href="{{ route('services') }}">Carpet & Sofa</a></li>
         </ul>
       </div>
       <div class="col-lg-3">

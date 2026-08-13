@@ -13,6 +13,7 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ReviewController;
 use App\Http\Controllers\Frontend\SettingPageController;
 use App\Http\Controllers\Frontend\PrivacyPolicyController;
+use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\Frontend\TermConditionController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,8 +21,8 @@ use Illuminate\Support\Facades\Route;
 //     return 'Devotion Technology is working!';
 // });
 
-Route::get('/', [ComingSoonController::class, 'index'])->name('coming-soon');
-Route::get('/index', [HomeController::class, 'index'])->name('home');
+// Route::get('/', [ComingSoonController::class, 'index'])->name('coming-soon');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/terms-condition', [TermConditionController::class, 'index'])->name('terms-condition');
 Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])->name('privacy-policy');
@@ -34,6 +35,7 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/brochure', [BrochureController::class, 'index'])->name('brochure');
 Route::get('/settings', [SettingPageController::class, 'index'])->name('settings');
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews');
+Route::get('/services', [ServiceController::class, 'index'])->name('services');
 
 Route::prefix('admin/messages')->name('admin.messages.')->middleware(['auth:admin'])->group(function () {
     Route::get('/', [MessageController::class, 'index'])->name('index');
