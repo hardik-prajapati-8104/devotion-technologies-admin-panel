@@ -308,7 +308,7 @@
 
             <ol class="breadcrumb justify-content-center mb-0" data-aos="fade-up">
                 <li class="breadcrumb-item">
-                    <a href="index.html">
+                    <a href="{{ route('home') }}">
                         <i class="bi bi-house-door-fill me-1"></i> Home
                     </a>
                 </li>
@@ -426,7 +426,7 @@
                     <span>of our recent projects</span>
                 </div>
 
-                <a href="booking.php" class="lightbox-book-btn" id="lightboxBookBtn">
+                <a href="{{ route('booking') }}" class="lightbox-book-btn" id="lightboxBookBtn">
                     <i class="bi bi-calendar-check"></i> Book Now
                 </a>
             </div>

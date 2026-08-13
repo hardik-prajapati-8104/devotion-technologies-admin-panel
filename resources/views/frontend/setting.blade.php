@@ -112,7 +112,7 @@
         <div class="settings-header" data-aos="fade-up">
             <div class="d-flex justify-content-between align-items-center">
                 <h4 class="mb-0 section-title">Settings</h4>
-                <a href="index.html" class="text-dark">
+                <a href="{{ route('home') }}" class="text-dark">
                     <i class="bi bi-x-lg fs-4"></i>
                 </a>
             </div>
@@ -150,7 +150,7 @@
       
         <!-- Company Brand -->
         <div class="company-brand" data-aos="fade-up">
-            <img src="images/clients/dubai.png" alt="Work Home Safety Solution">
+            <img src="{{ url('public/frontend/images/clients/dubai.png') }}" alt="Work Home Safety Solution">
 
             <h4>WORK HOME SAFETY SOLUTION</h4>
 
@@ -176,7 +176,7 @@
         <!-- Settings Menu -->
         <div class="menu-card" data-aos="fade-up">
 
-            <a href="login.html" class="menu-item d-none">
+            <a href="javascript:void();" class="menu-item d-none">
                 <div class="d-flex align-items-center">
                     <div class="icon-box">
                         <i class="bi bi-box-arrow-in-right me-1"></i>

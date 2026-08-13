@@ -108,7 +108,7 @@
 
             <ol class="breadcrumb justify-content-center mb-0" data-aos="fade-up">
                 <li class="breadcrumb-item">
-                    <a href="index.html">
+                    <a href="{{ url('home') }}">
                         <i class="bi bi-house-door-fill me-1"></i> Home
                     </a>
                 </li>

@@ -155,7 +155,7 @@
 
             <ol class="breadcrumb justify-content-center mb-0" data-aos="fade-up">
                 <li class="breadcrumb-item">
-                    <a href="index.html">
+                    <a href="{{ route('home') }}">
                         <i class="bi bi-house-door-fill me-1"></i> Home
                     </a>
                 </li>
@@ -218,7 +218,7 @@
                 <div class="col-md-6 col-lg-4" data-aos="fade-up">
                     <div class="review-card">
                         <div class="review-top">
-                            <img src="images/testimonial/team-1.jpg" alt="">
+                            <img src="{{ url('public/frontend/images/testimonial/team-1.jpg') }}" alt="">
                             <div>
                                 <h5>John Smith</h5>
                                 <small>Residential Cleaning</small>
@@ -239,7 +239,7 @@
                 <div class="col-md-6 col-lg-4" data-aos="fade-up">
                     <div class="review-card">
                         <div class="review-top">
-                            <img src="images/testimonial/team-2.jpg" alt="">
+                            <img src="{{ url('public/frontend/images/testimonial/team-2.jpg') }}" alt="">
                             <div>
                                 <h5>Sarah Johnson</h5>
                                 <small>Office Cleaning</small>
@@ -259,7 +259,7 @@
                 <div class="col-md-6 col-lg-4" data-aos="fade-up">
                     <div class="review-card">
                         <div class="review-top">
-                            <img src="images/testimonial/team-3.jpg" alt="">
+                            <img src="{{ url('public/frontend/images/testimonial/team-3.jpg') }}" alt="">
                             <div>
                                 <h5>Michael Brown</h5>
                                 <small>Deep Cleaning</small>
@@ -279,7 +279,7 @@
                 <div class="col-md-6 col-lg-4" data-aos="fade-up">
                     <div class="review-card">
                         <div class="review-top">
-                            <img src="images/testimonial/team-4.jpg" alt="">
+                            <img src="{{ url('public/frontend/images/testimonial/team-4.jpg') }}" alt="">
                             <div>
                                 <h5>Emily Davis</h5>
                                 <small>Apartment Cleaning</small>
@@ -299,7 +299,7 @@
                 <div class="col-md-6 col-lg-4" data-aos="fade-up">
                     <div class="review-card">
                         <div class="review-top">
-                            <img src="images/testimonial/team-1.jpg" alt="">
+                            <img src="{{ url('public/frontend/images/testimonial/team-1.jpg') }}" alt="">
                             <div>
                                 <h5>David Wilson</h5>
                                 <small>Commercial Cleaning</small>
@@ -319,7 +319,7 @@
                 <div class="col-md-6 col-lg-4" data-aos="fade-up">
                     <div class="review-card">
                         <div class="review-top">
-                            <img src="images/testimonial/team-2.jpg" alt="">
+                            <img src="{{ url('public/frontend/images/testimonial/team-2.jpg') }}" alt="">
                             <div>
                                 <h5>Lisa Taylor</h5>
                                 <small>Move-In Cleaning</small>

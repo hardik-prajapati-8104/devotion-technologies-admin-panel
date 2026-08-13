@@ -11,7 +11,7 @@
 
         <ol class="breadcrumb justify-content-center mb-0" data-aos="fade-up">
             <li class="breadcrumb-item">
-                <a href="index.html">
+                <a href="{{ route('home') }}">
                     <i class="bi bi-house-door-fill me-1"></i> Home
                 </a>
             </li>
@@ -166,7 +166,7 @@
 
       <div class="col-md-6 col-lg-4" data-aos="fade-up">
         <div class="service-card">
-          <div class="img" style="background-image:url(images/s1.jpg)"></div>
+          <div class="img" style="background-image:url(public/frontend/images/s1.jpg)"></div>
           <div class="body">
             <h5>Deep Cleaning</h5>
             <p class="text-muted">A complete top-to-bottom clean for every room — perfect for first-time visits or seasonal resets.</p>
@@ -180,7 +180,7 @@
 
       <div class="col-md-6 col-lg-4" data-aos="fade-up">
         <div class="service-card">
-          <div class="img" style="background-image:url(images/s2.jpg)"></div>
+          <div class="img" style="background-image:url(public/frontend/images/s2.jpg)"></div>
           <div class="body">
             <h5>Apartment Cleaning</h5>
             <p class="text-muted">Recurring weekly or bi-weekly cleans that keep your apartment fresh and welcoming.</p>
@@ -194,7 +194,7 @@
 
       <div class="col-md-6 col-lg-4" data-aos="fade-up">
         <div class="service-card">
-          <div class="img" style="background-image:url(images/s3.jpg)"></div>
+          <div class="img" style="background-image:url(public/frontend/images/s3.jpg)"></div>
           <div class="body">
             <h5>Commercial Cleaning</h5>
             <p class="text-muted">Offices, retail, gyms and clinics — flexible scheduling and trained crews.</p>
@@ -208,7 +208,7 @@
 
       <div class="col-md-6 col-lg-4" data-aos="fade-up">
         <div class="service-card">
-          <div class="img" style="background-image:url(images/s4.jpg)"></div>
+          <div class="img" style="background-image:url(public/frontend/images/s4.jpg)"></div>
           <div class="body">
             <h5>Carpet & Sofa Cleaning</h5>
             <p class="text-muted">Professional steam-cleaning to remove stains, allergens and odors.</p>
@@ -222,7 +222,7 @@
 
       <div class="col-md-6 col-lg-4" data-aos="fade-up">
         <div class="service-card">
-          <div class="img" style="background-image:url(images/s5.jpg)"></div>
+          <div class="img" style="background-image:url(public/frontend/images/s5.jpg)"></div>
           <div class="body">
             <h5>Window Cleaning</h5>
             <p class="text-muted">Streak-free windows inside and out, from townhouses to high-rises.</p>
@@ -236,7 +236,7 @@
 
       <div class="col-md-6 col-lg-4" data-aos="fade-up">
         <div class="service-card">
-          <div class="img" style="background-image:url(images/s6.jpg)"></div>
+          <div class="img" style="background-image:url(public/frontend/images/s6.jpg)"></div>
           <div class="body">
             <h5>Move In / Move Out</h5> 
             <p class="text-muted">A landlord-approved checklist clean that helps you get your deposit back.</p>

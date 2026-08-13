@@ -152,7 +152,7 @@
 
             <ol class="breadcrumb justify-content-center mb-0" data-aos="fade-up">
                 <li class="breadcrumb-item">
-                    <a href="index.html">
+                    <a href="{{ route('home') }}">
                         <i class="bi bi-house-door-fill me-1"></i> Home
                     </a>
                 </li>
@@ -214,49 +214,49 @@
 
                 <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
                     <div class="client-card">
-                        <img src="images/clients/binghati.png" alt=""> 
+                        <img src="{{ url('public/frontend/images/clients/binghati.png') }}" alt=""> 
                     </div>
                 </div>
 
                 <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
                     <div class="client-card">
-                        <img src="images/clients/bnw.png" alt=""> 
+                        <img src="{{ url('public/frontend/images/clients/bnw.png') }}" alt=""> 
                     </div>
                 </div>
 
                 <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
                     <div class="client-card">
-                        <img src="images/clients/damac.png" alt=""> 
+                        <img src="{{ url('public/frontend/images/clients/damac.png') }}" alt=""> 
                     </div>
                 </div>
 
                 <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
                     <div class="client-card">
-                        <img src="images/clients/danube.png" alt=""> 
+                        <img src="{{ url('public/frontend/images/clients/danube.png') }}" alt=""> 
                     </div>
                 </div>
 
                 <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
                     <div class="client-card">
-                        <img src="images/clients/Meraas.png" alt=""> 
+                        <img src="{{ url('public/frontend/images/clients/Meraas.png') }}" alt=""> 
                     </div>
                 </div>
 
                 <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
                     <div class="client-card">
-                        <img src="images/clients/nashama.png" alt=""> 
+                        <img src="{{ url('public/frontend/images/clients/nashama.png') }}" alt=""> 
                     </div>
                 </div>
 
                 <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
                     <div class="client-card">
-                        <img src="images/clients/octa.png" alt=""> 
+                        <img src="{{ url('public/frontend/images/clients/octa.png') }}" alt=""> 
                     </div>
                 </div>
 
                 <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
                     <div class="client-card">
-                        <img src="images/clients/ellingtone.png" alt=""> 
+                        <img src="{{ url('public/frontend/images/clients/ellingtone.png') }}" alt=""> 
                     </div>
                 </div>
 

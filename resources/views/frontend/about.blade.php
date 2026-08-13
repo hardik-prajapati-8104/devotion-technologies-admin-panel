@@ -11,7 +11,7 @@
 
         <ol class="breadcrumb justify-content-center mb-0" data-aos="fade-up">
             <li class="breadcrumb-item" data-aos="fade-up">
-                <a href="index.html">
+                <a href="{{ route('home') }}">
                     <i class="bi bi-house-door-fill me-1"></i> Home
                 </a>
             </li>
@@ -29,7 +29,7 @@
 
       <div class="col-lg-6" data-aos="fade-up">
         <div class="about-img">
-          <img src="images/about.jpg" alt="Team">
+          <img src="{{ url('public/frontend/images/about.jpg') }}" alt="Team">
         </div>
       </div>
 
