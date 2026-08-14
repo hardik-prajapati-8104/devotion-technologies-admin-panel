@@ -2,7 +2,7 @@
 
  <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
   <div class="container">
-    <a class="navbar-brand d-flex align-items-center" href="index.php">  
+    <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">  
         <img src="{{ url('public/frontend/images/Work_home_sefty_solution-header.png') }}" alt="Company Logo" class="me-2" width="100%;" height="50px;">
         <span class="fs-5" style="font-style: poppins, sans-serif;">
           <b>WORK HOME</b>
@@ -13,7 +13,7 @@
     <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="nav">
       <ul class="navbar-nav ms-auto align-items-lg-center">
-        <li class="nav-item"><a class="nav-link" data-page="index.php" href="{{ route('home') }}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" data-page="index.php" href="{{ url('/') }}">Home</a></li>
         <li class="nav-item"><a class="nav-link" data-page="services.php" href="{{ route('services') }}">Services</a></li>
         <li class="nav-item"><a class="nav-link" data-page="booking.php" href="{{ route('booking') }}">Booking</a></li>
         <li class="nav-item"><a class="nav-link" data-page="booking.php" href="{{ route('gallery') }}">Gallery</a></li>

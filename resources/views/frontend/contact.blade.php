@@ -34,7 +34,11 @@
               <i class="bi bi-geo-alt"></i>
             </div>
             <h5>Visit Us</h5>
-            <p class="text-muted mb-0">22 Maple Street, Suite 4B<br>New York, NY 10001</p>
+            @if($settings['contact_address'] ?? null)
+              <p class="text-muted mb-0">
+                {!! $settings['contact_address'] !!}
+              </p>
+            @endif
         </div> 
       </div>
 
@@ -44,7 +48,11 @@
             <i class="bi bi-telephone"></i>
           </div>
           <h5>Call Us</h5>
-          <p class="text-muted mb-0">+91 9173307640<br>Mon-Sat, 8am-8pm</p>
+            @if($settings['contact_phone'] ?? null)
+              <p class="text-muted mb-0">
+                  {!! $settings['contact_phone'] !!}
+              </p>
+            @endif
         </div>
       </div>
 
@@ -54,7 +62,12 @@
             <i class="bi bi-envelope"></i>
           </div>
           <h5>Email Us</h5>
-          <p class="text-muted mb-0">hardikprajapati8104@gmail.com<br>support@hardikprajapati.com</p>
+          @if($settings['contact_email'] ?? null)
+            <p class="text-muted mb-0">
+              {{ $settings['contact_email'] }}
+            </p>
+          @endif
+
         </div>
       </div>
     </div>

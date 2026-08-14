@@ -20,12 +20,49 @@
               </span>
           </a>
         <p class="mt-3">Premium housekeeping & cleaning services for homes and businesses. Trusted by 10,000+ happy customers.</p>
-        <div class="social mt-3">
-          <a href="javascript:void();"><i class="bi bi-facebook"></i></a>
-          <a href="javascript:void();"><i class="bi bi-instagram"></i></a>
-          <a href="javascript:void();"><i class="bi bi-twitter-x"></i></a>
-          <a href="javascript:void();"><i class="bi bi-linkedin"></i></a>
-        </div>
+      <div class="social mt-3">
+
+    @if($settings['social_facebook'] ?? null)
+        <a href="{{ $settings['social_facebook'] }}"
+           target="_blank"
+           rel="noopener">
+            <i class="bi bi-facebook"></i>
+        </a>
+    @endif
+
+    @if($settings['social_instagram'] ?? null)
+        <a href="{{ $settings['social_instagram'] }}"
+           target="_blank"
+           rel="noopener">
+            <i class="bi bi-instagram"></i>
+        </a>
+    @endif
+
+    @if($settings['social_twitter'] ?? null)
+        <a href="{{ $settings['social_twitter'] }}"
+           target="_blank"
+           rel="noopener">
+            <i class="bi bi-twitter-x"></i>
+        </a>
+    @endif
+
+    @if($settings['social_linkedin'] ?? null)
+        <a href="{{ $settings['social_linkedin'] }}"
+           target="_blank"
+           rel="noopener">
+            <i class="bi bi-linkedin"></i>
+        </a>
+    @endif
+
+    @if($settings['social_youtube'] ?? null)
+        <a href="{{ $settings['social_youtube'] }}"
+           target="_blank"
+           rel="noopener">
+            <i class="bi bi-youtube"></i>
+        </a>
+    @endif
+
+</div>
       </div>
       <div class="col-6 col-lg-2">
         <h6>Company</h6>
@@ -48,13 +85,40 @@
       <div class="col-lg-3">
         <h6>Contact</h6>
         <ul class="list-unstyled">
-          <li><i class="bi bi-geo-alt text-orange me-2"></i>Dholka, Ahemdabad</li>
-          <li><a href="tel:+91 9173307640"><i class="bi bi-telephone text-orange me-2"></i>+91 9173307640</a></li>
-          <li><a href="mailto:hardikprajapati8104@gmail.com"><i class="bi bi-envelope text-orange me-2"></i>hardikprajapati8104@gmail.com</a></li>
+          <li>
+            @if($settings['contact_address'] ?? null)
+              <i class="bi bi-geo-alt text-orange me-2"></i>
+              {{ $settings['contact_address'] }}
+            @endif
+          </li>
+          
+          <li>
+              @if($settings['contact_phone'] ?? null)
+                <a href="tel:{{ $settings['contact_phone'] }}">
+                  <i class="bi bi-telephone text-orange me-2"></i>
+                  {!! $settings['contact_phone'] !!}
+                </a>
+              @endif
+          </li>
+
+          <li>
+            @if($settings['contact_email'] ?? null)
+              <a href="mailto:{{ $settings['contact_email'] }}">
+                <i class="bi bi-envelope text-orange me-2"></i>
+                {!! $settings['contact_email'] !!}
+              </a>
+            @endif
+          </li>
+
         </ul>
       </div>
     </div>
-    <div class="copyright">© 2026 Work Home Safety Solution. All rights reserved.</div>
+
+    @if($settings['copyright_text'] ?? null)
+      <div class="copyright">
+        {!! $settings['copyright_text'] !!}
+      </div>
+    @endif
   </div>
 </footer>
 

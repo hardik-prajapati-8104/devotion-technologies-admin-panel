@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\MessageController;
 use App\Http\Controllers\Frontend\AboutController;
+use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\BrochureController;
 use App\Http\Controllers\Frontend\ClientController;
 use App\Http\Controllers\Frontend\ComingSoonController;
@@ -29,7 +30,7 @@ Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])->name('
 Route::get('/cookie-policy', [CookiePolicyController::class, 'index'])->name('cookie-policy');
 Route::get('/our-clients', [ClientController::class, 'index'])->name('clients');
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
-Route::get('/booking', [GalleryController::class, 'index'])->name('booking');
+Route::get('/booking', [BookingController::class, 'index'])->name('booking');
 Route::get('/faqs', [FAQController::class, 'index'])->name('faqs');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/brochure', [BrochureController::class, 'index'])->name('brochure');

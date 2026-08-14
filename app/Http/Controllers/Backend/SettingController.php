@@ -92,7 +92,7 @@ class SettingController extends Controller
 
         $data = $request->validate([
             'contact_email'    => 'nullable|email|max:150',
-            'contact_phone'    => 'nullable|string|max:30',
+            'contact_phone'    => 'nullable|string',
             'contact_whatsapp' => 'nullable|string|max:30',
             'contact_address'  => 'nullable|string|max:500',
             'contact_map_url'  => 'nullable|url|max:500',
