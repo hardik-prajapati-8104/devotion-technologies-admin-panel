@@ -212,53 +212,15 @@
             <!-- Clients Grid -->
             <div class="row g-4">
 
-                <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
-                    <div class="client-card">
-                        <img src="{{ url('public/frontend/images/clients/binghati.png') }}" alt=""> 
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
-                    <div class="client-card">
-                        <img src="{{ url('public/frontend/images/clients/bnw.png') }}" alt=""> 
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
-                    <div class="client-card">
-                        <img src="{{ url('public/frontend/images/clients/damac.png') }}" alt=""> 
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
-                    <div class="client-card">
-                        <img src="{{ url('public/frontend/images/clients/danube.png') }}" alt=""> 
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
-                    <div class="client-card">
-                        <img src="{{ url('public/frontend/images/clients/Meraas.png') }}" alt=""> 
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
-                    <div class="client-card">
-                        <img src="{{ url('public/frontend/images/clients/nashama.png') }}" alt=""> 
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
-                    <div class="client-card">
-                        <img src="{{ url('public/frontend/images/clients/octa.png') }}" alt=""> 
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
-                    <div class="client-card">
-                        <img src="{{ url('public/frontend/images/clients/ellingtone.png') }}" alt=""> 
-                    </div>
-                </div>
+                @foreach ($clients as $client)
+                    @if ($client->company_logo)
+                        <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
+                            <div class="client-card">
+                                <img src="{{ asset('storage/'.$client->company_logo) }}" alt="{{ $client->company_name }}">
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
 
             </div>
 

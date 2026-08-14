@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;   // <-- Add this line
+use App\Models\Client;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -12,6 +13,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return view('frontend.our-clients');
+        $clients = Client::active()->ordered()->get();
+        return view('frontend.our-clients', compact('clients'));
     }
 }

@@ -1005,44 +1005,18 @@
             </p>
         </div>
 
-        <div class="swiper clientsSwiper" >
+       <div class="swiper clientsSwiper">
             <div class="swiper-wrapper py-5">
 
-                <div class="swiper-slide" data-aos="fade-up">
-                    <div class="client-card">
-                        <img src="public/frontend/images/clients/binghati.png" alt="Client">
-                    </div>
-                </div>
-
-                <div class="swiper-slide" data-aos="fade-up">
-                    <div class="client-card">
-                        <img src="public/frontend/images/clients/bnw.png" alt="Client">
-                    </div>
-                </div>
-
-                <div class="swiper-slide" data-aos="fade-up">
-                    <div class="client-card">
-                        <img src="public/frontend/images/clients/damac.png" alt="Client">
-                    </div>
-                </div>
-
-                <div class="swiper-slide" data-aos="fade-up">
-                    <div class="client-card">
-                        <img src="public/frontend/images/clients/danube.png" alt="Client">
-                    </div>
-                </div>
-
-                <div class="swiper-slide" data-aos="fade-up">
-                    <div class="client-card">
-                        <img src="public/frontend/images/clients/dubai.png" alt="Client">
-                    </div>
-                </div>
-
-                <div class="swiper-slide" data-aos="fade-up">
-                    <div class="client-card">
-                        <img src="public/frontend/images/clients/Meraas.png" alt="Client">
-                    </div>
-                </div>
+                @foreach ($clients as $client)
+                    @if ($client->company_logo)
+                        <div class="swiper-slide" data-aos="fade-up">
+                            <div class="client-card">
+                                <img src="{{ url('storage/app/public/'.$client->company_logo) }}" alt="{{ $client->company_name }}">
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
 
             </div>
 
