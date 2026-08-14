@@ -36,6 +36,7 @@ use App\Http\Controllers\Backend\BackupController;
 use App\Http\Controllers\Backend\ChatController;
 use App\Http\Controllers\Backend\ChatGroupController;
 use App\Http\Controllers\Backend\ChatMessageController;
+use App\Http\Controllers\Backend\HomeBannerController;
 use App\Http\Controllers\Backend\MessageController;
 use App\Http\Controllers\Backend\NoticeController;
 use App\Http\Controllers\Backend\RecycleBinController;
@@ -342,6 +343,19 @@ Route::prefix('admin')
             Route::post('recycle-bin/bulk', [RecycleBinController::class, 'bulk'])->name('recycle-bin.bulk');
             Route::put('recycle-bin/settings', [RecycleBinController::class, 'updateSettings'])->name('recycle-bin.settings');
             // End Recycle Routes
+
+            // Home Banner Management Routes
+            Route::get('home-banners', [HomeBannerController::class, 'index'])->name('home-banners.index');
+            Route::get('home-banners/create', [HomeBannerController::class, 'create'])->name('home-banners.create');
+            Route::post('home-banners', [HomeBannerController::class, 'store'])->name('home-banners.store');
+            Route::get('home-banners/{id}/edit', [HomeBannerController::class, 'edit'])->name('home-banners.edit');
+            Route::put('home-banners/{id}', [HomeBannerController::class, 'update'])->name('home-banners.update');
+            Route::delete('home-banners/{id}', [HomeBannerController::class, 'destroy'])->name('home-banners.destroy');
+            Route::put('home-banners/{id}/toggle-status', [HomeBannerController::class, 'toggleStatus'])->name('home-banners.toggle-status');
+            Route::post('home-banners/reorder', [HomeBannerController::class, 'reorder'])->name('home-banners.reorder');
+           // Home Banner Management End Routes
+
+             
            
         });
     });
