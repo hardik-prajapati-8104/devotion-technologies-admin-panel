@@ -164,91 +164,26 @@
 
     <div class="row g-4">
 
-      <div class="col-md-6 col-lg-4" data-aos="fade-up">
-        <div class="service-card">
-          <div class="img" style="background-image:url(public/frontend/images/s1.jpg)"></div>
-          <div class="body">
-            <h5>Deep Cleaning</h5>
-            <p class="text-muted">A complete top-to-bottom clean for every room — perfect for first-time visits or seasonal resets.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="price">From $89</span>
-              <a href="booking.html" class="btn btn-sm btn-orange">Book</a>
-            </div>
+      @forelse ($services as $service)
+          <div class="col-md-6 col-lg-4" data-aos="fade-up">
+              <div class="service-card">
+                  <div class="img" style="background-image: url('{{ $service->featured_image ? url('storage/app/public/' . $service->featured_image) : url('public/frontend/images/s1.jpg') }}');"></div>
+                  <div class="body">
+                      <h5>{{ $service->name }}</h5>
+                      <p class="text-muted">{{ $service->short_description }}</p>
+                      <div class="d-flex justify-content-between align-items-center">
+                          <a href="{{ route('services.show', $service->slug) }}" class="btn btn-sm btn-orange">Book</a>
+                      </div>
+                  </div>
+              </div>
           </div>
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-4" data-aos="fade-up">
-        <div class="service-card">
-          <div class="img" style="background-image:url(public/frontend/images/s2.jpg)"></div>
-          <div class="body">
-            <h5>Apartment Cleaning</h5>
-            <p class="text-muted">Recurring weekly or bi-weekly cleans that keep your apartment fresh and welcoming.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="price">From $59</span>
-              <a href="booking.html" class="btn btn-sm btn-orange">Book</a>
-            </div>
+      @empty
+          <div class="col-12 text-center text-muted py-5">
+              No services available right now — check back soon.
           </div>
-        </div>
-      </div>
+      @endforelse
 
-      <div class="col-md-6 col-lg-4" data-aos="fade-up">
-        <div class="service-card">
-          <div class="img" style="background-image:url(public/frontend/images/s3.jpg)"></div>
-          <div class="body">
-            <h5>Commercial Cleaning</h5>
-            <p class="text-muted">Offices, retail, gyms and clinics — flexible scheduling and trained crews.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="price">From $149</span>
-              <a href="booking.html" class="btn btn-sm btn-orange">Book</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-4" data-aos="fade-up">
-        <div class="service-card">
-          <div class="img" style="background-image:url(public/frontend/images/s4.jpg)"></div>
-          <div class="body">
-            <h5>Carpet & Sofa Cleaning</h5>
-            <p class="text-muted">Professional steam-cleaning to remove stains, allergens and odors.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="price">From $79</span>
-              <a href="booking.html" class="btn btn-sm btn-orange">Book</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-4" data-aos="fade-up">
-        <div class="service-card">
-          <div class="img" style="background-image:url(public/frontend/images/s5.jpg)"></div>
-          <div class="body">
-            <h5>Window Cleaning</h5>
-            <p class="text-muted">Streak-free windows inside and out, from townhouses to high-rises.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="price">From $69</span>
-              <a href="booking.html" class="btn btn-sm btn-orange">Book</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-4" data-aos="fade-up">
-        <div class="service-card">
-          <div class="img" style="background-image:url(public/frontend/images/s6.jpg)"></div>
-          <div class="body">
-            <h5>Move In / Move Out</h5> 
-            <p class="text-muted">A landlord-approved checklist clean that helps you get your deposit back.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="price">From $129</span>
-              <a href="booking.html" class="btn btn-sm btn-orange">Book</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+  </div>
 
   </div>
 </section>

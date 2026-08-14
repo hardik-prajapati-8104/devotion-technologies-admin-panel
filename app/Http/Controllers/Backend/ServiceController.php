@@ -15,10 +15,13 @@ use Illuminate\Support\Facades\Cache;
 
 class ServiceController extends Controller
 {
-   public $user;
+    public $user;
+    protected ImageUploadService $imageUploadService;
 
-    public function __construct()
+    public function __construct(ImageUploadService $imageUploadService)
     {
+        $this->imageUploadService = $imageUploadService;
+
         $this->middleware(function ($request, $next) {
             $this->user = Auth::guard('admin')->user();
             return $next($request);

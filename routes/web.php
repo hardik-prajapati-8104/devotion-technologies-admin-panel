@@ -36,6 +36,7 @@ Route::get('/brochure', [BrochureController::class, 'index'])->name('brochure');
 Route::get('/settings', [SettingPageController::class, 'index'])->name('settings');
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews');
 Route::get('/services', [ServiceController::class, 'index'])->name('services');
+Route::get('services/{slug}', [ServiceController::class, 'show'])->name('services.show');
 
 Route::prefix('admin/messages')->name('admin.messages.')->middleware(['auth:admin'])->group(function () {
     Route::get('/', [MessageController::class, 'index'])->name('index');

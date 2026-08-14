@@ -12,7 +12,7 @@
     <div class="row g-4">
       <div class="col-lg-4"> 
           <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">  
-              <img src="images/Work_home_sefty_solution-footer.png" alt="Company Logo" class="me-2" width="70px;" height="70px;">
+              <img src="{{ url('public/frontend/images/Work_home_sefty_solution-footer.png') }}" alt="Company Logo" class="me-2" width="70px;" height="70px;">
               <span class="fs-5 text-white" style="font-style: poppins, sans-serif;">
                 <b>WORK HOME</b>
                 <br>
