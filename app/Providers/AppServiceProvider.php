@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         View::composer('*', function ($view) {
-            $view->with('settings', Setting::allSettings());
+            $view->with('configurations', Setting::allSettings());
         });
     }
 }

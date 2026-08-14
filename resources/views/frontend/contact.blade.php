@@ -34,9 +34,9 @@
               <i class="bi bi-geo-alt"></i>
             </div>
             <h5>Visit Us</h5>
-            @if($settings['contact_address'] ?? null)
+            @if($configurations['contact_address'] ?? null)
               <p class="text-muted mb-0">
-                {!! $settings['contact_address'] !!}
+                {!! $configurations['contact_address'] !!}
               </p>
             @endif
         </div> 
@@ -48,9 +48,9 @@
             <i class="bi bi-telephone"></i>
           </div>
           <h5>Call Us</h5>
-            @if($settings['contact_phone'] ?? null)
+            @if($configurations['contact_phone'] ?? null)
               <p class="text-muted mb-0">
-                  {!! $settings['contact_phone'] !!}
+                  {!! $configurations['contact_phone'] !!}
               </p>
             @endif
         </div>
@@ -62,9 +62,9 @@
             <i class="bi bi-envelope"></i>
           </div>
           <h5>Email Us</h5>
-          @if($settings['contact_email'] ?? null)
+          @if($configurations['contact_email'] ?? null)
             <p class="text-muted mb-0">
-              {{ $settings['contact_email'] }}
+              {{ $configurations['contact_email'] }}
             </p>
           @endif
 
