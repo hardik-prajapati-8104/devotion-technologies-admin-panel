@@ -37,7 +37,7 @@
                     <div class="border rounded p-2 d-flex align-items-center gap-3" data-id="{{ $banner->id }}">
                         <i class="bi bi-grip-vertical text-muted" style="cursor:grab;"></i>
 
-                        <img src="{{ $banner->image_url }}" class="rounded" style="width:110px; height:60px; object-fit:cover;">
+                        <img src="{{ url('storage/app/public/'.$banner->image) }}" class="rounded" style="width:110px; height:60px; object-fit:cover;">
 
                         <div class="flex-grow-1">
                             <div class="fw-medium">{{ $banner->title ?: '(No title)' }}</div>

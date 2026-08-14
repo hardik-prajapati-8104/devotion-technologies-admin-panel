@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;   // <-- Add this line
+use App\Models\HomeBanner;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -12,6 +13,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('frontend.index');
+         $banners = HomeBanner::live()->get();
+        return view('frontend.index', compact('banners'));
     }
 }
