@@ -8,6 +8,9 @@ use App\Services\AdminMenuBadgeResolver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route as RouteFacade;
 use Illuminate\Validation\Rule;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class AdminMenuController extends Controller
 {
@@ -43,7 +46,9 @@ class AdminMenuController extends Controller
     {
         $data = $this->validateData($request);
 
-        AdminMenu::create($data);
+        $menu = AdminMenu::create($data);
+
+        $this->syncPermissionForMenu($menu);
 
         return redirect()->route('admin.menus.index')->with('success', 'Menu item created.');
     }
@@ -62,6 +67,8 @@ class AdminMenuController extends Controller
         $data = $this->validateData($request, $menu->id);
 
         $menu->update($data);
+
+        $this->syncPermissionForMenu($menu);
 
         return redirect()->route('admin.menus.index')->with('success', 'Menu item updated.');
     }
@@ -98,6 +105,46 @@ class AdminMenuController extends Controller
         AdminMenu::flushCache();
 
         return response()->json(['success' => true]);
+    }
+
+    /**
+     * Ensures the menu's `permission` string exists as a Permission record,
+     * and that role ID 1 (super-admin) always has it — so newly added
+     * menu items are automatically visible/allowed for that role without
+     * a manual step in the permissions UI.
+     */
+    /**
+     * Ensures the CRUD permission set (view, create, edit, delete) for this
+     * menu's resource exists as Permission records, and that role ID 1
+     * (super-admin) always has all of them — so a newly added menu item
+     * is automatically fully permitted for that role without a manual step.
+     */
+    protected function syncPermissionForMenu(AdminMenu $menu): void
+    {
+        if (empty($menu->permission)) {
+            return;
+        }
+
+        // Accepts either "clients" or "clients.view" typed into the form —
+        // strips a trailing .view/.create/.edit/.delete to get the base resource name.
+        $base = preg_replace('/\.(view|create|edit|delete)$/', '', $menu->permission);
+
+        $actions = ['view', 'create', 'edit', 'delete'];
+
+        $role = Role::find(1);
+
+        foreach ($actions as $action) {
+            $permission = Permission::firstOrCreate([
+                'name'       => "{$base}.{$action}",
+                'guard_name' => 'admin', // match your admin auth guard
+            ]);
+
+            if ($role && ! $role->hasPermissionTo($permission)) {
+                $role->givePermissionTo($permission);
+            }
+        }
+
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
     }
 
     protected function validateData(Request $request, ?int $ignoreId = null): array

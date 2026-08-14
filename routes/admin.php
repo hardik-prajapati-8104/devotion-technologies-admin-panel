@@ -36,6 +36,7 @@ use App\Http\Controllers\Backend\BackupController;
 use App\Http\Controllers\Backend\ChatController;
 use App\Http\Controllers\Backend\ChatGroupController;
 use App\Http\Controllers\Backend\ChatMessageController;
+use App\Http\Controllers\Backend\ClientController;
 use App\Http\Controllers\Backend\HomeBannerController;
 use App\Http\Controllers\Backend\MessageController;
 use App\Http\Controllers\Backend\NoticeController;
@@ -355,7 +356,17 @@ Route::prefix('admin')
             Route::post('home-banners/reorder', [HomeBannerController::class, 'reorder'])->name('home-banners.reorder');
            // Home Banner Management End Routes
 
-             
+          
+           // Client Management Route
+           Route::get('clients', [ClientController::class, 'index'])->name('clients.index');
+           Route::get('clients/create', [ClientController::class, 'create'])->name('clients.create');
+           Route::post('clients', [ClientController::class, 'store'])->name('clients.store');
+           Route::get('clients/{id}/edit', [ClientController::class, 'edit'])->name('clients.edit');
+           Route::put('clients/{id}', [ClientController::class, 'update'])->name('clients.update');
+           Route::delete('clients/{id}', [ClientController::class, 'destroy'])->name('clients.destroy');
+           Route::delete('clients/bulk-delete', [ClientController::class, 'bulkDestroy'])->name('clients.bulk-destroy');
+           Route::post('clients/{id}/toggle-status', [ClientController::class, 'toggleStatus'])->name('clients.toggle-status');
+           // Client Management Route End 
            
         });
     });
@@ -364,4 +375,3 @@ Route::prefix('admin')
 
 
     
- 
