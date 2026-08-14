@@ -17,14 +17,14 @@
                     :selected="$isEdit ? $service->service_category_id : old('service_category_id')" />
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <label class="form-label small fw-medium">Short Description</label>
                 <textarea name="short_description" class="form-control @error('short_description') is-invalid @enderror" rows="3" maxlength="500">{{ old('short_description', $isEdit ? $service->short_description : '') }}</textarea>
                 @error('short_description') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <label class="form-label small fw-medium">Full Description</label>
-                <textarea name="full_description" class="form-control @error('full_description') is-invalid @enderror" rows="3">{{ old('full_description', $isEdit ? $service->full_description : '') }}</textarea>
+                <textarea id="full_description" name="full_description" class="form-control @error('full_description') is-invalid @enderror" rows="3">{{ old('full_description', $isEdit ? $service->full_description : '') }}</textarea>
                 @error('full_description') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
 
@@ -65,3 +65,48 @@
     <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i> {{ $isEdit ? 'Update' : 'Save' }}</button>
     <a href="{{ route('admin.services.index') }}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i> Back</a>
 </div>
+
+@push('scripts')
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+<script>
+    (function () {
+        const textarea = document.querySelector('#full_description');
+        if (!textarea) return;
+
+        let editorInstance = null;
+
+        ClassicEditor
+            .create(textarea, {
+                toolbar: [
+                    'heading', '|',
+                    'bold', 'italic', 'underline', 'link', '|',
+                    'bulletedList', 'numberedList', '|',
+                    'outdent', 'indent', '|',
+                    'blockQuote', 'insertTable', 'undo', 'redo'
+                ]
+            })
+            .then(editor => {
+                editorInstance = editor;
+
+                // Keep the underlying textarea in sync on every change
+                editor.model.document.on('change:data', () => {
+                    editor.updateSourceElement();
+                });
+            })
+            .catch(error => {
+                console.error('CKEditor failed to initialize:', error);
+            });
+
+        // Safety net: force-sync right before the form submits,
+        // in case the change event above hasn't fired yet.
+        const form = textarea.closest('form');
+        if (form) {
+            form.addEventListener('submit', function () {
+                if (editorInstance) {
+                    editorInstance.updateSourceElement();
+                }
+            });
+        }
+    })();
+</script>
+@endpush

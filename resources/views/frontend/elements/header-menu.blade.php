@@ -3,7 +3,7 @@
  <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
   <div class="container">
     <a class="navbar-brand d-flex align-items-center" href="index.php">  
-        <img src="images/Work_home_sefty_solution-header.png" alt="Company Logo" class="me-2" width="100%;" height="50px;">
+        <img src="public/frontend/images/Work_home_sefty_solution-header.png" alt="Company Logo" class="me-2" width="100%;" height="50px;">
         <span class="fs-5" style="font-style: poppins, sans-serif;">
           <b>WORK HOME</b>
           <br>
