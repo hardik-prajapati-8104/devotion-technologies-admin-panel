@@ -88,7 +88,7 @@
 </div>
 
 <!-- Search bar overlay -->
-<div class="container search-wrapper">
+{{-- <div class="container search-wrapper">
     <form class="search-bar">
 
         <div class="search-input">
@@ -103,8 +103,8 @@
         </button>
 
     </form>
-</div>
-
+</div> --}}
+@include('frontend.elements.service-search')
   <!-- Company Logo -->
   <div class="container">
       <div class="company-logo-section">
