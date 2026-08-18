@@ -15,8 +15,16 @@
     <div class="auth-wrapper">
         <div class="auth-card">
             <div class="brand-mark">
-                <img src="{{ url('public/backend/images/devotion-technology.png') }}" alt="Devotion Technology" width="100%" onerror="this.style.display='none'">
-                <h5 class="fw-semibold mt-4 mb-0">Admin Panel Login</h5> 
+                <a class="navbar-brand d-flex align-items-center" href="{{ route('admin.dashboard') }}">  
+                    <img src="{{ url('public/frontend/images/Work_home_sefty_solution-header.png') }}" alt="Company Logo" class="me-2" width="70px;" height="70px;">
+                    <span class="fs-3 text-dark" style="font-style: poppins, sans-serif; text-align:start;">
+                        <b>WORK HOME</b>
+                        <br>
+                        <b>SAFETY SOLUTION</b>
+                    </span>
+                </a>
+                {{-- <img src="{{ url('public/backend/images/devotion-technology.png') }}" alt="Devotion Technology" width="100%" onerror="this.style.display='none'"> --}}
+                <h5 class="fw-semibold mt-2 mb-0">Admin Panel Login</h5> 
             </div>
 
             @include('backend.layouts.partials.messages')
