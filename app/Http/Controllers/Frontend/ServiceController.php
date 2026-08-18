@@ -12,10 +12,15 @@ class ServiceController extends Controller
     /**
      * Display the Coming Soon page.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $categories = ServiceCategory::where('status', 1)->orderBy('name')->get();
+
         $services = Service::where('status', 1)->orderBy('display_order')->get();
-        return view('frontend.services', compact('services'));
+
+            // Which tab should be active on load, if any (from search or a direct link)
+        $activeCategory = $request->query('category'); // slug or null
+        return view('frontend.services', compact('services', 'categories', 'activeCategory'));
     }
 
       public function show(string $slug)

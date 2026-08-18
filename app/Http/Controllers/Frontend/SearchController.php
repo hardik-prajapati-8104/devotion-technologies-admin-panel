@@ -10,10 +10,6 @@ use Illuminate\Http\JsonResponse;
 
 class SearchController extends Controller
 {
-    /**
-     * AJAX endpoint: returns matching categories and services as JSON.
-     * Triggers only when the query is at least 2 characters.
-     */
     public function suggestions(Request $request): JsonResponse
     {
         $q = trim((string) $request->get('q', ''));
@@ -29,16 +25,30 @@ class SearchController extends Controller
             ->limit(6)
             ->get(['id', 'name', 'slug']);
 
+        // Match services by their own name OR their category's name,
+        // so searching "Deep Cleaning" (a category) still surfaces its services.
         $services = Service::query()
+            ->with('category:id,name,slug')
             ->where('status', 1)
-            ->where('name', 'like', '%'.$q.'%')
+            ->where(function ($query) use ($q) {
+                $query->where('name', 'like', '%'.$q.'%')
+                      ->orWhereHas('category', function ($catQuery) use ($q) {
+                          $catQuery->where('name', 'like', '%'.$q.'%');
+                      });
+            })
             ->orderBy('name')
-            ->limit(6)
+            ->limit(8)
             ->get(['id', 'name', 'slug', 'service_category_id', 'featured_image']);
 
         return response()->json([
             'categories' => $categories,
-            'services'   => $services,
+            'services'   => $services->map(fn ($s) => [
+                'id'             => $s->id,
+                'name'           => $s->name,
+                'slug'           => $s->slug,
+                'featured_image' => $s->featured_image,
+                'category_slug'  => $s->category->slug ?? null,
+            ]),
         ]);
     }
 }

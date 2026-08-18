@@ -176,7 +176,7 @@
                 html += '<div class="search-result-group-title">Categories</div>';
                 categories.forEach(cat => {
                     html += `
-                        <a href="${baseUrl}/services?category=${cat.id}" class="search-result-item">
+                        <a href="${baseUrl}/services?category=${encodeURIComponent(cat.slug)}#services-grid" class="search-result-item">
                             <i class="bi bi-grid"></i>
                             <span>${escapeHtml(cat.name)}</span>
                         </a>`;

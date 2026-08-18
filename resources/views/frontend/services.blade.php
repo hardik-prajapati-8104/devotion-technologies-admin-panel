@@ -100,56 +100,21 @@
 <!-- Services Search Bar -->
 <section class="services-filter-section py-4">
     <div class="container">
-
         <div class="services-filter-wrapper">
 
-            <div class="service-filter active" data-aos="fade-up">
-                <i class="bi bi-trophy"></i>
-                <span>Deep Cleaning</span>
+            <div class="service-filter active" data-aos="fade-up" data-filter="all">
+                <i class="bi bi-grid"></i>
+                <span>All</span>
             </div>
 
-            <div class="service-filter" data-aos="fade-up">
-                <i class="bi bi-trophy"></i>
-                <span>Apartment Cleaning</span>
-            </div>
-
-            <div class="service-filter" data-aos="fade-up">
-                <i class="bi bi-trophy"></i>
-                <span>Commercial Cleaning</span>
-            </div>
-
-            <div class="service-filter" data-aos="fade-up">
-                <i class="bi bi-trophy"></i>
-                <span>Carpet & Sofa</span>
-            </div>
-
-            <div class="service-filter" data-aos="fade-up">
-                <i class="bi bi-trophy"></i>
-                <span>Sports & Cricket Netting</span>
-            </div>
-
-            <div class="service-filter" data-aos="fade-up">
-                <i class="bi bi-shield-check"></i>
-                <span>Bird Spikes</span>
-            </div>
-
-            <div class="service-filter" data-aos="fade-up">
-                <i class="bi bi-grid-3x3-gap"></i>
-                <span>Bird Netting</span>
-            </div>
-
-            <div class="service-filter" data-aos="fade-up">
-                <i class="bi bi-bug"></i>
-                <span>Mosquito Protection</span>
-            </div>
-
-            <div class="service-filter" data-aos="fade-up">
-                <i class="bi bi-border-all"></i>
-                <span>Invisible Grills</span>
-            </div>
+            @foreach ($categories as $category)
+                <div class="service-filter" data-aos="fade-up" data-filter="{{ $category->slug }}">
+                    <i class="bi {{ $category->icon ?? 'bi-trophy' }}"></i>
+                    <span>{{ $category->name }}</span>
+                </div>
+            @endforeach
 
         </div>
-
     </div>
 </section>
 
@@ -162,10 +127,10 @@
         <p class="section-sub" data-aos="fade-up">Tailored packages for homes, apartments, offices and more.</p>
     </div>
 
-    <div class="row g-4">
+    <div class="row g-4" id="services-grid">
 
       @forelse ($services as $service)
-          <div class="col-md-6 col-lg-4" data-aos="fade-up">
+          <div class="col-md-6 col-lg-4 service-item" data-aos="fade-up" data-category="{{ $service->category->slug ?? '' }}">
               <div class="service-card">
                   <div class="img" style="background-image: url('{{ $service->featured_image ? url('storage/app/public/' . $service->featured_image) : url('public/frontend/images/s1.jpg') }}');"></div>
                   <div class="body">
@@ -178,14 +143,48 @@
               </div>
           </div>
       @empty
-          <div class="col-12 text-center text-muted py-5">
+          <div class="col-12 text-center text-muted py-5" id="no-services-msg">
               No services available right now — check back soon.
           </div>
       @endforelse
 
-  </div>
-
+    </div>
   </div>
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const filters = document.querySelectorAll('.service-filter');
+        const items = document.querySelectorAll('.service-item');
+
+        function applyFilter(selected) {
+            filters.forEach(f => f.classList.toggle('active', f.dataset.filter === selected));
+
+            let visibleCount = 0;
+            items.forEach(item => {
+                const match = selected === 'all' || item.dataset.category === selected;
+                item.style.display = match ? '' : 'none';
+                if (match) visibleCount++;
+            });
+
+            const noMsg = document.getElementById('no-services-msg');
+            if (noMsg) noMsg.style.display = visibleCount === 0 ? '' : 'none';
+        }
+
+        filters.forEach(filter => {
+            filter.addEventListener('click', function () {
+                applyFilter(this.dataset.filter);
+            });
+        });
+
+        // Auto-apply category from URL (?category=slug), e.g. arriving from search
+        const params = new URLSearchParams(window.location.search);
+        const initial = params.get('category');
+        if (initial && [...filters].some(f => f.dataset.filter === initial)) {
+            applyFilter(initial);
+            document.getElementById('services-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+</script>
 
  @endsection
