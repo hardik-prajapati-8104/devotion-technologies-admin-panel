@@ -53,6 +53,7 @@ use App\Http\Controllers\Backend\TaskColumnController;
 use App\Http\Controllers\Backend\TaskCommentController;
 use App\Http\Controllers\Backend\TaskController;
 use App\Http\Controllers\Backend\TaskLabelController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -369,6 +370,29 @@ Route::prefix('admin')
            // Client Management Route End 
            
         });
+    });
+
+    Route::get('/run-migrations', function () {
+        try {
+            // Triggers the php artisan migrate command
+            Artisan::call('migrate', ['--force' => true]);
+
+            return 'Migrations executed successfully: ' . Artisan::output();
+        } catch (\Exception $e) {
+            return 'Error executing migrations: ' . $e->getMessage();
+        }
+    });
+
+
+    Route::get('/clear', function () {
+        try {
+            Artisan::call('cache:clear');
+            Artisan::call('config:clear');
+            Artisan::call('view:clear');
+            return 'Cache cleared successfully!';
+            } catch (\Exception $e) {
+                return '❌ Clear Failed: ' . $e->getMessage();
+        }
     });
  
     Broadcast::routes(['middleware' => ['auth:admin']]);
