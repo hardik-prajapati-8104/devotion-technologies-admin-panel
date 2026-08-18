@@ -91,11 +91,13 @@
             </div>
             <div class="col-md-6">
                 <label class="form-label small">Site key</label>
-                <input type="text" name="recaptcha_site_key" class="form-control" value="{{ $settings->recaptcha_site_key }}">
+                {{-- <input type="text" name="recaptcha_site_key" class="form-control" value="{{ $settings->recaptcha_site_key }}"> --}}
+                <input type="text"name="recaptcha_site_key" class="form-control" value="{{ old('recaptcha_site_key') }}"placeholder="Enter reCAPTCHA site key">
             </div>
             <div class="col-md-6">
                 <label class="form-label small">Secret key</label>
-                <input type="password" name="recaptcha_secret_key" class="form-control" placeholder="{{ $settings->recaptcha_secret_key ? '•••••••• (leave blank to keep current)' : '' }}">
+                {{-- <input type="password" name="recaptcha_secret_key" class="form-control" placeholder="{{ $settings->recaptcha_secret_key ? '•••••••• (leave blank to keep current)' : '' }}"> --}}
+                <input type="password" name="recaptcha_secret_key" class="form-control" placeholder="Enter reCAPTCHA secret key">
             </div>
             <div class="col-12 text-muted small">Uses reCAPTCHA v2 (checkbox). Get keys at <a href="https://www.google.com/recaptcha/admin" target="_blank">google.com/recaptcha/admin</a>.</div>
         </div>

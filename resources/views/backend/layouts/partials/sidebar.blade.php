@@ -1,15 +1,15 @@
 <aside class="admin-sidebar" id="adminSidebar">
     <div class="sidebar-brand">
-        {{-- <img class="brand-logo-full" src="{{ url('public/backend/images/devotion-technology.png') }}" alt="Devotion Technology" onerror="this.style.display='none'" width="100%"> --}}
-        <a class="navbar-brand d-flex align-items-center" href="{{ route('admin.dashboard') }}">  
+        <img class="brand-logo-full" src="{{ url('public/backend/images/devotion-technology.png') }}" alt="Devotion Technology" onerror="this.style.display='none'" width="100%">
+        {{-- <a class="navbar-brand d-flex align-items-center" href="{{ route('admin.dashboard') }}">  
             <img src="{{ url('public/frontend/images/Work_home_sefty_solution-footer.png') }}" alt="Company Logo" class="me-2" width="50px;" height="50px;">
             <span class="fs-6 text-white" style="font-style: poppins, sans-serif; text-align:start;">
                 <b>WORK HOME</b>
                 <br>
                 <b>SAFETY SOLUTION</b>
             </span>
-        </a>
-        {{-- <img class="brand-logo-icon" src="{{ url('public/backend/images/favicon.png') }}" alt="Devotion Technology" onerror="this.style.display='none'"> --}}
+        </a> --}}
+        <img class="brand-logo-icon" src="{{ url('public/backend/images/favicon.png') }}" alt="Devotion Technology" onerror="this.style.display='none'">
     </div>
 
     <nav class="sidebar-nav">
