@@ -33,6 +33,7 @@ use App\Http\Controllers\Backend\AnnouncementController;
 use App\Http\Controllers\Backend\Auth\PasswordChangeController;
 use App\Http\Controllers\Backend\Auth\TwoFactorController;
 use App\Http\Controllers\Backend\BackupController;
+use App\Http\Controllers\Backend\BookingEnquiryController;
 use App\Http\Controllers\Backend\ChatController;
 use App\Http\Controllers\Backend\ChatGroupController;
 use App\Http\Controllers\Backend\ChatMessageController;
@@ -53,6 +54,9 @@ use App\Http\Controllers\Backend\TaskColumnController;
 use App\Http\Controllers\Backend\TaskCommentController;
 use App\Http\Controllers\Backend\TaskController;
 use App\Http\Controllers\Backend\TaskLabelController;
+use App\Mail\NewBookingEnquiryMail;
+use App\Models\BookingEnquiry;
+use App\Models\ServiceCategory;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Broadcast;
 
@@ -383,6 +387,9 @@ Route::prefix('admin')
                 Route::delete('/custom/{setting}', [SettingController::class, 'destroyCustom'])->name('custom.destroy');
             });
 
+            Route::post('/booking-enquiries', [BookingEnquiryController::class, 'store'])->middleware('throttle:booking-enquiries')->name('booking-enquiries.store');
+
+
            
         });
     });
@@ -409,6 +416,29 @@ Route::prefix('admin')
                 return '❌ Clear Failed: ' . $e->getMessage();
         }
     });
+
+        if (app()->environment('local')) {
+        Route::get('/preview/booking-email', function () {
+            // Build a fake, unsaved enquiry so nothing touches the database.
+            $enquiry = new BookingEnquiry([
+                'full_name'  => 'Jane Doe',
+                'phone'      => '+91 98765 43210',
+                'email'      => 'jane.doe@example.com',
+                'address'    => '221B Baker Street, Surat, Gujarat',
+                'description'=> "Two cats in the house, please avoid strong chemical smells.\nParking available in the driveway.",
+            ]);
+
+            // Fake the id/created_at since this row was never saved.
+            $enquiry->id = 999;
+            $enquiry->created_at = now();
+
+            // Attach a real or fake service category so $enquiry->serviceCategory->name works.
+            $category = ServiceCategory::first() ?? new ServiceCategory(['name' => 'Deep Cleaning']);
+            $enquiry->setRelation('serviceCategory', $category);
+
+            return new NewBookingEnquiryMail($enquiry);
+        });
+    }
  
     Broadcast::routes(['middleware' => ['auth:admin']]);
 
