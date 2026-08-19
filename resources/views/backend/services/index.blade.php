@@ -109,7 +109,7 @@
                         <td>
                             <div class="d-flex align-items-center gap-2">
                                 @if ($service->featured_image)
-                                    <img src="{{ url('public/storage/'.$service->featured_image) }}" width="36" height="36" class="rounded" style="object-fit:cover;">
+                                    <img src="{{ asset('storage/app/public/'.$service->featured_image) }}" width="36" height="36" class="rounded" style="object-fit:cover;">
                                 @elseif ($service->icon)
                                     <i class="bi {{ $service->icon }}"></i>
                                 @endif

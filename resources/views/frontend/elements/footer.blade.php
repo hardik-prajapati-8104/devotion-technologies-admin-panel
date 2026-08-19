@@ -122,12 +122,31 @@
   </div>
 </footer>
 
-<a href="https://wa.me/919173307640?text=Hello%20Work%20Home%20Safety%20Solution,%0A%0AI%20would%20like%20to%20know%20more%20about%20your%20services.%20Please%20share%20the%20details.%0A%0AThank%20you."
-   target="_blank"
-   class="whatsapp-float"
-   aria-label="Chat on WhatsApp">
-    <i class="bi bi-whatsapp"></i>
-</a>
+  {{-- <a href="https://wa.me/919173307640?text=Hello%20Work%20Home%20Safety%20Solution,%0A%0AI%20would%20like%20to%20know%20more%20about%20your%20services.%20Please%20share%20the%20details.%0A%0AThank%20you."
+    target="_blank"
+    class="whatsapp-float"
+    aria-label="Chat on WhatsApp">
+      <i class="bi bi-whatsapp"></i>
+  </a> --}}
+
+  @if(($configurations['whatsapp_enabled'] ?? false) && !empty($configurations['whatsapp_number']))
+      @php
+          $whatsappNumber = preg_replace('/\D+/', '', $configurations['whatsapp_number']);
+
+          $whatsappMessage = $configurations['whatsapp_message']
+              ?? 'Hello Work Home Safety Solution, I would like to know more about your services. Please share the details. Thank you.';
+
+          $whatsappUrl = 'https://wa.me/' . $whatsappNumber . '?text=' . urlencode($whatsappMessage);
+      @endphp
+
+      <a href="{{ $whatsappUrl }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="whatsapp-float"
+        aria-label="Chat on WhatsApp">
+          <i class="bi bi-whatsapp"></i>
+      </a>
+  @endif
 
 <style>
     .whatsapp-float{

@@ -15,11 +15,16 @@
 
 @section('admin-content')
 
+@if (session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+
 <ul class="nav nav-tabs mb-3">
     <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-general" type="button">General</button></li>
     <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-social" type="button">Social Media</button></li>
     <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-contact" type="button">Contact</button></li>
     <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-smtp" type="button">SMTP</button></li>
+    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-custom" type="button">Custom Settings</button></li>
 </ul>
 
 <div class="tab-content">
@@ -164,5 +169,117 @@
         </div>
     </div>
 
+    <!-- Custom Settings (dynamic CRUD) -->
+    <div class="tab-pane fade" id="tab-custom">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <p class="text-muted small mb-0">Add, edit, or remove arbitrary key/value settings not covered by the tabs above.</p>
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#customSettingModal" onclick="openCustomModal()">
+                        <i class="bi bi-plus-lg me-1"></i> Add Setting
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-sm align-middle">
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Value</th>
+                                <th>Group</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($customSettings as $custom)
+                                <tr>
+                                    <td><code>{{ $custom->key }}</code></td>
+                                    <td class="text-truncate" style="max-width: 320px;">{{ $custom->value }}</td>
+                                    <td><span class="badge bg-secondary">{{ $custom->group }}</span></td>
+                                    <td class="text-end">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm"
+                                            data-bs-toggle="modal" data-bs-target="#customSettingModal"
+                                            onclick="openCustomModal({{ $custom->id }}, '{{ addslashes($custom->key) }}', '{{ addslashes($custom->value) }}', '{{ addslashes($custom->group) }}')">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <form action="{{ route('admin.settings.custom.destroy', $custom->id) }}" method="POST" class="d-inline"
+                                              onsubmit="return confirm('Delete setting &quot;{{ $custom->key }}&quot;? This cannot be undone.');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr><td colspan="4" class="text-center text-muted py-4">No custom settings yet.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </div>
+
+<!-- Custom Setting Create/Edit Modal (shared) -->
+<div class="modal fade" id="customSettingModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="customSettingForm" method="POST">
+            @csrf
+            <div id="customSettingMethod"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="customSettingModalTitle">Add Setting</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label small fw-medium">Key</label>
+                        <input type="text" name="key" id="customSettingKey" class="form-control" required
+                               pattern="[a-z][a-z0-9_]*" placeholder="e.g. maintenance_mode">
+                        <div class="form-text">Lowercase snake_case, starts with a letter.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-medium">Value</label>
+                        <textarea name="value" id="customSettingValue" class="form-control" rows="2"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-medium">Group</label>
+                        <input type="text" name="group" id="customSettingGroup" class="form-control" placeholder="custom">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i> Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openCustomModal(id, key, value, group) {
+        const form = document.getElementById('customSettingForm');
+        const methodField = document.getElementById('customSettingMethod');
+        const title = document.getElementById('customSettingModalTitle');
+
+        document.getElementById('customSettingKey').value = key ?? '';
+        document.getElementById('customSettingValue').value = value ?? '';
+        document.getElementById('customSettingGroup').value = group ?? '';
+
+        if (id) {
+            title.textContent = 'Edit Setting';
+            form.action = "{{ url('admin/settings/custom') }}/" + id;
+            methodField.innerHTML = '@method('PUT')';
+        } else {
+            title.textContent = 'Add Setting';
+            form.action = "{{ route('admin.settings.custom.store') }}";
+            methodField.innerHTML = '';
+        }
+    }
+</script>
+
 @endsection

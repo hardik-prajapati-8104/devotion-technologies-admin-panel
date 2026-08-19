@@ -45,7 +45,7 @@
         <input type="file" class="form-control @error('profile_image') is-invalid @enderror" id="profile_image" name="profile_image" accept="image/png,image/jpeg,image/webp">
         @error('profile_image') <div class="invalid-feedback">{{ $message }}</div> @enderror
         @if ($isEdit && $admin->profile_image)
-            <img src="{{ asset('storage/'.$admin->profile_image) }}" class="rounded mt-2" width="56" height="56" style="object-fit:cover;">
+            <img src="{{ asset('storage/app/public/'.$admin->profile_image) }}" class="rounded mt-2" width="56" height="56" style="object-fit:cover;">
         @endif
     </div>
 

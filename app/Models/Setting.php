@@ -24,13 +24,11 @@ class Setting extends Model
     }
 
     /**
-     * Set a setting value.
+     * Set a setting value. Creates the row if it doesn't exist yet,
+     * otherwise updates it in place (matched on `key`).
      */
-    public static function set(
-        string $key,
-        $value,
-        string $group = 'general'
-    ): void {
+    public static function set(string $key, $value, string $group = 'general'): void
+    {
         self::updateOrCreate(
             ['key' => $key],
             [
@@ -38,6 +36,17 @@ class Setting extends Model
                 'group' => $group,
             ]
         );
+
+        Cache::forget('settings.all');
+    }
+
+    /**
+     * Delete a setting by key. Used by the dynamic Custom Settings CRUD
+     * (also usable directly, e.g. in tinker or a seeder/cleanup script).
+     */
+    public static function remove(string $key): void
+    {
+        self::where('key', $key)->delete();
 
         Cache::forget('settings.all');
     }
@@ -53,7 +62,7 @@ class Setting extends Model
     }
 
     /**
-     * Get all settings.
+     * Get all settings, cached forever (invalidated on every write/delete).
      */
     public static function allSettings(): array
     {

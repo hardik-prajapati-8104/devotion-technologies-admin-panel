@@ -49,7 +49,7 @@
                     <td class="text-center">{{ $loop->index + 1 }}</td>
                     <td>
                         <div class="d-flex align-items-center gap-2">
-                            <img src="{{ $data->profile_image ? url('public/storage/'.$data->profile_image) : 'https://ui-avatars.com/api/?background=aa8038&color=fff&name='.urlencode($data->name) }}"
+                            <img src="{{ $data->profile_image ? asset('storage/app/public/' . $data->profile_image) : 'https://ui-avatars.com/api/?background=aa8038&color=fff&name='.urlencode($data->name) }}"
                                  class="rounded-circle" width="32" height="32" style="object-fit:cover;">
                             {{ $data->name }}
                         </div>

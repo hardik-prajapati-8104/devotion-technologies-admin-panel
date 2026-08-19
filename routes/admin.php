@@ -368,6 +368,21 @@ Route::prefix('admin')
            Route::delete('clients/bulk-delete', [ClientController::class, 'bulkDestroy'])->name('clients.bulk-destroy');
            Route::post('clients/{id}/toggle-status', [ClientController::class, 'toggleStatus'])->name('clients.toggle-status');
            // Client Management Route End 
+
+           Route::prefix('settings')->name('settings.')->group(function () {
+                Route::get('/',        [SettingController::class, 'index'])->name('index');
+
+                Route::put('/general', [SettingController::class, 'updateGeneral'])->name('general.update');
+                Route::put('/social',  [SettingController::class, 'updateSocial'])->name('social.update');
+                Route::put('/contact', [SettingController::class, 'updateContact'])->name('contact.update');
+                Route::put('/smtp',    [SettingController::class, 'updateSmtp'])->name('smtp.update');
+
+                // Dynamic Custom Settings CRUD
+                Route::post('/custom',             [SettingController::class, 'storeCustom'])->name('custom.store');
+                Route::put('/custom/{setting}',    [SettingController::class, 'updateCustom'])->name('custom.update');
+                Route::delete('/custom/{setting}', [SettingController::class, 'destroyCustom'])->name('custom.destroy');
+            });
+
            
         });
     });
