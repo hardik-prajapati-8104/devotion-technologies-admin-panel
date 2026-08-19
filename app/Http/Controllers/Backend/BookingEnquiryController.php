@@ -5,30 +5,23 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Mail\NewBookingEnquiryMail;
 use App\Models\BookingEnquiry;
+use App\Models\Setting;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class BookingEnquiryController extends Controller
-
 {
-    /**
-     * Where the "New Booking Enquiry" notification email is sent.
-     * Move this to config/mail.php or a Setting (see the Settings page
-     * built earlier) if you want it editable from the admin panel later.
-     */
-    private const NOTIFY_EMAIL = 'hardikprajapati8104@gmail.com';
-
     public function store(Request $request): JsonResponse
     {
         $data = $request->validate([
-            'full_name'            => 'required|string|max:150',
-            'phone'                => 'required|string|max:30',
-            'email'                => 'required|email|max:150',
-            'service_category_id'  => 'required|integer|exists:service_categories,id',
-            'address'               => 'required|string|max:500',
-            'description'           => 'nullable|string|max:2000',
+            'full_name'           => 'required|string|max:150',
+            'phone'               => 'required|string|max:30',
+            'email'               => 'required|email|max:150',
+            'service_category_id' => 'required|integer|exists:service_categories,id',
+            'address'             => 'required|string|max:500',
+            'description'         => 'nullable|string|max:2000',
         ], [
             'service_category_id.required' => 'Please select a service.',
             'service_category_id.exists'   => 'Please select a valid service.',
@@ -37,19 +30,40 @@ class BookingEnquiryController extends Controller
         $data['ip_address'] = $request->ip();
         $data['user_agent'] = substr((string) $request->userAgent(), 0, 255);
 
-        // 1. Always save to the database first. The booking must never be
-        //    "lost" just because the mail server is briefly unreachable.
+        // Save enquiry first
         $enquiry = BookingEnquiry::create($data);
 
-        // 2. Then try to email a notification. Failure here is logged but
-        //    does not fail the request — the customer still gets a success
-        //    response and the enquiry is safely in the database either way.
+        /*
+         * Get notification email dynamically from settings table.
+         * Fallback email is used if the setting doesn't exist.
+         */
+        $notifyEmail = Setting::get(
+            'booking_notification_email',
+            'hardikprajapati8104@gmail.com'
+        );
+
+        // Send notification email
         try {
-            Mail::to(self::NOTIFY_EMAIL)->send(new NewBookingEnquiryMail($enquiry));
-            $enquiry->update(['email_sent' => true]);
+            if ($notifyEmail && filter_var($notifyEmail, FILTER_VALIDATE_EMAIL)) {
+
+                Mail::to($notifyEmail)
+                    ->send(new NewBookingEnquiryMail($enquiry));
+
+                $enquiry->update([
+                    'email_sent' => true
+                ]);
+            } else {
+                Log::warning('Invalid booking notification email configured.', [
+                    'enquiry_id' => $enquiry->id,
+                    'email'      => $notifyEmail,
+                ]);
+            }
+
         } catch (\Throwable $e) {
+
             Log::error('Booking enquiry email failed to send.', [
                 'enquiry_id' => $enquiry->id,
+                'email'      => $notifyEmail,
                 'error'      => $e->getMessage(),
             ]);
         }

@@ -59,6 +59,7 @@
                         <div class="col-md-6">
                             <x-admin.image-upload name="site_favicon" label="Favicon" :existing="$settings['site_favicon'] ?? null" />
                         </div>
+
                     </div>
                     <button type="submit" class="btn btn-primary mt-3"><i class="bi bi-save me-1"></i> Save General Settings</button>
                 </form>
