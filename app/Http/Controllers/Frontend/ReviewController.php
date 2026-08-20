@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;   // <-- Add this line
+use App\Models\Testimonial;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller
@@ -12,6 +13,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        return view('frontend.reviews');
+         $reviews = Testimonial::active()->ordered()->get();
+        return view('frontend.reviews', compact('reviews'));
     }
 }

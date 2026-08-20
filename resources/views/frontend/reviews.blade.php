@@ -180,161 +180,66 @@
             </div>
 
             <!-- Review Stats -->
-            <div class="row g-4 mb-5">
+           <div class="row g-4 mb-5">
 
-                <div class="col-6 col-md-3" data-aos="fade-up">
-                    <div class="review-stat-card">
-                        <h2>4.9★</h2>
-                        <p>Average Rating</p>
-                    </div>
+            <div class="col-6 col-md-3" data-aos="fade-up">
+                <div class="review-stat-card">
+                    <h2>{{ $configurations['stat_average_rating'] ?? '0' }}★</h2>
+                    <p>Average Rating</p>
                 </div>
-
-                <div class="col-6 col-md-3" data-aos="fade-up">
-                    <div class="review-stat-card">
-                        <h2>500+</h2>
-                        <p>Happy Clients</p>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3" data-aos="fade-up">
-                    <div class="review-stat-card">
-                        <h2>98%</h2>
-                        <p>Satisfaction Rate</p>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3" data-aos="fade-up">
-                    <div class="review-stat-card">
-                        <h2>1000+</h2>
-                        <p>Services Completed</p>
-                    </div>
-                </div>
-
             </div>
+
+            <div class="col-6 col-md-3" data-aos="fade-up">
+                <div class="review-stat-card">
+                    <h2>{{ $configurations['stat_happy_clients'] ?? '0' }}</h2>
+                    <p>Happy Clients</p>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-3" data-aos="fade-up">
+                <div class="review-stat-card">
+                    <h2>{{ $configurations['stat_satisfaction_rate'] ?? '0' }}</h2>
+                    <p>Satisfaction Rate</p>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-3" data-aos="fade-up">
+                <div class="review-stat-card">
+                    <h2>{{ $configurations['stat_services_completed'] ?? '0' }}</h2>
+                    <p>Services Completed</p>
+                </div>
+            </div>
+
+        </div>
 
             <!-- Reviews -->
             <div class="row g-4">
 
-                <div class="col-md-6 col-lg-4" data-aos="fade-up">
-                    <div class="review-card">
-                        <div class="review-top">
-                            <img src="{{ url('public/frontend/images/testimonial/team-1.jpg') }}" alt="">
-                            <div>
-                                <h5>John Smith</h5>
-                                <small>Residential Cleaning</small>
+                @forelse ($reviews as $review)
+                    <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                        <div class="review-card">
+                            <div class="review-top">
+                                <img src="{{ $review->profile_image ? asset('storage/' . $review->profile_image) : url('public/frontend/images/testimonial/default-avatar.jpg') }}" alt="{{ $review->client_name }}">
+                                <div>
+                                    <h5>{{ $review->client_name }}</h5>
+                                    <small>{{ $review->designation ?? $review->company }}</small>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="stars">
-                            ★★★★★
-                        </div>
-
-                        <p>
-                            The team did an amazing job. My home has never looked this clean.
-                            Professional staff and excellent service.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4" data-aos="fade-up">
-                    <div class="review-card">
-                        <div class="review-top">
-                            <img src="{{ url('public/frontend/images/testimonial/team-2.jpg') }}" alt="">
-                            <div>
-                                <h5>Sarah Johnson</h5>
-                                <small>Office Cleaning</small>
+                            <div class="stars">
+                                {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
                             </div>
-                        </div>
 
-                        <div class="stars">
-                            ★★★★★
+                            <p>
+                                {{ $review->testimonial }}
+                            </p>
                         </div>
-
-                        <p>
-                            Reliable and punctual service. Our office looks spotless after every visit.
-                        </p>
                     </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4" data-aos="fade-up">
-                    <div class="review-card">
-                        <div class="review-top">
-                            <img src="{{ url('public/frontend/images/testimonial/team-3.jpg') }}" alt="">
-                            <div>
-                                <h5>Michael Brown</h5>
-                                <small>Deep Cleaning</small>
-                            </div>
-                        </div>
-
-                        <div class="stars">
-                            ★★★★★
-                        </div>
-
-                        <p>
-                            Outstanding deep cleaning service. Every corner was cleaned perfectly.
-                        </p>
+                @empty
+                    <div class="col-12 text-center text-muted py-4">
+                        No reviews yet.
                     </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4" data-aos="fade-up">
-                    <div class="review-card">
-                        <div class="review-top">
-                            <img src="{{ url('public/frontend/images/testimonial/team-4.jpg') }}" alt="">
-                            <div>
-                                <h5>Emily Davis</h5>
-                                <small>Apartment Cleaning</small>
-                            </div>
-                        </div>
-
-                        <div class="stars">
-                            ★★★★★
-                        </div>
-
-                        <p>
-                            Friendly staff and easy booking process. Highly recommended.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4" data-aos="fade-up">
-                    <div class="review-card">
-                        <div class="review-top">
-                            <img src="{{ url('public/frontend/images/testimonial/team-1.jpg') }}" alt="">
-                            <div>
-                                <h5>David Wilson</h5>
-                                <small>Commercial Cleaning</small>
-                            </div>
-                        </div>
-
-                        <div class="stars">
-                            ★★★★★
-                        </div>
-
-                        <p>
-                            Excellent service quality and attention to detail. Great experience.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4" data-aos="fade-up">
-                    <div class="review-card">
-                        <div class="review-top">
-                            <img src="{{ url('public/frontend/images/testimonial/team-2.jpg') }}" alt="">
-                            <div>
-                                <h5>Lisa Taylor</h5>
-                                <small>Move-In Cleaning</small>
-                            </div>
-                        </div>
-
-                        <div class="stars">
-                            ★★★★★
-                        </div>
-
-                        <p>
-                            The cleaners exceeded expectations. Everything was fresh and spotless.
-                        </p>
-                    </div>
-                </div>
+                @endforelse
 
             </div>
 
@@ -344,7 +249,7 @@
                 <p>
                     Join hundreds of satisfied customers and book your cleaning service today.
                 </p>
-                <a href="booking.html" class="btn btn-review">
+                <a href="{{ route('booking') }}" class="btn btn-review">
                     Book Now
                 </a>
             </div>

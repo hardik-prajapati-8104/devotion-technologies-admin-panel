@@ -316,15 +316,19 @@
                 Our cleaning experts are available to help you book or answer your questions.
             </p>
 
-            <a href="tel:+91 9173307640" class="btn call-btn">
+            @if($configurations['contact_phone'] ?? null)
+            <a href="tel: {{ $configurations['contact_phone'] }}" class="btn call-btn">
                 <i class="bi bi-telephone-fill me-2"></i>
                 Call Now
             </a>
+            @endif
 
-            <a href="mailto:hardikprajapati8104@gmail.com" class="btn call-btn mt-2">
-                <i class="bi bi-envelope-fill me-2"></i>
-                hardikprajapati8104@gmail.com
-            </a>
+             @if($configurations['contact_email'] ?? null)
+                <a href="mailto:{{ $configurations['contact_email'] }}" class="btn call-btn mt-2">
+                    <i class="bi bi-envelope-fill me-2"></i>
+                    {!! $configurations['contact_email'] !!}
+                </a>
+            @endif
         </div>
 
     </div>
