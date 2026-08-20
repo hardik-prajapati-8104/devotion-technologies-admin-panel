@@ -11,7 +11,7 @@
 
     @if ($existing)
         <div class="mt-2">
-            <img src="{{ url('public/storage/'.$existing) }}" class="rounded border" width="72" height="72" style="object-fit:cover;">
+            <img src="{{ url('storage/app/public/'.$existing) }}" class="rounded border" width="300px;" height="auto" style="object-fit:fill;">
         </div>
     @endif
 </div>

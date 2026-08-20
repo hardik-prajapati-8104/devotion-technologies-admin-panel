@@ -23,7 +23,11 @@
                         <b>SAFETY SOLUTION</b>
                     </span>
                 </a> --}}
-                <img src="{{ url('public/backend/images/devotion-technology.png') }}" alt="Devotion Technology" width="100%" onerror="this.style.display='none'">
+                {{-- <img src="{{ url('public/backend/images/devotion-technology.png') }}" alt="Devotion Technology" width="100%" onerror="this.style.display='none'"> --}}
+                <img src="{{ isset($configurations['site_logo']) ? asset('storage/app/public/' . $configurations['site_logo']) : url('public/backend/images/devotion-technology.png') }}"
+                    alt="{{ config('app.name') }}"
+                    width="100%"
+                    onerror="this.onerror=null;this.src='{{ url('public/backend/images/devotion-technology.png') }}';">
                 <h5 class="fw-semibold mt-2 mb-0">Admin Panel Login</h5> 
             </div>
 
