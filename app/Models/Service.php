@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Service extends Model
 {
@@ -13,7 +14,7 @@ class Service extends Model
     protected $fillable = [
         'service_category_id', 'name', 'slug', 'short_description', 'full_description',
         'featured_image', 'icon', 'display_order', 'is_featured', 'status',
-        'seo_title', 'meta_description', 'og_image',
+        'seo_title', 'meta_description', 'og_image','brochure'
     ];
 
     protected $casts = [
@@ -34,5 +35,10 @@ class Service extends Model
     public function scopeOrdered($query)
     {
         return $query->orderBy('display_order')->orderBy('name');
+    }
+
+        public function getHasBrochureAttribute(): bool
+    {
+        return $this->brochure && Storage::disk('public')->exists($this->brochure);
     }
 }

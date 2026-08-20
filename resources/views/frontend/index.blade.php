@@ -22,7 +22,7 @@
 
                 <div class="about-img-wrapper">
 
-                    <img src="{{ url('public/frontend/images/about-img1.jpg') }}" alt="About Us" class="img-fluid about-img" loading="lazy">
+                    <img src="{{ url('public/frontend/images/work.jpeg') }}" alt="About Us" class="about-img" loading="lazy" height="500px;">
 
                     <div class="experience-box">
                         <h3>10+</h3>
@@ -264,25 +264,6 @@
         }
     }
 </style>
- 
-<!-- CATEGORIES -->
-<section class="category-sec d-none">
-  <div class="container">
-    <div class="text-center">
-      <span class="eyebrow">Categories</span>
-      <h2 class="section-title">Browse by Service Type</h2>
-      <p class="section-sub">Pick the service that fits your need — every booking includes vetted pros and supplies.</p>
-    </div>
-    <div class="row g-3">
-      <div class="col-6 col-md-3 col-lg-2"><div class="cat-tile"><i class="bi bi-house-heart"></i><h6>Home</h6></div></div>
-      <div class="col-6 col-md-3 col-lg-2"><div class="cat-tile"><i class="bi bi-building"></i><h6>Office</h6></div></div>
-      <div class="col-6 col-md-3 col-lg-2"><div class="cat-tile"><i class="bi bi-droplet-half"></i><h6>Deep Clean</h6></div></div>
-      <div class="col-6 col-md-3 col-lg-2"><div class="cat-tile"><i class="bi bi-window"></i><h6>Windows</h6></div></div>
-      <div class="col-6 col-md-3 col-lg-2"><div class="cat-tile"><i class="bi bi-flower1"></i><h6>Carpet</h6></div></div>
-      <div class="col-6 col-md-3 col-lg-2"><div class="cat-tile"><i class="bi bi-truck"></i><h6>Move In/Out</h6></div></div>
-    </div>
-  </div>
-</section>
 
 <!-- service section start-->
 <section class="category-section py-5">
@@ -300,79 +281,17 @@
         </div>
 
         <div class="row g-4" data-aos="fade-up">
-
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="service-category-card active">
-                    <div class="service-icon">
-                        <i class="bi bi-trophy"></i>
-                    </div> 
-                    <h6>Invisible Grills</h6>
-                </div>
-            </div>
-
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="service-category-card">
-                    <div class="service-icon">
-                        <i class="bi bi-shield-check"></i>
-                    </div> 
-                    <h6>Bird Netting</h6>
-                </div>
-            </div>
-
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="service-category-card">
-                    <div class="service-icon">
-                        <i class="bi bi-grid-3x3-gap"></i>
+            @foreach ($categories as $index => $category)
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="service-category-card {{ $index === 0 ? 'active' : '' }}"
+                        data-slug="{{ $category->slug }}">
+                        <div class="service-icon">
+                            <i class="bi {{ $category->icon ?? 'bi-shield-check' }}"></i>
+                        </div>
+                        <h6>{{ $category->name }}</h6>
                     </div>
-                    <h6>Mosquito Protection</h6> 
                 </div>
-            </div>
-
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="service-category-card">
-                    <div class="service-icon">
-                        <i class="bi bi-bug"></i>
-                    </div>
-                    <h6>Bird Spikes</h6>
-                </div>
-            </div>
-
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="service-category-card">
-                    <div class="service-icon">
-                        <i class="bi bi-border-all"></i>
-                    </div> 
-                    <h6>Sports & Cricket Netting</h6>
-                </div>
-            </div>
-
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="service-category-card">
-                    <div class="service-icon">
-                        <i class="bi bi-building"></i>
-                    </div>
-                    <h6>Balcony Safety Nets</h6>
-                </div>
-            </div>
-
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="service-category-card">
-                    <div class="service-icon">
-                        <i class="bi bi-stars"></i>
-                    </div>
-                    <h6>Sliding Mosquito Nets</h6>
-                </div>
-            </div>
-
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="service-category-card">
-                    <div class="service-icon">
-                        <i class="bi bi-house-heart"></i>
-                    </div>
-                    <h6>Stainless Steel Invisible Grills</h6>
-                </div>
-            </div>
-
+            @endforeach
         </div>
 
     </div>
@@ -511,95 +430,36 @@
       <p class="section-sub" data-aos="fade-up">Trusted favorites — chosen by thousands of customers.</p>
     </div>
     <div class="swiper services-swiper" data-aos="fade-up">
+      
       <div class="swiper-wrapper pb-5">
 
-
-        <div class="swiper-slide">
-            <div class="service-card">
-                <div class="img" style="background-image:url(public/frontend/images/s1.jpg)"></div>
-                <div class="body">
-                    <h5>Deep Cleaning</h5>
-                    <p class="text-muted small">Top-to-bottom intensive clean for every room.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="price">From $89</span>
-                        <a href="booking.html" class="btn btn-sm btn-outline-orange">Book</a>
+            @forelse ($services as $service)
+                <div class="swiper-slide">
+                    <div class="service-card">
+                        <div class="img" style="background-image:url({{ asset('storage/app/public/' . $service->featured_image) }})"></div>
+                        <div class="body">
+                            <h5>{{ $service->name }}</h5>
+                            <p class="text-muted small">{{ Str::limit($service->short_description, 60) }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price">
+                                    @if ($service->price)
+                                        Start From ₹{{ number_format($service->price) }}
+                                    @else
+                                        Start From
+                                    @endif
+                                </span>
+                                <a href="{{ route('booking', $service->id) }}" class="btn btn-sm btn-outline-orange">Book Now</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="swiper-slide">
-            <div class="service-card">
-                <div class="img" style="background-image:url(public/frontend/images/s2.jpg)"></div>
-                <div class="body">
-                    <h5>Apartment Cleaning</h5>
-                    <p class="text-muted small">Regular weekly or bi-weekly tidy and clean.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="price">From $59</span>
-                        <a href="booking.html" class="btn btn-sm btn-outline-orange">Book</a>
-                    </div>
+            @empty
+                <div class="swiper-slide">
+                    <p class="text-muted">No services available right now.</p>
                 </div>
-            </div>
-        </div>
+            @endforelse
 
-        <div class="swiper-slide">
-            <div class="service-card">
-                <div class="img" style="background-image:url(public/frontend/images/s3.jpg)"></div>
-                <div class="body">
-                    <h5>Commercial Cleaning</h5>
-                    <p class="text-muted small">Offices, shops and facilities, on your schedule.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="price">From $149</span>
-                        <a href="booking.html" class="btn btn-sm btn-outline-orange">Book</a>
-                    </div>
-                </div>
-            </div>
         </div>
-
-        <div class="swiper-slide">
-            <div class="service-card">
-                <div class="img" style="background-image:url(public/frontend/images/s4.jpg)"></div>
-                <div class="body">
-                    <h5>Carpet & Sofa</h5>
-                    <p class="text-muted small">Steam-cleaning that lifts deep stains & odors.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="price">From $79</span>
-                        <a href="booking.html" class="btn btn-sm btn-outline-orange">Book</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="swiper-slide">
-            <div class="service-card">
-                <div class="img" style="background-image:url(public/frontend/images/s5.jpg)">
-                </div>
-                <div class="body">
-                    <h5>Window Cleaning</h5>
-                    <p class="text-muted small">Crystal-clear interior and exterior windows.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="price">From $69</span>
-                        <a href="booking.html" class="btn btn-sm btn-outline-orange">Book</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="swiper-slide">
-            <div class="service-card">
-                <div class="img" style="background-image:url(public/frontend/images/s6.jpg)"></div>
-                <div class="body">
-                    <h5>Move In / Move Out</h5>
-                    <p class="text-muted small">Get your security deposit back, guaranteed.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="price">From $129</span>
-                        <a href="booking.html" class="btn btn-sm btn-outline-orange">Book</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-      </div>
       <div class="swiper-pagination"></div>
     </div>
   </div>
@@ -930,64 +790,34 @@
 
     <div class="swiper testi-swiper" data-aos="fade-up">
       <div class="swiper-wrapper pb-5">
-
-        <div class="swiper-slide">
-            <div class="testimonial">
-                <div class="stars">★★★★★</div>
-                <p>"Booked a deep clean — they were on time, friendly and my apartment smells amazing. Booking again!"</p>
-                <div class="who">
-                    <div class="avatar">EM</div>
-                    <div>
-                        <strong>Emma M.</strong>
-                        <div class="small text-muted">Brooklyn, NY</div>
+            @forelse ($testimonials as $item)
+                <div class="swiper-slide">
+                    <div class="testimonial">
+                        <div class="stars">
+                            {{ str_repeat('★', $item->rating) }}{{ str_repeat('☆', 5 - $item->rating) }}
+                        </div>
+                        <p>"{{ $item->testimonial }}"</p>
+                        <div class="who">
+                            <div class="avatar">
+                                @if ($item->profile_image)
+                                    <img src="{{ asset('storage/app/public/' . $item->profile_image) }}" alt="{{ $item->client_name }}">
+                                @else
+                                    {{ $item->initials }}
+                                @endif
+                            </div>
+                            <div>
+                                <strong>{{ $item->client_name }}</strong>
+                                <div class="small text-muted">
+                                    {{ $item->designation ?? $item->company }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @empty
+                {{-- Optional: hide the whole section or show nothing if no testimonials --}}
+            @endforelse
         </div>
-
-        <div class="swiper-slide">
-            <div class="testimonial">
-                <div class="stars">★★★★★</div>
-                <p>"We use SparkleCare for our office every week. Professional, reliable, and great communication."</p>
-                <div class="who">
-                    <div class="avatar">JR</div>
-                    <div>
-                        <strong>James R.</strong>
-                        <div class="small text-muted">Office Manager</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="swiper-slide">
-            <div class="testimonial">
-                <div class="stars">★★★★★</div>
-                <p>"Got my full security deposit back thanks to the move-out clean. Worth every penny."</p>
-                <div class="who">
-                    <div class="avatar">LP</div>
-                    <div>
-                        <strong>Lara P.</strong>
-                        <div class="small text-muted">Queens, NY</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="swiper-slide">
-            <div class="testimonial">
-                <div class="stars">★★★★★</div>
-                <p>"Easy app-like booking and the cleaner was fantastic. Highly recommend SparkleCare."</p>
-                <div class="who">
-                    <div class="avatar">SO</div>
-                    <div>
-                        <strong>Sam O.</strong>
-                        <div class="small text-muted">Manhattan</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-      </div>
       <div class="swiper-pagination"></div>
     </div>
     
