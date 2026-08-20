@@ -10,7 +10,7 @@
             <td align="center">
                 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff; border-radius:8px; overflow:hidden;">
                     <tr>
-                        <td style="background-color:#fd7e14; padding:20px 32px;">
+                        <td style="background-color:rgba(255,255,255,.08); padding:20px 32px;">
                             <h1 style="margin:0; color:#ffffff; font-size:20px;">New Booking Enquiry</h1>
                         </td>
                     </tr>

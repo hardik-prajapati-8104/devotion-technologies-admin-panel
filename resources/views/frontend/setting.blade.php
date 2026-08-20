@@ -160,7 +160,7 @@
         </div>
 
         <!-- User Info -->
-        <div class="profile-card" data-aos="fade-up">
+        <div class="profile-card d-none" data-aos="fade-up">
             <div class="d-flex align-items-center">
                 <div class="profile-avatar">
                     <i class="bi bi-person"></i>

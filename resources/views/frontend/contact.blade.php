@@ -78,33 +78,88 @@
 
         <div class="booking-card">
           <h3 class="fw-bold mb-3">Send a Message</h3> 
-          <div id="contactSuccess" class="alert alert-success d-none"><i class="bi bi-check-circle me-2"></i>Thanks! We will get back to you soon.</div> 
-            <form id="contactForm" class="row g-3">
+          @csrf {{-- ensure this or a meta tag with csrf-token exists somewhere on the page --}}
 
-              <div class="col-md-6">
+        <div id="contactSuccess" class="alert alert-success d-none"><i class="bi bi-check-circle me-2"></i>Thanks! We will get back to you soon.</div>
+        <div id="contactError" class="alert alert-danger d-none"></div>
+
+        <form id="contactForm" class="row g-3">
+
+            <div class="col-md-6">
                 <label class="form-label">Name</label>
                 <input class="form-control" placeholder="Enter Your Full Name" id="name" required>
-              </div>
+            </div>
 
-              <div class="col-md-6">
+            <div class="col-md-6">
                 <label class="form-label">Email</label>
                 <input class="form-control" type="email" placeholder="Enter Your Email Address" id="email" required>
-              </div>
+            </div>
 
-              <div class="col-12">
+            <div class="col-12">
                 <label class="form-label">Service</label>
                 <input class="form-control" id="services" placeholder="Enter Your Service Name" required>
-              </div>
+            </div>
 
-              <div class="col-12">
+            <div class="col-12">
                 <label class="form-label">Message</label>
                 <textarea class="form-control" rows="5" id="message" placeholder="Enter Your Message Here..." required></textarea>
-              </div>
+            </div>
 
-              <div class="col-12"><button class="btn btn-orange px-4 py-2 fw-bold">Send Message</button></div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-orange px-4 py-2 fw-bold" id="contactSubmitBtn">
+                    Send Message
+                </button>
+            </div>
 
-            </form> 
-        </div>
+        </form>
+
+        <script>
+          document.getElementById('contactForm').addEventListener('submit', function (e) {
+              e.preventDefault();
+
+              const successBox = document.getElementById('contactSuccess');
+              const errorBox    = document.getElementById('contactError');
+              const btn         = document.getElementById('contactSubmitBtn');
+              const originalText = btn.innerHTML;
+
+              successBox.classList.add('d-none');
+              errorBox.classList.add('d-none');
+              btn.disabled = true;
+              btn.innerHTML = 'Sending...';
+
+              fetch('{{ route('contact.store') }}', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                  },
+                  body: JSON.stringify({
+                      name: document.getElementById('name').value,
+                      email: document.getElementById('email').value,
+                      services: document.getElementById('services').value,
+                      message: document.getElementById('message').value,
+                  })
+              })
+              .then(async res => {
+                  const data = await res.json();
+                  if (!res.ok) throw data;
+                  return data;
+              })
+              .then(() => {
+                  successBox.classList.remove('d-none');
+                  document.getElementById('contactForm').reset();
+              })
+              .catch(err => {
+                  const msg = err?.message || 'Something went wrong. Please try again.';
+                  errorBox.textContent = msg;
+                  errorBox.classList.remove('d-none');
+              })
+              .finally(() => {
+                  btn.disabled = false;
+                  btn.innerHTML = originalText;
+              });
+          });
+        </script>
 
       </div>  
 
@@ -128,8 +183,20 @@
       <div class="col-lg-5" data-aos="fade-left">
 
           <div class="map-card">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29438.37726484894!2d72.44420714999998!3d22.73577955!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395eec89561c1877%3A0x6d8624727e1c7d31!2sDholka%2C%20Gujarat%20382225!5e0!3m2!1sen!2sin!4v1781870164532!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-          </div>
+            @if($configurations['map_embed_url'] ?? null)
+                <iframe
+                    src="{{ $configurations['map_embed_url'] }}"
+                    width="600"
+                    height="450"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            @else
+                <div class="text-muted small">Map unavailable.</div>
+            @endif
+        </div>
 
       </div>
 

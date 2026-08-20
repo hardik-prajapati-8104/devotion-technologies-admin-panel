@@ -175,102 +175,32 @@
                 </p>
             </div>
 
-            <!-- FAQ Accordion -->
             <div class="faq-wrapper">
-
                 <div class="accordion" id="faqAccordion">
 
-                    <div class="accordion-item" data-aos="fade-up">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button" data-bs-toggle="collapse"
-                                data-bs-target="#faq1">
-                                What services do you provide?
-                            </button>
-                        </h2>
+                    @forelse ($faqs as $index => $faq)
+                        <div class="accordion-item" data-aos="fade-up">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button {{ $index === 0 ? '' : 'collapsed' }}"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#faq{{ $faq->id }}">
+                                    {{ $faq->question }}
+                                </button>
+                            </h2>
 
-                        <div id="faq1" class="accordion-collapse collapse show"
-                            data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                We provide Invisible Grills, Mosquito Nets, Bird Nets,
-                                Bird Spikes, and Sports & Cricket Netting Solutions.
+                            <div id="faq{{ $faq->id }}"
+                                class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    {!! nl2br(e($faq->answer)) !!}
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="accordion-item" data-aos="fade-up">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#faq2">
-                                How can I book a service?
-                            </button>
-                        </h2>
-
-                        <div id="faq2" class="accordion-collapse collapse"
-                            data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                You can book directly from our website, mobile app,
-                                or contact our support team.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item" data-aos="fade-up">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#faq3">
-                                Do you provide free site visits?
-                            </button>
-                        </h2>
-
-                        <div id="faq3" class="accordion-collapse collapse"
-                            data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Yes, we offer free site inspections and measurements
-                                before installation.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item" data-aos="fade-up">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#faq4">
-                                How long does installation take?
-                            </button>
-                        </h2>
-
-                        <div id="faq4" class="accordion-collapse collapse"
-                            data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Most installations are completed within one day,
-                                depending on project size.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item" data-aos="fade-up">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#faq5">
-                                Do your products come with a warranty?
-                            </button>
-                        </h2>
-
-                        <div id="faq5" class="accordion-collapse collapse"
-                            data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Yes, our products include warranty coverage based on
-                                the selected service package.
-                            </div>
-                        </div>
-                    </div>
+                    @empty
+                        <p class="text-muted text-center">No FAQs available yet.</p>
+                    @endforelse
 
                 </div>
-
             </div>
 
             <!-- Contact Card -->
@@ -286,7 +216,7 @@
                     Our team is available to help you with any inquiries.
                 </p>
 
-                <a href="contact.html" class="btn faq-btn">
+                <a href="{{ route('contact') }}" class="btn faq-btn">
                     Contact Us
                 </a>
 

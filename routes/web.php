@@ -34,6 +34,7 @@ Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
 Route::get('/booking', [BookingController::class, 'index'])->name('booking');
 Route::get('/faqs', [FAQController::class, 'index'])->name('faqs');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact/submit', [ContactController::class, 'store'])->name('contact.store');
 Route::get('/brochure', [BrochureController::class, 'index'])->name('brochure');
 Route::get('/settings', [SettingPageController::class, 'index'])->name('settings');
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews');

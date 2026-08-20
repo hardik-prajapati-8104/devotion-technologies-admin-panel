@@ -20,6 +20,12 @@ class Faq extends Model
         return $this->belongsTo(FaqCategory::class, 'faq_category_id');
     }
 
+     public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+
+
     public function scopeOrdered($query)
     {
         return $query->orderBy('display_order')->orderBy('question');
