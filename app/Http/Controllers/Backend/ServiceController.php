@@ -90,6 +90,10 @@ class ServiceController extends Controller
             $service->og_image = $this->imageUploadService->upload($request->file('og_image'), 'services/seo');
         }
 
+        if ($request->hasFile('brochure')) {
+            $service->brochure = $request->file('brochure')->store('services/brochures', 'public');
+        }
+
         $service->save();
 
         Cache::forget('services_count');
@@ -139,6 +143,16 @@ class ServiceController extends Controller
             $service->og_image = $this->imageUploadService->replace($request->file('og_image'), 'services/seo', $service->og_image);
         }
 
+        if ($request->hasFile('brochure')) {
+            if ($service->brochure) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($service->brochure);
+            }
+            $service->brochure = $request->file('brochure')->store('services/brochures', 'public');
+        } elseif ($request->boolean('remove_brochure') && $service->brochure) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($service->brochure);
+            $service->brochure = null;
+        }
+
         $service->save();
 
         ActivityLog::record('updated', 'Services', $service->id, "Updated service \"{$service->name}\".");
@@ -160,6 +174,9 @@ class ServiceController extends Controller
         if (! is_null($service)) {
             $this->imageUploadService->delete($service->featured_image);
             $this->imageUploadService->delete($service->og_image);
+            if ($service->brochure) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($service->brochure);
+            }
             $service->delete();
 
             ActivityLog::record('deleted', 'Services', $id, "Deleted service \"{$service->name}\".");

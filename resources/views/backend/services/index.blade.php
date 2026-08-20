@@ -94,6 +94,7 @@
                         <th width="2%"></th>
                         <th width="3%">#</th>
                         <th>Service</th>
+                        <th>Brochure</th>
                         <th>Category</th>
                         <th>Order</th>
                         <th>Featured</th>
@@ -115,6 +116,15 @@
                                 @endif
                                 {{ $service->name }}
                             </div>
+                        </td>
+                        <td>
+                            @if ($service->brochure)
+                                <a href="{{ asset('storage/app/public/' . $service->brochure) }}" target="_blank" title="Download brochure">
+                                    <i class="bi bi-file-earmark-pdf text-danger fs-5"></i>
+                                </a>
+                            @else
+                                <span class="text-muted small">—</span>
+                            @endif
                         </td>
                         <td>{{ $service->category->name ?? '—' }}</td>
                         <td>{{ $service->display_order }}</td>

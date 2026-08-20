@@ -19,6 +19,7 @@ class StoreServiceRequest extends FormRequest
             'short_description'   => 'nullable|string|max:500',
             'full_description'    => 'nullable|string',
             'featured_image'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'brochure'            => ['nullable', 'file', 'mimes:pdf', 'max:5120'], // 5MB
             'icon'                => 'nullable|string|max:100',
             'display_order'       => 'nullable|integer|min:0',
             'is_featured'         => 'nullable|boolean',

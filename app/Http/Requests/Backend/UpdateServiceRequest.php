@@ -26,6 +26,8 @@ class UpdateServiceRequest extends FormRequest
             'seo_title'           => 'nullable|string|max:255',
             'meta_description'    => 'nullable|string|max:500',
             'og_image'            => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'brochure'            => ['nullable', 'file', 'mimes:pdf', 'max:5120'],
+            'remove_brochure'     => ['nullable', 'boolean'],
         ];
     }
 }

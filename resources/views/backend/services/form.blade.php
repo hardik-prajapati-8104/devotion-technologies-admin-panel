@@ -43,6 +43,27 @@
                     :options="[1 => 'Published', 0 => 'Unpublished']"
                     :selected="$isEdit ? (int) $service->status : 1" />
             </div>
+
+            <div class="col-md-4">
+                <label class="form-label small fw-medium">Brochure (PDF)</label>
+                <input type="file" name="brochure" accept="application/pdf"
+                    class="form-control @error('brochure') is-invalid @enderror">
+                @error('brochure') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
+                @if ($isEdit && $service->brochure)
+                    <div class="mt-2 d-flex align-items-center gap-2">
+                        <a href="{{ asset('storage/' . $service->brochure) }}" target="_blank" class="small">
+                            <i class="bi bi-file-earmark-pdf text-danger me-1"></i> View current brochure
+                        </a>
+                        <div class="form-check ms-2">
+                            <input type="checkbox" class="form-check-input" id="remove_brochure" name="remove_brochure" value="1">
+                            <label class="form-check-label small text-danger" for="remove_brochure">Remove</label>
+                        </div>
+                    </div>
+                @endif
+                <small class="text-muted">PDF only, max 5MB.</small>
+            </div>
+
             <div class="col-md-4 d-flex align-items-center">
                 <div class="form-check mt-4">
                     <input type="checkbox" class="form-check-input" id="is_featured" name="is_featured" value="1"
