@@ -243,9 +243,18 @@ Route::prefix('admin')
             Route::delete('countries/{id}', [CountryController::class, 'destroy'])->name('countries.destroy');
             Route::put('countries/{id}/toggle-status', [CountryController::class, 'toggleStatus'])->name('countries.toggle-status');
 
-            Route::get('seo', [SeoController::class, 'index'])->name('seo.index');
-            Route::get('seo/{id}/edit', [SeoController::class, 'edit'])->name('seo.edit');
-            Route::put('seo/{id}', [SeoController::class, 'update'])->name('seo.update');
+            // Route::get('seo', [SeoController::class, 'index'])->name('seo.index');
+            // Route::get('seo/{id}/edit', [SeoController::class, 'edit'])->name('seo.edit');
+            // Route::put('seo/{id}', [SeoController::class, 'update'])->name('seo.update');
+
+            Route::prefix('seo')->name('seo.')->group(function () {
+                Route::get('/',            [SeoController::class, 'index'])->name('index');
+                Route::get('/create',      [SeoController::class, 'create'])->name('create');
+                Route::post('/',           [SeoController::class, 'store'])->name('store');
+                Route::get('/{id}/edit',   [SeoController::class, 'edit'])->name('edit');
+                Route::put('/{id}',        [SeoController::class, 'update'])->name('update');
+                Route::delete('/{id}',     [SeoController::class, 'destroy'])->name('destroy');
+            });
 
             Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
             Route::put('settings/general', [SettingController::class, 'updateGeneral'])->name('settings.general.update');

@@ -149,13 +149,28 @@
         </style>
       
         <!-- Company Brand -->
-        <div class="company-brand" data-aos="fade-up">
+        
+        {{-- <div class="company-brand" data-aos="fade-up">
             <img src="{{ url('public/frontend/images/clients/dubai.png') }}" alt="Work Home Safety Solution">
 
             <h4>WORK HOME SAFETY SOLUTION</h4>
 
             <p>
                 Invisible Safety Grills • Premium Mosquito Protection Systems • Bird Control Netting Solutions • Anti-Bird Spike Protection Systems • Professional Sports & Cricket Netting Solutions   
+            </p>
+        </div> --}}
+
+        <div class="company-brand" data-aos="fade-up">
+            @if($configurations['site_favicon'] ?? null)
+                <img src="{{ url('storage/app/public/' . $configurations['site_favicon']) }}" alt="{{ $configurations['site_name'] ?? 'Work Home Safety Solution' }}" width="auto;" height="auto;">
+            @else
+                <img src="{{ url('public/frontend/images/clients/dubai.png') }}" alt="Work Home Safety Solution">
+            @endif
+
+            <h4>{{ $configurations['site_name'] ?? 'WORK HOME SAFETY SOLUTION' }}</h4>
+
+            <p>
+                {{ $configurations['site_tagline'] ?? 'Invisible Safety Grills • Premium Mosquito Protection Systems • Bird Control Netting Solutions • Anti-Bird Spike Protection Systems • Professional Sports & Cricket Netting Solutions' }}
             </p>
         </div>
 
