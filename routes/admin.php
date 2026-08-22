@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\AdminMenuController;
 use App\Http\Controllers\Backend\ActivityLogController;
+use App\Http\Controllers\Backend\AiVisibilityController;
 use App\Http\Controllers\Backend\ApplicationController;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\BlogCategoryController;
@@ -247,6 +248,15 @@ Route::prefix('admin')
             // Route::get('seo/{id}/edit', [SeoController::class, 'edit'])->name('seo.edit');
             // Route::put('seo/{id}', [SeoController::class, 'update'])->name('seo.update');
 
+            // Route::prefix('seo')->name('seo.')->group(function () {
+            //     Route::get('/',            [SeoController::class, 'index'])->name('index');
+            //     Route::get('/create',      [SeoController::class, 'create'])->name('create');
+            //     Route::post('/',           [SeoController::class, 'store'])->name('store');
+            //     Route::get('/{id}/edit',   [SeoController::class, 'edit'])->name('edit');
+            //     Route::put('/{id}',        [SeoController::class, 'update'])->name('update');
+            //     Route::delete('/{id}',     [SeoController::class, 'destroy'])->name('destroy');
+            // });
+
             Route::prefix('seo')->name('seo.')->group(function () {
                 Route::get('/',            [SeoController::class, 'index'])->name('index');
                 Route::get('/create',      [SeoController::class, 'create'])->name('create');
@@ -254,6 +264,11 @@ Route::prefix('admin')
                 Route::get('/{id}/edit',   [SeoController::class, 'edit'])->name('edit');
                 Route::put('/{id}',        [SeoController::class, 'update'])->name('update');
                 Route::delete('/{id}',     [SeoController::class, 'destroy'])->name('destroy');
+            });
+
+            Route::prefix('ai-visibility')->name('ai-visibility.')->group(function () {
+                Route::get('/',  [AiVisibilityController::class, 'index'])->name('index');
+                Route::put('/',  [AiVisibilityController::class, 'update'])->name('update');
             });
 
             Route::get('settings', [SettingController::class, 'index'])->name('settings.index');

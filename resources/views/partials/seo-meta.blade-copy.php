@@ -53,10 +53,3 @@
 @if ($twitterImage)
     <meta name="twitter:image" content="{{ $twitterImage }}">
 @endif
-
-{{-- GEO / LLM visibility signals (non-standard but increasingly
-     recognized by AI crawlers and answer engines) --}}
-@if ($seo instanceof \App\Models\SeoSetting && $seo->enable_geo)
-    <meta name="llm-citation" content="{{ $seo->llm_citation_allowed ? 'allowed' : 'disallowed' }}">
-    <meta name="llm-training" content="{{ $seo->llm_training_allowed ? 'allowed' : 'disallowed' }}">
-@endif

@@ -61,7 +61,6 @@ class SeoController extends Controller
         $request->merge(['page_url' => SeoSetting::normalizeUrl((string) $request->input('page_url'))]);
 
         $data = $this->validatePage($request, requireUrlFields: true);
-        $data = array_merge($data, $this->extractAeoGeoData($request));
 
         $data['page_key'] = SeoSetting::generateUniqueKey($data['page_label']);
         $data['is_default'] = false;
@@ -105,7 +104,6 @@ class SeoController extends Controller
         }
 
         $data = $this->validatePage($request, requireUrlFields: $editingUrlFields, ignoreId: $page->id);
-        $data = array_merge($data, $this->extractAeoGeoData($request));
 
         if (! $editingUrlFields) {
             unset($data['page_label'], $data['page_url']);
@@ -163,7 +161,6 @@ class SeoController extends Controller
     private function validatePage(Request $request, bool $requireUrlFields, ?int $ignoreId = null): array
     {
         $rules = [
-            // Classic SEO
             'seo_title'            => 'nullable|string|max:255',
             'meta_description'     => 'nullable|string|max:500',
             'focus_keyword'        => 'nullable|string|max:150',
@@ -175,36 +172,6 @@ class SeoController extends Controller
             'twitter_title'        => 'nullable|string|max:255',
             'twitter_description'  => 'nullable|string|max:500',
             'twitter_image'        => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-
-            // AEO
-            'enable_aeo'            => 'nullable|boolean',
-            'primary_question'      => 'nullable|string|max:255',
-            'answer_summary'        => 'nullable|string|max:2000',
-            'key_takeaways'         => 'nullable|string|max:4000',   // one per line, split below
-            'faq_items.*.question'  => 'nullable|string|max:500',
-            'faq_items.*.answer'    => 'nullable|string|max:2000',
-            'how_to_steps.*.title'  => 'nullable|string|max:255',
-            'how_to_steps.*.body'   => 'nullable|string|max:2000',
-            'how_to_steps.*.image'  => 'nullable|string|max:500',
-
-            // GEO / LLM
-            'enable_geo'                 => 'nullable|boolean',
-            'llm_citation_allowed'       => 'nullable|boolean',
-            'llm_training_allowed'       => 'nullable|boolean',
-            'entity_type'                => 'nullable|string|max:100',
-            'entity_name'                => 'nullable|string|max:255',
-            'primary_topics'             => 'nullable|string|max:1000', // comma-separated, split below
-            'author_name'                => 'nullable|string|max:150',
-            'author_credentials'         => 'nullable|string|max:255',
-            'author_social_profiles'     => 'nullable|string|max:1000', // comma-separated URLs
-            'reviewed_by_name'           => 'nullable|string|max:150',
-            'reviewed_by_credentials'    => 'nullable|string|max:255',
-            'sources_and_references.*.title' => 'nullable|string|max:255',
-            'sources_and_references.*.url'   => 'nullable|url|max:500',
-            'target_audience'            => 'nullable|string|max:255',
-            'geo_target_locations'       => 'nullable|string|max:1000', // comma-separated
-            'content_quality_score'      => 'nullable|integer|min:0|max:100',
-            'schema_type'                => 'nullable|string|max:50',
         ];
 
         if ($requireUrlFields) {
@@ -216,86 +183,5 @@ class SeoController extends Controller
         }
 
         return $request->validate($rules);
-    }
-
-    /**
-     * Pulls the AEO/GEO fields out of the request and reshapes them into
-     * the arrays the model's JSON casts expect: repeaters keep only rows
-     * that actually have content, and comma/line-separated text inputs
-     * become clean string arrays.
-     */
-    private function extractAeoGeoData(Request $request): array
-    {
-        return [
-            'enable_aeo'             => $request->boolean('enable_aeo'),
-            'enable_geo'             => $request->boolean('enable_geo'),
-            'llm_citation_allowed'   => $request->boolean('llm_citation_allowed'),
-            'llm_training_allowed'   => $request->boolean('llm_training_allowed'),
-
-            'primary_question'       => $request->input('primary_question'),
-            'answer_summary'         => $request->input('answer_summary'),
-            'key_takeaways'          => $this->linesToArray($request->input('key_takeaways')),
-
-            'faq_items'              => $this->cleanRepeater($request->input('faq_items', []), ['question', 'answer']),
-            'how_to_steps'           => $this->cleanRepeater($request->input('how_to_steps', []), ['title', 'body'], ['image']),
-            'sources_and_references' => $this->cleanRepeater($request->input('sources_and_references', []), ['title', 'url']),
-
-            'entity_type'             => $request->input('entity_type'),
-            'entity_name'             => $request->input('entity_name'),
-            'primary_topics'          => $this->commaToArray($request->input('primary_topics')),
-            'author_name'             => $request->input('author_name'),
-            'author_credentials'      => $request->input('author_credentials'),
-            'author_social_profiles'  => $this->commaToArray($request->input('author_social_profiles')),
-            'reviewed_by_name'        => $request->input('reviewed_by_name'),
-            'reviewed_by_credentials' => $request->input('reviewed_by_credentials'),
-            'target_audience'         => $request->input('target_audience'),
-            'geo_target_locations'    => $this->commaToArray($request->input('geo_target_locations')),
-            'content_quality_score'   => $request->input('content_quality_score') !== '' ? $request->input('content_quality_score') : null,
-            'schema_type'             => $request->input('schema_type') ?: 'Article',
-        ];
-    }
-
-    private function linesToArray(?string $value): array
-    {
-        return collect(preg_split('/\r\n|\r|\n/', (string) $value))
-            ->map(fn ($line) => trim($line))
-            ->filter()
-            ->values()
-            ->all();
-    }
-
-    private function commaToArray(?string $value): array
-    {
-        return collect(explode(',', (string) $value))
-            ->map(fn ($item) => trim($item))
-            ->filter()
-            ->values()
-            ->all();
-    }
-
-    /**
-     * Keeps only repeater rows where every required field is filled in,
-     * so a half-empty row left over from the form doesn't get saved.
-     */
-    private function cleanRepeater(array $rows, array $requiredFields, array $optionalFields = []): array
-    {
-        return collect($rows)
-            ->filter(function ($row) use ($requiredFields) {
-                foreach ($requiredFields as $field) {
-                    if (blank($row[$field] ?? null)) {
-                        return false;
-                    }
-                }
-                return true;
-            })
-            ->map(function ($row) use ($requiredFields, $optionalFields) {
-                $clean = [];
-                foreach (array_merge($requiredFields, $optionalFields) as $field) {
-                    $clean[$field] = $row[$field] ?? null;
-                }
-                return $clean;
-            })
-            ->values()
-            ->all();
     }
 }

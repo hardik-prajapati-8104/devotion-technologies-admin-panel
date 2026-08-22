@@ -26,6 +26,12 @@ return Application::configure(basePath: dirname(__DIR__))
             '2fa.verified'     => \App\Http\Middleware\EnsureTwoFactorVerified::class,
         ]);
 
+        
+        $middleware->web(append: [
+            \App\Http\Middleware\LogAiVisibility::class,
+        ]);
+        
+
         RedirectIfAuthenticated::redirectUsing(function (Request $request) {
             if ($request->is('admin/*') || $request->routeIs('admin.*')) {
                 return route('admin.dashboard');

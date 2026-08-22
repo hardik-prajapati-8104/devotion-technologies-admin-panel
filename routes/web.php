@@ -17,6 +17,7 @@ use App\Http\Controllers\Frontend\PrivacyPolicyController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\Frontend\TermConditionController;
+use App\Http\Controllers\LlmsTxtController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -52,3 +53,5 @@ Route::prefix('admin/messages')->name('admin.messages.')->middleware(['auth:admi
     Route::post('/{conversation}/contact', [MessageController::class, 'contact'])->name('contact');
     Route::post('/{conversation}/event', [MessageController::class, 'event'])->name('event');
 });
+
+Route::get('/llms.txt', LlmsTxtController::class);

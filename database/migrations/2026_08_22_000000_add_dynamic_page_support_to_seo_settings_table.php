@@ -6,191 +6,78 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Adds everything needed to let admins create SEO records for pages
+ * that aren't in the hard-coded DEFAULT_PAGES list, by giving every
+ * row a page_url (the front-end path it applies to) and keeping the
+ * is_default flag you already added, so the app can tell "always
+ * exists / can't be deleted" pages apart from custom ones.
+ *
+ * Written defensively with hasColumn() checks so it's safe to run
+ * even though `is_default` already exists in your database.
+ */
 return new class extends Migration
 {
     public function up(): void
     {
-        /*
-        |--------------------------------------------------------------------------
-        | 1. Add page_url if it does not exist
-        |--------------------------------------------------------------------------
-        */
+        Schema::table('seo_settings', function (Blueprint $table) {
+            if (! Schema::hasColumn('seo_settings', 'page_url')) {
+                $table->string('page_url')->nullable()->after('page_label');
+            }
+            if (! Schema::hasColumn('seo_settings', 'is_default')) {
+                $table->boolean('is_default')->default(false)->after('page_url');
+            }
+        });
 
-        if (!Schema::hasColumn('seo_settings', 'page_url')) {
-
-            Schema::table('seo_settings', function (Blueprint $table) {
-                $table->string('page_url', 191)
-                    ->nullable()
-                    ->after('page_label');
-            });
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | 2. IMPORTANT
-        |--------------------------------------------------------------------------
-        | The column may already exist as VARCHAR(255) because an earlier
-        | migration partially succeeded before failing on the unique index.
-        |
-        | Force it to VARCHAR(191).
-        |--------------------------------------------------------------------------
-        */
-
-        DB::statement("
-            ALTER TABLE `seo_settings`
-            MODIFY `page_url` VARCHAR(191) NULL
-        ");
-
-        /*
-        |--------------------------------------------------------------------------
-        | 3. Add is_default if it does not exist
-        |--------------------------------------------------------------------------
-        */
-
-        if (!Schema::hasColumn('seo_settings', 'is_default')) {
-
-            Schema::table('seo_settings', function (Blueprint $table) {
-                $table->boolean('is_default')
-                    ->default(false)
-                    ->after('page_url');
-            });
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | 4. Backfill default pages
-        |--------------------------------------------------------------------------
-        */
-
+        // Backfill page_url + is_default for the 7 pages that were being
+        // seeded from the old hard-coded DEFAULT_PAGES array, matched by
+        // their page_key.
         foreach (SeoSetting::DEFAULT_PAGES as $key => $meta) {
-
             DB::table('seo_settings')
                 ->where('page_key', $key)
                 ->update([
-                    'page_url'   => mb_substr($meta['url'], 0, 191),
+                    'page_url'   => $meta['url'],
                     'is_default' => true,
                 ]);
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | 5. Generate fallback URLs
-        |--------------------------------------------------------------------------
-        */
-
+        // Any row that still has no page_url (custom pages created before
+        // this migration, or any other edge case) gets a safe fallback
+        // derived from its page_key, so the later unique index doesn't
+        // choke on empty duplicates.
         DB::table('seo_settings')
-            ->where(function ($query) {
-                $query->whereNull('page_url')
-                    ->orWhere('page_url', '');
+            ->where(function ($q) {
+                $q->whereNull('page_url')->orWhere('page_url', '');
             })
             ->get()
             ->each(function ($row) {
-
-                $pageKey = trim((string) $row->page_key, '/');
-
-                $pageUrl = '/' . $pageKey;
-
-                $pageUrl = mb_substr($pageUrl, 0, 191);
-
-                DB::table('seo_settings')
-                    ->where('id', $row->id)
-                    ->update([
-                        'page_url' => $pageUrl,
-                    ]);
+                DB::table('seo_settings')->where('id', $row->id)->update([
+                    'page_url' => '/'.trim((string) $row->page_key, '/'),
+                ]);
             });
 
-        /*
-        |--------------------------------------------------------------------------
-        | 6. Check for duplicate URLs
-        |--------------------------------------------------------------------------
-        */
-
-        $duplicates = DB::table('seo_settings')
-            ->select('page_url', DB::raw('COUNT(*) as total'))
-            ->whereNotNull('page_url')
-            ->groupBy('page_url')
-            ->having('total', '>', 1)
-            ->get();
-
-        if ($duplicates->isNotEmpty()) {
-
-            throw new RuntimeException(
-                'Duplicate page_url values exist in seo_settings. ' .
-                'Remove duplicates before creating the unique index: ' .
-                $duplicates->pluck('page_url')->implode(', ')
-            );
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | 7. Add unique index
-        |--------------------------------------------------------------------------
-        */
-
-        $indexExists = DB::select(
-            "SHOW INDEX FROM `seo_settings` WHERE Key_name = ?",
-            ['seo_settings_page_url_unique']
-        );
-
-        if (empty($indexExists)) {
-
-            Schema::table('seo_settings', function (Blueprint $table) {
-
-                $table->unique(
-                    'page_url',
-                    'seo_settings_page_url_unique'
-                );
-            });
-        }
+        Schema::table('seo_settings', function (Blueprint $table) {
+            if (! $this->indexExists('seo_settings', 'seo_settings_page_url_unique')) {
+                $table->unique('page_url');
+            }
+        });
     }
 
     public function down(): void
     {
-        /*
-        |--------------------------------------------------------------------------
-        | Remove unique index
-        |--------------------------------------------------------------------------
-        */
-
-        $indexExists = DB::select(
-            "SHOW INDEX FROM `seo_settings` WHERE Key_name = ?",
-            ['seo_settings_page_url_unique']
-        );
-
-        if (!empty($indexExists)) {
-
-            Schema::table('seo_settings', function (Blueprint $table) {
-
-                $table->dropUnique(
-                    'seo_settings_page_url_unique'
-                );
-            });
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Remove is_default
-        |--------------------------------------------------------------------------
-        */
-
-        if (Schema::hasColumn('seo_settings', 'is_default')) {
-
-            Schema::table('seo_settings', function (Blueprint $table) {
-                $table->dropColumn('is_default');
-            });
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Remove page_url
-        |--------------------------------------------------------------------------
-        */
-
-        if (Schema::hasColumn('seo_settings', 'page_url')) {
-
-            Schema::table('seo_settings', function (Blueprint $table) {
+        Schema::table('seo_settings', function (Blueprint $table) {
+            if ($this->indexExists('seo_settings', 'seo_settings_page_url_unique')) {
+                $table->dropUnique('seo_settings_page_url_unique');
+            }
+            if (Schema::hasColumn('seo_settings', 'page_url')) {
                 $table->dropColumn('page_url');
-            });
-        }
+            }
+        });
+    }
+
+    private function indexExists(string $table, string $indexName): bool
+    {
+        $result = DB::select("SHOW INDEX FROM `{$table}` WHERE Key_name = ?", [$indexName]);
+        return count($result) > 0;
     }
 };

@@ -14,18 +14,11 @@
             <h4>SEO Management</h4>
             <p class="subtitle">Meta tags for every page on the site. System pages (Home, About Us, etc.) are always available here and can't be removed. Add a custom page for anything else — just give it a label and its front-end URL, no code changes needed.</p>
         </div>
-        <div class="d-flex gap-2 flex-shrink-0">
-            @can('ai-visibility.manage')
-                <a href="{{ route('admin.ai-visibility.index') }}" class="btn btn-outline-secondary">
-                    <i class="bi bi-cpu me-1"></i> AI Visibility Settings
-                </a>
-            @endcan
-            @can('seo.create')
-                <a href="{{ route('admin.seo.create') }}" class="btn btn-primary">
-                    <i class="bi bi-plus-lg me-1"></i> Add New Page
-                </a>
-            @endcan
-        </div>
+        @can('seo.create')
+            <a href="{{ route('admin.seo.create') }}" class="btn btn-primary flex-shrink-0">
+                <i class="bi bi-plus-lg me-1"></i> Add New Page
+            </a>
+        @endcan
     </div>
 @endsection
 
@@ -59,12 +52,6 @@
                             <span class="badge bg-secondary ms-1">System Page</span>
                         @else
                             <span class="badge bg-info text-dark ms-1">Custom</span>
-                        @endif
-                        @if ($page->enable_aeo)
-                            <span class="badge bg-light text-dark border ms-1" title="AEO enabled">AEO</span>
-                        @endif
-                        @if ($page->enable_geo)
-                            <span class="badge bg-light text-dark border ms-1" title="GEO enabled">GEO</span>
                         @endif
                     </td>
                     <td><code>{{ $page->page_url }}</code></td>
