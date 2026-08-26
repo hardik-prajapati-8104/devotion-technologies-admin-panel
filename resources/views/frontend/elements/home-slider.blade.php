@@ -108,7 +108,7 @@
   <!-- Company Logo -->
   <div class="container">
       <div class="company-logo-section">
-          <img src="public/frontend/images/Work_home_sefty_solution-header.png" alt="Company Logo">
+          {{-- <img src="public/frontend/images/Work_home_sefty_solution-header.png" alt="Company Logo"> --}}
           <h5>Work Home <span style="color: var(--orange);">Safety</span>Solution</h5>
           <p>Protection & Safety Systems</p>
       </div>
@@ -136,7 +136,7 @@
 
     .company-logo-section h5{
         margin-top:12px;
-        margin-bottom:4px;
+        font-size: 1.7rem;
         font-weight:700;
         color:#222;
     }

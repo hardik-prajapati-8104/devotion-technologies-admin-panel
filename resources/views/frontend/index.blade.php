@@ -83,25 +83,6 @@
 
                 </div>
 
-                <div class="about-stats">
-
-                    <div class="stat-item">
-                        <h4>500+</h4>
-                        <span>Projects</span>
-                    </div>
-
-                    <div class="stat-item">
-                        <h4>250+</h4>
-                        <span>Clients</span>
-                    </div>
-
-                    <div class="stat-item">
-                        <h4>100%</h4>
-                        <span>Satisfaction</span>
-                    </div>
-
-                </div>
-
                 <a href="about.html" class="btn btn-orange mt-4">
                     Learn More
                     <i class="bi bi-arrow-right ms-2"></i>
