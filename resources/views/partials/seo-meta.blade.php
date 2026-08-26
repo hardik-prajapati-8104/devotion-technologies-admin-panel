@@ -10,7 +10,6 @@
 --}}
 @php
     $seo = $seo ?? app(\App\Services\SeoResolverService::class)->resolve(request());
-
     $title = $seo?->seo_title ?: config('app.name');
     $description = $seo?->meta_description;
     $ogTitle = $seo?->og_title ?: $title;
@@ -20,7 +19,6 @@
     $twitterDescription = $seo?->twitter_description ?: $ogDescription;
     $twitterImage = $seo?->twitter_image ? asset('storage/'.$seo->twitter_image) : $ogImage;
 @endphp
-
 <title>{{ $title }}</title>
 @if ($description)
     <meta name="description" content="{{ $description }}">
@@ -28,34 +26,29 @@
 @if ($seo?->focus_keyword)
     <meta name="keywords" content="{{ $seo->focus_keyword }}">
 @endif
-<meta name="robots" content="{{ $seo?->robots_meta ?: 'index, follow' }}">
+    <meta name="robots" content="{{ $seo?->robots_meta ?: 'index, follow' }}">
 @if ($seo?->canonical_url)
     <link rel="canonical" href="{{ $seo->canonical_url }}">
 @else
     <link rel="canonical" href="{{ url()->current() }}">
 @endif
-
-<meta property="og:title" content="{{ $ogTitle }}">
+    <meta property="og:title" content="{{ $ogTitle }}">
 @if ($ogDescription)
     <meta property="og:description" content="{{ $ogDescription }}">
 @endif
 @if ($ogImage)
     <meta property="og:image" content="{{ $ogImage }}">
 @endif
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ url()->current() }}">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ $twitterTitle }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $twitterTitle }}">
 @if ($twitterDescription)
     <meta name="twitter:description" content="{{ $twitterDescription }}">
 @endif
 @if ($twitterImage)
     <meta name="twitter:image" content="{{ $twitterImage }}">
 @endif
-
-{{-- GEO / LLM visibility signals (non-standard but increasingly
-     recognized by AI crawlers and answer engines) --}}
 @if ($seo instanceof \App\Models\SeoSetting && $seo->enable_geo)
     <meta name="llm-citation" content="{{ $seo->llm_citation_allowed ? 'allowed' : 'disallowed' }}">
     <meta name="llm-training" content="{{ $seo->llm_training_allowed ? 'allowed' : 'disallowed' }}">

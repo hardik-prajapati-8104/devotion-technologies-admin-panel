@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>@yield('title', 'Work Home Safety Solution')</title>
     <link rel="icon" href="{{ url('public/frontend/images/Work_home_sefty_solution-footer.png') }}">
+    @include('partials.seo-meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Premium housekeeping __DESC__ cleaning services for homes and offices. Book trusted cleaners online in 60 seconds.">
