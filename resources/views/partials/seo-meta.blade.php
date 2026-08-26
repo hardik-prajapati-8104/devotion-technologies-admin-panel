@@ -53,5 +53,13 @@
     <meta name="llm-citation" content="{{ $seo->llm_citation_allowed ? 'allowed' : 'disallowed' }}">
     <meta name="llm-training" content="{{ $seo->llm_training_allowed ? 'allowed' : 'disallowed' }}">
 @endif
+@if(!empty($seo?->json_ld))
+    <script type="application/ld+json">
+        {!! json_encode(
+            $seo->json_ld,
+            JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+        ) !!}
+    </script>
+@endif
 
 

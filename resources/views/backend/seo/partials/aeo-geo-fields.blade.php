@@ -62,6 +62,23 @@
     </div>
 </div>
 
+<div class="d-flex align-items-center gap-2 mt-5 mb-3">
+    <h5 class="mb-0">Custom JSON-LD</h5>
+    <span class="text-muted small">Optional — overrides/extends the auto-generated schema with page-specific structured data</span>
+</div>
+
+<div class="row g-3">
+    <div class="col-12">
+        <label class="form-label small fw-medium">
+            JSON-LD <span class="text-muted">(valid JSON object or array of objects — leave blank to skip)</span>
+        </label>
+        <textarea name="json_ld" id="json_ld" class="form-control font-monospace" rows="8"
+            placeholder='json ld data '>{{ old('json_ld', $page && $page->json_ld ? json_encode($page->json_ld, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) : '') }}</textarea>
+        <div class="invalid-feedback d-block text-danger small" id="json_ld_error" style="display:none !important;"></div>
+        <div class="form-text">Must be valid JSON. It will be rendered inside a <code>&lt;script type="application/ld+json"&gt;</code> tag on the page.</div>
+    </div>
+</div>
+
 {{-- FAQ repeater --}}
 <div class="mt-4">
     <label class="form-label small fw-medium d-block">FAQ Items <span class="text-muted">(powers FAQPage schema)</span></label>
@@ -263,5 +280,27 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+</script>
+
+<script>
+        const jsonLdField = document.getElementById('json_ld');
+    if (jsonLdField) {
+        const form = jsonLdField.closest('form');
+        form?.addEventListener('submit', function (e) {
+            const val = jsonLdField.value.trim();
+            const errorEl = document.getElementById('json_ld_error');
+            if (val === '') { errorEl.style.display = 'none'; return; }
+            try {
+                JSON.parse(val);
+                errorEl.style.display = 'none';
+            } catch (err) {
+                e.preventDefault();
+                errorEl.textContent = 'Invalid JSON: ' + err.message;
+                errorEl.style.display = 'block';
+                jsonLdField.classList.add('is-invalid');
+                jsonLdField.focus();
+            }
+        });
+    }
 </script>
 @endonce

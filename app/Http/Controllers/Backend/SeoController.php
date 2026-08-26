@@ -186,6 +186,7 @@ class SeoController extends Controller
             'how_to_steps.*.title'  => 'nullable|string|max:255',
             'how_to_steps.*.body'   => 'nullable|string|max:2000',
             'how_to_steps.*.image'  => 'nullable|string|max:500',
+            'json_ld'               => ['nullable', 'json'],
 
             // GEO / LLM
             'enable_geo'                 => 'nullable|boolean',
@@ -231,6 +232,7 @@ class SeoController extends Controller
             'enable_geo'             => $request->boolean('enable_geo'),
             'llm_citation_allowed'   => $request->boolean('llm_citation_allowed'),
             'llm_training_allowed'   => $request->boolean('llm_training_allowed'),
+            'json_ld'                => $request->filled('json_ld') ? json_decode($request->json_ld, true) : null,
 
             'primary_question'       => $request->input('primary_question'),
             'answer_summary'         => $request->input('answer_summary'),

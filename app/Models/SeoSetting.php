@@ -14,7 +14,7 @@ class SeoSetting extends Model
         'canonical_url', 'robots_meta', 'og_title', 'og_description', 'og_image',
         'twitter_title', 'twitter_description', 'twitter_image',
         // AEO / GEO / LLM
-        'enable_aeo', 'enable_geo',
+        'enable_aeo','json_ld', 'enable_geo',
         'primary_question', 'answer_summary', 'key_takeaways', 'faq_items', 'how_to_steps',
         'llm_citation_allowed', 'llm_training_allowed',
         'entity_type', 'entity_name', 'primary_topics',
@@ -39,6 +39,7 @@ class SeoSetting extends Model
         'sources_and_references'      => 'array',
         'geo_target_locations'        => 'array',
         'schema_override_json'        => 'array',
+        'json_ld'                     => 'array',
     ];
 
     /**
