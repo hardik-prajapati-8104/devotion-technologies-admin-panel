@@ -26,6 +26,8 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get('/', [ComingSoonController::class, 'index'])->name('coming-soon');
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/services/{category:slug}', [HomeController::class, 'category'])
+    ->name('frontend.services.category');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/terms-condition', [TermConditionController::class, 'index'])->name('terms-condition');
 Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])->name('privacy-policy');

@@ -28,8 +28,8 @@
                     <img src="{{ url('public/frontend/images/work.jpeg') }}" alt="About Us" class="about-img" loading="lazy" height="500px;">
 
                     <div class="experience-box">
-                        <h3>10+</h3>
-                        <p>Years Experience</p>
+                        <h3>{{ $configurations['year_of_experience'] ?? '0' }}</h3>
+                        <p>Years Of Experience</p>
                     </div>
 
                 </div>
@@ -44,14 +44,15 @@
                 </span>
 
                 <h2 class="about-title">
-                    Trusted Safety & Protection Solutions For Every Space
+                    Trusted Safety Solutions for Every Space
                 </h2>
 
                 <p class="about-text">
-                    Work Home Safety Solution provides premium safety systems,
-                    bird control netting, anti-bird spikes, invisible grills,
-                    mosquito protection systems, and professional cleaning
-                    services for residential and commercial properties.
+                    At Work Home Safety Solution, we provide reliable, customized protection solutions for homes, offices, apartments, and commercial properties. From bird control and mosquito protection to invisible grills, our solutions are designed to improve safety, comfort, cleanliness, and peace of mind.
+                </p>
+
+                <p>
+                    We combine quality materials, professional installation, and practical solutions to deliver long-lasting protection without compromising the appearance of your property.
                 </p>
 
                 <div class="row g-3 mt-3">
@@ -59,28 +60,28 @@
                     <div class="col-sm-6">
                         <div class="feature-box">
                             <i class="bi bi-check-circle-fill"></i>
-                            Expert Installation
+                            Professional Installation
                         </div>
                     </div>
 
                     <div class="col-sm-6">
                         <div class="feature-box">
                             <i class="bi bi-check-circle-fill"></i>
-                            Premium Quality
+                            Quality & Durable Materials
                         </div>
                     </div>
 
                     <div class="col-sm-6">
                         <div class="feature-box">
                             <i class="bi bi-check-circle-fill"></i>
-                            Affordable Pricing
+                            Customized Solutions
                         </div>
                     </div>
 
                     <div class="col-sm-6">
                         <div class="feature-box">
                             <i class="bi bi-check-circle-fill"></i>
-                            Customer Support
+                            Trusted Customer Support
                         </div>
                     </div>
 
@@ -256,15 +257,14 @@
         <div class="text-center mb-5">
             <span class="category-badge" data-aos="fade-up">Our Services</span>
             <h2 class="section-title-services" data-aos="fade-up">
-                Explore Our Professional Solutions
+                Explore Our Professional Safety Solutions
             </h2>
             <p class="section-subtitle-sevices" data-aos="fade-up">
-                Premium safety, protection and cleaning services for homes,
-                offices and commercial spaces.
+                Reliable and customized protection solutions designed to keep your home, office, apartment, and commercial space safer, cleaner, and more comfortable.
             </p>
         </div>
 
-        <div class="row g-4" data-aos="fade-up">
+        {{-- <div class="row g-4" data-aos="fade-up">
             @foreach ($categories as $index => $category)
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="service-category-card {{ $index === 0 ? 'active' : '' }}"
@@ -276,6 +276,39 @@
                     </div>
                 </div>
             @endforeach
+        </div> --}}
+
+        <style>
+            .service-category-card h6{
+                color: var(--orange);
+            }
+        </style>
+
+       <div class="row g-4" data-aos="fade-up">
+
+            @foreach ($categories as $category)
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <a href="{{ route('services', ['category' => $category->slug]) }}"
+                    class="text-decoration-none">
+
+                        <div class="service-category-card">
+
+                            <div class="service-icon">
+                                <i class="bi {{ $category->icon ?? 'bi-shield-check' }}"></i>
+                            </div>
+
+                            <h6>{{ $category->name }}</h6>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+            @endforeach
+
         </div>
 
     </div>
@@ -410,8 +443,8 @@
   <div class="container">
     <div class="text-center">
       <span class="eyebrow" data-aos="fade-up">Popular Services</span>
-      <h2 class="section-title" data-aos="fade-up">Most Booked This Month</h2>
-      <p class="section-sub" data-aos="fade-up">Trusted favorites — chosen by thousands of customers.</p>
+      <h2 class="section-title" data-aos="fade-up">Our Most Trusted Safety Solutions</h2>
+      <p class="section-sub" data-aos="fade-up">Reliable protection systems chosen by homeowners, offices, apartments, and businesses to create safer, cleaner, and more comfortable spaces.</p>
     </div>
     <div class="swiper services-swiper" data-aos="fade-up">
       
@@ -454,8 +487,8 @@
   <div class="container">
     <div class="text-center">
       <span class="eyebrow" data-aos="fade-up">Why Work Home Company</span>
-      <h2 class="section-title" data-aos="fade-up">Built on Trust & Quality</h2>
-      <p class="section-sub" data-aos="fade-up">Background-checked pros, transparent pricing, and a happiness guarantee.</p>
+      <h2 class="section-title" data-aos="fade-up">Trusted Safety Solutions. Professional Excellence.</h2>
+      <p class="section-sub" data-aos="fade-up">We deliver reliable, customized protection solutions with quality materials, expert installation, and attention to detail—helping keep your property safe, and comfortable.</p>
     </div>
 
     <div class="row g-4" data-aos="fade-up">
@@ -465,8 +498,8 @@
                 <div class="icon">
                     <i class="bi bi-shield-check"></i>
                 </div>
-                <h5>Vetted Pros</h5>
-                <p class="text-muted mb-0">Every cleaner is interviewed, trained and background-checked.</p>
+                <h5>Expert Installation</h5>
+                <p class="text-muted mb-0">Skilled professionals delivering precise, secure, and high-quality installations tailored to your property.</p>
             </div>
         </div>
 
@@ -475,8 +508,8 @@
                 <div class="icon">
                     <i class="bi bi-tree-fill"></i>
                 </div>
-                <h5>Eco Products</h5>
-                <p class="text-muted mb-0">Non-toxic, family-safe supplies brought to every visit.</p>
+                <h5>Premium Protection</h5>
+                <p class="text-muted mb-0">Durable materials and practical safety solutions designed for reliable, long-term protection.</p>
             </div>
         </div>
 
@@ -485,8 +518,8 @@
             <div class="icon">
                 <i class="bi bi-currency-dollar"></i>
             </div>
-            <h5>Flat Pricing</h5>
-            <p class="text-muted mb-0">No surprises. See the price before you book.</p>
+            <h5>Customized Solutions</h5>
+            <p class="text-muted mb-0">Every property is different. We provide solutions designed around your space, needs, and requirements.</p>
         </div>
         </div>
 
@@ -495,8 +528,8 @@
             <div class="icon">
                 <i class="bi bi-emoji-smile"></i>
             </div>
-            <h5>100% Guarantee</h5>
-            <p class="text-muted mb-0">Not happy? We will re-clean for free.</p>
+            <h5>Quality You Can Trust</h5>
+            <p class="text-muted mb-0">Professional workmanship, dependable products, and a strong commitment to customer satisfaction.</p>
         </div>
         </div>
 
@@ -607,28 +640,28 @@
 
             <div class="col-6 col-lg-3">
                 <div class="stat-box">
-                    <h3>500+</h3>
+                    <h3>{{ $configurations['stat_services_completed'] ?? '0' }}</h3>
                     <span>Projects Completed</span>
                 </div>
             </div>
 
             <div class="col-6 col-lg-3">
                 <div class="stat-box">
-                    <h3>250+</h3>
+                    <h3>{{ $configurations['stat_happy_clients'] ?? '0' }}</h3>
                     <span>Happy Clients</span>
                 </div>
             </div>
 
             <div class="col-6 col-lg-3">
                 <div class="stat-box">
-                    <h3>10+</h3>
+                    <h3>{{ $configurations['year_of_experience'] ?? '0' }}</h3>
                     <span>Years Experience</span>
                 </div>
             </div>
 
             <div class="col-6 col-lg-3">
                 <div class="stat-box">
-                    <h3>100%</h3>
+                    <h3>{{ $configurations['stat_satisfaction_rate'] ?? '0' }}</h3>
                     <span>Satisfaction</span>
                 </div>
             </div>
@@ -843,8 +876,8 @@
 <section>
   <div class="container">
     <div class="cta" data-aos="fade-up">
-      <h2>Ready for a Sparkling Clean Space?</h2>
-      <p class="mb-4" data-aos="fade-up">Get a free instant quote in under a minute.</p>
+      <h2>Your Safety Starts Here.</h2>
+      <p class="mb-4" data-aos="fade-up">Get a customized safety solution designed to protect your property while maintaining a clean, modern look.</p>
       <a href="booking.html" class="btn btn-light btn-lg fw-bold text-orange" data-aos="fade-up"><i class="bi bi-calendar2-check me-2"></i>Enquire Now</a>
     </div>
   </div>

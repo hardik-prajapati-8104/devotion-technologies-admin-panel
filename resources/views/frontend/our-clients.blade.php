@@ -175,39 +175,7 @@
                     We proudly serve homes, offices, hotels, restaurants, and businesses with exceptional cleaning services.
                 </p>
             </div>
-
-            <!-- Stats -->
-            <div class="row g-4 mb-5">
-
-                <div class="col-6 col-md-3" data-aos="fade-up">
-                    <div class="stat-card">
-                        <h2>500+</h2>
-                        <p>Happy Clients</p>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3" data-aos="fade-up">
-                    <div class="stat-card">
-                        <h2>1000+</h2>
-                        <p>Projects Completed</p>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3" data-aos="fade-up">
-                    <div class="stat-card">
-                        <h2>4.9★</h2>
-                        <p>Customer Rating</p>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3" data-aos="fade-up">
-                    <div class="stat-card">
-                        <h2>10+</h2>
-                        <p>Years Experience</p>
-                    </div>
-                </div>
-
-            </div>
+ 
 
             <!-- Clients Grid -->
             <div class="row g-4">

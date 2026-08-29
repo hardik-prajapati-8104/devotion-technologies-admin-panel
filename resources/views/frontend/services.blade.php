@@ -123,67 +123,206 @@
 
     <div class="text-center">
         <span class="eyebrow" data-aos="fade-up">What We Offer</span>
-        <h2 class="section-title" data-aos="fade-up">Cleaning Services for Every Space</h2>
-        <p class="section-sub" data-aos="fade-up">Tailored packages for homes, apartments, offices and more.</p>
+        <h2 class="section-title" data-aos="fade-up" style="font-size: 2rem;">Safety & Protection Solutions for Every Space</h2>
+        <p class="section-sub" data-aos="fade-up">Reliable, customized solutions designed to protect your home, office, apartment, and commercial property while keeping your space safer, cleaner, and more comfortable.</p>
     </div>
 
     <div class="row g-4" id="services-grid">
 
-      @forelse ($services as $service)
-          <div class="col-md-6 col-lg-4 service-item" data-aos="fade-up" data-category="{{ $service->category->slug ?? '' }}">
-              <div class="service-card">
-                  <div class="img" style="background-image: url('{{ $service->featured_image ? url('storage/app/public/' . $service->featured_image) : url('public/frontend/images/s1.jpg') }}');"></div>
-                  <div class="body">
-                      <h5>{{ $service->name }}</h5>
-                      <p class="text-muted">{{ $service->short_description }}</p>
-                      <div class="d-flex justify-content-between align-items-center">
-                          <a href="{{ route('services.show', $service->slug) }}" class="btn btn-sm btn-orange">Book</a>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      @empty
-          <div class="col-12 text-center text-muted py-5" id="no-services-msg">
-              No services available right now — check back soon.
-          </div>
-      @endforelse
+            @foreach ($services as $service)
 
-    </div>
+                <div class="col-md-6 col-lg-4 service-item"
+                    data-aos="fade-up"
+                    data-category="{{ $service->category->slug ?? '' }}">
+
+                    <div class="service-card">
+
+                        <div class="img"
+                            style="background-image: url('{{ 
+                                $service->featured_image 
+                                    ? url('storage/app/public/' . $service->featured_image) 
+                                    : url('public/frontend/images/s1.jpg') 
+                            }}');">
+                        </div>
+
+                        <div class="body">
+
+                            <h5>{{ $service->name }}</h5>
+
+                            <p class="text-muted">
+                                {{ $service->short_description }}
+                            </p>
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <a href="{{ route('services.show', $service->slug) }}"
+                                class="btn btn-sm btn-orange">
+                                    View Service
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            @endforeach
+
+
+            {{-- No services message --}}
+            <div class="col-12 text-center py-5"
+                id="no-services-msg"
+                style="display: none;">
+
+                <div class="no-services-content">
+
+                    <i class="bi bi-info-circle"></i>
+
+                    <h4>No Services Available</h4>
+
+                    <p>
+                        There are currently no services available in this category.
+                        Please check another category.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
   </div>
 </section>
 
+<style>
+    .no-services-content {
+        max-width: 500px; 
+        padding: 40px 25px;
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 16px;
+    }
+
+    .no-services-content i {
+        font-size: 42px;
+        color: var(--orange);
+        margin-bottom: 15px;
+    }
+
+    .no-services-content h4 {
+        margin-bottom: 8px;
+        font-weight: 700;
+    }
+
+    .no-services-content p {
+        margin: 0;
+        color: #777;
+        line-height: 1.6;
+    }
+</style>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+
         const filters = document.querySelectorAll('.service-filter');
         const items = document.querySelectorAll('.service-item');
+        const noMsg = document.getElementById('no-services-msg');
 
         function applyFilter(selected) {
-            filters.forEach(f => f.classList.toggle('active', f.dataset.filter === selected));
 
             let visibleCount = 0;
-            items.forEach(item => {
-                const match = selected === 'all' || item.dataset.category === selected;
-                item.style.display = match ? '' : 'none';
-                if (match) visibleCount++;
+
+            // Update active button
+            filters.forEach(filter => {
+
+                filter.classList.toggle(
+                    'active',
+                    filter.dataset.filter === selected
+                );
+
             });
 
-            const noMsg = document.getElementById('no-services-msg');
-            if (noMsg) noMsg.style.display = visibleCount === 0 ? '' : 'none';
+
+            // Filter services
+            items.forEach(item => {
+
+                const category = item.dataset.category;
+
+                const match =
+                    selected === 'all' ||
+                    category === selected;
+
+                if (match) {
+
+                    item.style.display = '';
+
+                    visibleCount++;
+
+                } else {
+
+                    item.style.display = 'none';
+
+                }
+
+            });
+
+
+            // Show / hide no services message
+            if (noMsg) {
+
+                noMsg.style.display =
+                    visibleCount === 0 ? 'block' : 'none';
+
+            }
+
         }
 
+
+        // Category click
         filters.forEach(filter => {
+
             filter.addEventListener('click', function () {
+
                 applyFilter(this.dataset.filter);
+
             });
+
         });
 
-        // Auto-apply category from URL (?category=slug), e.g. arriving from search
-        const params = new URLSearchParams(window.location.search);
+
+        // Read category from URL
+        const params = new URLSearchParams(
+            window.location.search
+        );
+
         const initial = params.get('category');
-        if (initial && [...filters].some(f => f.dataset.filter === initial)) {
+
+
+        // Apply URL category
+        if (
+            initial &&
+            [...filters].some(
+                filter => filter.dataset.filter === initial
+            )
+        ) {
+
             applyFilter(initial);
-            document.getElementById('services-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            document
+                .getElementById('services-grid')
+                ?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+
+        } else {
+
+            // Default = All
+            applyFilter('all');
+
         }
+
     });
 </script>
 
