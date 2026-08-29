@@ -25,6 +25,70 @@
 
 @endpush
 
+<style>
+    /* ==========================================
+   GLOBAL HORIZONTAL SCROLL FIX
+========================================== */
+ 
+
+ 
+/* Prevent images and media overflowing */
+
+img,
+video,
+iframe,
+svg,
+canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+
+/* Bootstrap safety */
+
+.container,
+.container-fluid,
+.row {
+    max-width: 100%;
+}
+
+
+/* Service content */
+
+.service-content {
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.service-content img {
+    max-width: 100% !important;
+    width: auto;
+    height: auto;
+}
+
+
+/* Tables should scroll inside themselves,
+   not make the whole page scroll */
+
+.service-content table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+
+/* Rich editor content */
+
+.service-content figure,
+.service-content iframe,
+.service-content video {
+    max-width: 100%;
+}
+</style>
+
 
 @section('content')
 
@@ -378,6 +442,70 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, .06);
             position: sticky;
             top: 100px;
+        }
+
+        /* =========================================
+        MOBILE SERVICE PAGE WIDTH FIX
+        ========================================= */
+
+        @media (max-width: 991.98px) {
+
+            html,
+            body {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: hidden !important;
+            }
+
+            /* Main Bootstrap container */
+            .service-hero .container,
+            .service-content + *,
+            .container {
+                max-width: 100%;
+            }
+
+            /* Fix Bootstrap row overflow */
+            .container .row {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            /* Force service columns full width */
+            .service-content,
+            .col-lg-8,
+            .col-lg-4 {
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: 0 0 100% !important;
+            }
+
+            /* Booking form card */
+            .service-book-card {
+                width: 100% !important;
+                max-width: 100% !important;
+
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+
+                position: relative !important;
+                top: auto !important;
+
+                box-sizing: border-box !important;
+            }
+
+            /* Form controls */
+            .service-book-card form,
+            .service-book-card .form-control,
+            .service-book-card .form-select,
+            .service-book-card textarea,
+            .service-book-card button {
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
         }
 
     </style>
