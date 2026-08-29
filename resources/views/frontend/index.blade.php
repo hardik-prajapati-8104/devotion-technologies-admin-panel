@@ -7,12 +7,15 @@
 <style>
     .swiper-pagination-bullet-active { 
         background: var(--orange);
-}
+    }
+    .about-home{
+        padding-top: 0px;
+    }
 </style>
 
 @include('frontend.elements.home-slider')
 
-<section class="about-home py-5">
+<section class="about-home pb-5">
     <div class="container">
 
         <div class="row align-items-center g-4">

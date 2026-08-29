@@ -36,10 +36,13 @@
         </div>
 
         <style>
+            
+        
+
             .hero-slide {
-                position: relative;
-                background-size: cover;
-                background-position: center;
+                background-size: 100% auto;
+                background-position: top center;
+                background-repeat: no-repeat;
             }
 
             .hero-logo {
@@ -60,7 +63,7 @@
             .hero-logo img {
                 width: 100%;
                 height: 100%;
-                object-fit: contain;
+                object-fit: cover;
                 border-radius: 50%;
             }
 
@@ -105,61 +108,55 @@
         </form>
     </div> --}}
     @include('frontend.elements.service-search')
-  <!-- Company Logo -->
-  <div class="container">
-      <div class="company-logo-section">
-          {{-- <img src="public/frontend/images/Work_home_sefty_solution-header.png" alt="Company Logo"> --}}
-          <h5>Work Home <span style="color: var(--orange);">Safety</span>Solution</h5>
-          <p>Protection & Safety Systems</p>
-      </div>
-  </div>
+    <!-- Company Logo -->
+    <div class="container">
+        <div class="company-logo">
+            <img 
+                src="{{ url('public/frontend/images/work-home-full-logo.png') }}"
+                alt="Work Home Safety Solution"
+                class="company-logo-img"
+            >
+        </div>
+    </div>
+    <style>
+                .company-logo {
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 20px 15px;
+                }
+
+                .company-logo-img {
+                    display: block;
+                    width: 100%;
+                    max-width: 400px;
+                    height: auto;
+                    object-fit: contain;
+                }
+
+                /* Tablet */
+                @media (max-width: 768px) {
+                    .company-logo-img {
+                        max-width: 320px;
+                    }
+
+                    .company-logo {
+                        padding: 15px 10px;
+                    }
+                }
+
+                /* Mobile */
+                @media (max-width: 480px) {
+                    .company-logo-img {
+                        max-width: 280px;
+                    }
+
+                    .company-logo {
+                        padding: 12px 10px;
+                    }
+                }
+    </style>
   
 </section>
-
-<style>
-
-    .company-logo-section{
-        text-align:center;
-        margin:25px 0 15px;
-    }
-
-    .company-logo-section img{
-        width:90px;
-        height:90px;
-        object-fit:contain;
-        background:#fff;
-        border-radius:50%;
-        padding:10px;
-        box-shadow:0 10px 25px rgba(0,0,0,.12);
-        border:3px solid #ff7a00;
-    }
-
-    .company-logo-section h5{
-        margin-top:12px;
-        font-size: 1.7rem;
-        font-weight:700;
-        color:#222;
-    }
-
-    .company-logo-section p{
-        margin:0;
-        color:#777;
-        font-size:14px;
-    }
-
-    @media(min-width:992px){
-
-        .company-logo-section{
-            margin:40px 0 25px;
-        }
-
-        .company-logo-section img{
-            width:120px;
-            height:120px;
-        }
-
-        .company-logo-section h5{
-            font-size:24px;
-        }
-    }
-</style>
+ 
