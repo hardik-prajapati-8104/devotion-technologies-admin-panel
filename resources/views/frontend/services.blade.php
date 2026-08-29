@@ -136,18 +136,21 @@
                     data-category="{{ $service->category->slug ?? '' }}">
 
                     <div class="service-card">
-
-                        <div class="img"
-                            style="background-image: url('{{ 
-                                $service->featured_image 
-                                    ? url('storage/app/public/' . $service->featured_image) 
-                                    : url('public/frontend/images/s1.jpg') 
-                            }}');">
-                        </div>
+                        <a href="{{ route('services.show', $service->slug) }}" >
+                            <div class="img"
+                                style="background-image: url('{{ 
+                                    $service->featured_image 
+                                        ? url('storage/app/public/' . $service->featured_image) 
+                                        : url('public/frontend/images/s1.jpg') 
+                                }}');">
+                            </div>
+                        </a>
 
                         <div class="body">
-
-                            <h5>{{ $service->name }}</h5>
+                                
+                            <a href="{{ route('services.show', $service->slug) }}" style="color: var(--orange);">
+                                <h5>{{ $service->name }}</h5>
+                            </a>
 
                             <p class="text-muted">
                                 {{ $service->short_description }}

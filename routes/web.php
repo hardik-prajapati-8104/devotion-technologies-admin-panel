@@ -26,8 +26,7 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get('/', [ComingSoonController::class, 'index'])->name('coming-soon');
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/services/{category:slug}', [HomeController::class, 'category'])
-    ->name('frontend.services.category');
+Route::get('/services/{category:slug}', [HomeController::class, 'category'])->name('frontend.services.category');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/terms-condition', [TermConditionController::class, 'index'])->name('terms-condition');
 Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])->name('privacy-policy');
@@ -42,7 +41,7 @@ Route::get('/brochure', [BrochureController::class, 'index'])->name('brochure');
 Route::get('/settings', [SettingPageController::class, 'index'])->name('settings');
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews');
 Route::get('/services', [ServiceController::class, 'index'])->name('services');
-Route::get('services/{slug}', [ServiceController::class, 'show'])->name('services.show');
+Route::get('safety-services/{slug}', [ServiceController::class, 'show'])->name('services.show');
 Route::get('/search-suggestions', [SearchController::class, 'suggestions'])->name('search.suggestions');
  
 Route::prefix('admin/messages')->name('admin.messages.')->middleware(['auth:admin'])->group(function () {
